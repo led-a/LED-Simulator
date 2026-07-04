@@ -1,0 +1,54 @@
+<html>
+    <head>
+
+	<meta charset="UTF-8">
+
+	<title>LED方向幕シミュレーター</title>
+
+	<link rel="stylesheet" href="style.css">
+
+    </head>
+
+    <body>
+
+    	<header>
+
+        	<h1>LED方向幕シミュレーター</h1>
+
+    	</header>
+
+    	<div class="container">
+
+            <aside>
+
+				<label id="type">種別</label>
+				<div id="typeButtons" class="buttonGroup"></div>
+
+				<label id="destination">行先</label>
+				<div id="destinationButtons" class="buttonGroup"></div>
+
+            	<button id="displayButton">表示</button>
+		
+            </aside>
+
+            <main>
+
+				<div class="ledFrame">
+
+            	    <canvas id="led" width="895" height="223"></canvas>
+
+				</div>
+			
+			</main>
+
+        </div>
+
+        <footer id="status">
+            待機中
+        </footer>
+
+    <script src="script.js"></script>
+
+    </body>
+
+</html>
