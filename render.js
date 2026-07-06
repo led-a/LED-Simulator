@@ -43,9 +43,7 @@ function render() {
                 if(informationMode === "destination"){
                     drawNext(next,matrix,16)      
                 }else{
-                    if(info.view?.normal) {
-                        
-                    }else{
+                    if(info.view?.small) {
                         drawNext(next,matrix,16)
                     }
                 }
