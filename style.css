@@ -92,6 +92,12 @@ button:active {
     gap:8px;
 }
 
+#informationButtons {
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:8px;
+}
+
 .buttonGroup {
     border: 2px solid #9a9a9a;
     border-radius: 8px;
