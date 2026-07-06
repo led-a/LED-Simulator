@@ -11,7 +11,7 @@ body {
 }
 
 aside {
-    width: 220px;
+    width: 240px;
     flex-shrink: 0;
     background: #f4f4f4;
     padding: 12px;
@@ -94,7 +94,7 @@ button:active {
 
 #informationButtons {
     display:grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(3,1fr);
     gap:8px;
 }
 
