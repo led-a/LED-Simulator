@@ -92,12 +92,6 @@ button:active {
     gap:8px;
 }
 
-#displayButton {
-    margin-top: 20px;
-    background: white;
-    color: black;
-}
-
 .buttonGroup {
     border: 2px solid #9a9a9a;
     border-radius: 8px;

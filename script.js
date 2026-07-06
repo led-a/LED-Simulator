@@ -14,21 +14,6 @@ let nextLang = "ja";
 let langIndex = 0;
 const langs = ["ja", "en"];
 
-setTimeout(() => {
-
-    setInterval(() => {
-
-        if (displayMode !== "next") return;
-
-        langIndex = (langIndex + 1) % langs.length;
-        nextLang = langs[langIndex];
-
-        render();
-
-    }, 3000);
-
-}, 3000);
-
 // =====================
 // DOM
 // =====================
@@ -56,6 +41,20 @@ fetch("E131系500番代.json")
         createNextModeButtons();
     });
 
+setTimeout(() => {
+
+    setInterval(() => {
+
+        if (displayMode !== "next") return;
+
+        langIndex = (langIndex + 1) % langs.length;
+        nextLang = langs[langIndex];
+
+        render();
+
+    }, 3000);
+
+}, 3000);
 
 // =====================
 // 共通取得関数
@@ -159,33 +158,28 @@ function render() {
     const dest = getItem("destination", destinationId);
     const next = getItem("next", nextId);
     let nextY = 0;
-    console.log("type:", typeId, type);
-    console.log("dest:", destinationId, dest);
-    console.log("next:", nextId, next);
-    console.log("displayMode:", displayMode);
     // 種別
     if (type) drawType(type, matrix);
 
     // 行先 / 次駅
-    if (displayMode === "next") {
+    const fullType = isTypeFullScreen(type);
 
-        if (dest) {
-            drawDestinationSmall(dest, matrix);
-            const destData =
-                dest.view?.normal?.ja
-                ?? dest.view?.normal?.en;
-            nextY = (destData?.height ?? 16);
-        } 
-        if (next) drawNext(next, matrix, 16);
+    if (!fullType) {
 
-    } else {
+        if (displayMode === "next") {
 
-        if (dest) drawDestination(dest, matrix);
+            if (dest) drawDestinationSmall(dest, matrix);
+            if (next) drawNext(next, matrix, 16);
+
+        } else {
+
+            if (dest) drawDestination(dest, matrix);
+
+        }
+
     }
-
     drawMatrix(matrix);
 }
-
 
 // =====================
 // マトリクス生成
@@ -206,15 +200,11 @@ function createEmptyMatrix() {
 // =====================
 function drawType(type, matrix) {
 
-    const langUse =
-        displayMode === "next"
-            ? nextLang
-            : baseLang;
+    const langUse = getLangForPart();
 
-    const view =
-        displayMode === "fullscreen"
-            ? "full"
-            : "normal";
+    const view = isTypeFullScreen(type)
+        ? "full"
+        : "normal";
 
     const data =
         type.view?.[view]?.[langUse]
@@ -231,14 +221,9 @@ function drawType(type, matrix) {
 // =====================
 function drawDestination(dest, matrix) {
 
-    const view =
-        displayMode === "fullscreen"
-            ? "full"
-            : "normal";
-
     const data =
-        dest.view?.[view]?.[baseLang]
-        ?? dest.view?.[view]?.ja;
+        dest.view?.normal?.[baseLang]
+        ?? dest.view?.normal?.ja;
 
     if (!data) return;
 
@@ -254,7 +239,7 @@ function drawDestinationSmall(dest, matrix) {
     const langUse = getLangForPart("destination_small");
 
     const data =
-        dest.view?.small?.[nextLang]
+        dest.view?.small?.[langUse]
         ?? dest.view?.small?.ja;
 
     if (!data) return;
@@ -267,9 +252,10 @@ function drawDestinationSmall(dest, matrix) {
 // 次駅
 // =====================
 function drawNext(next, matrix, yOffset) {
+    const langUse = getLangForPart();
 
     const data =
-        next?.view?.normal?.[nextLang]
+        next?.view?.normal?.[langUse]
         ?? next?.view?.normal?.ja;
 
     if (!data) return;
@@ -284,6 +270,16 @@ function drawNext(next, matrix, yOffset) {
 function createTypeButtons() {
 
     const container = document.getElementById("typeButtons");
+    const normalBtn = document.createElement("button");
+    normalBtn.textContent = "種別なし";
+
+    normalBtn.addEventListener ("click", () => {
+        setSelected(container, normalBtn);
+        typeId = null;
+        render();
+    });
+
+    container.appendChild(normalBtn);
     const typeCategory = getCategory("type");
 
     if (!typeCategory) return;
@@ -305,6 +301,7 @@ function createTypeButtons() {
         btn.addEventListener("click", () => {
             setSelected(container, btn);
             typeId = item.id;
+            render();
         });
 
         container.appendChild(btn);
@@ -318,6 +315,16 @@ function createTypeButtons() {
 function createDestinationButtons() {
 
     const container = document.getElementById("destinationButtons");
+    const normalBtn = document.createElement("button");
+    normalBtn.textContent = "行先なし";
+
+    normalBtn.addEventListener ("click", () => {
+        setSelected(container, normalBtn);
+        destinationId = null;
+        render();
+    });
+
+    container.appendChild(normalBtn);
     const destinationcategory = getCategory("destination");
     if (!destinationcategory) return;
 
@@ -338,6 +345,7 @@ function createDestinationButtons() {
         btn.addEventListener("click", () => {
             setSelected(container, btn);
             destinationId = dest.id;
+            render();
         });
 
         container.appendChild(btn);
@@ -354,12 +362,13 @@ function createNextModeButtons() {
 
     // 無表示
     const normalBtn = document.createElement("button");
-    normalBtn.textContent = "無表示";
+    normalBtn.textContent = "次駅なし";
 
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         displayMode = "normal";
         nextId = null;
+        render();
     });
 
     container.appendChild(normalBtn);
@@ -380,6 +389,7 @@ function createNextModeButtons() {
             setSelected(container, btn);
             displayMode = "next";
             nextId = item.id;
+            render();
         });
 
         container.appendChild(btn);
@@ -394,17 +404,29 @@ function setSelected(container, button) {
     button.classList.add("selected");
 }
 
-displayButton.addEventListener ("click", () => {
-    render();
-})
+function getLangForPart() {
 
-function getLangForPart(part) {
-
-    if (displayMode === "next") {
-
-        if (part === "type") return "en";
-        if (part === "destination_small") return "en";
+    if(displayMode==="next"){
+        return nextLang;
     }
 
-    return "ja";
+    return baseLang;
+}
+
+function isTypeFullScreen(type){
+
+    if(!type) return false;
+
+    const hasNormal = !!type.view.normal;
+    const hasFull = !!type.view.full;
+
+    if(hasFull && !hasNormal){
+        return true;
+    }
+
+    if(destinationId===null && nextId===null){
+        return true;
+    }
+
+    return false;
 }
