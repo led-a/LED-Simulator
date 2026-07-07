@@ -19,7 +19,7 @@ function render() {
 
     // 行先 / 次駅
     const fullType = isTypeFullScreen(type);
-
+    const fullDestination = isDestinationFullScreen(dest);
     if (!fullType) {
 
         if(displayMode==="next"){

@@ -30,10 +30,10 @@ main {
 .ledFrame {
     background:#111;
     margin: 100px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-radius:20px;
 }
 

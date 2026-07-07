@@ -6,80 +6,199 @@ function drawType(type, matrix) {
 
     const data =
         type.view?.[view]?.[lang]
-        ?? type.view?.[view]?.ja;
-
+        ?? type.view?.[view]?.ja
+        ?? type.view?.normal?.[lang]
+        ?? type.view?.normal?.ja;
+    
     if (!data) return;
-    const typewidth = getTypeWidth(type);
 
     drawImage(data, 0, 0, matrix);
 }
 
 function drawDestination(dest, matrix) {
 
-    const data =
-        dest.view?.normal?.[lang]
-        ?? dest.view?.normal?.ja;
+    let usedNormal = false;
+    let typewidth;
+
+    const view = isDestinationFullScreen(dest)
+        ? "full"
+        : "normal";
+
+    let data =
+        dest.view?.[view]?.[lang]
+        ?? dest.view?.[view]?.ja;
+        if (view === "normal") {
+            usedNormal = true;
+        }
+
+    if (!data) {
+        data =
+            dest.view?.normal?.[lang]
+            ?? dest.view?.normal?.ja;
+        usedNormal = true;
+    }
 
     if (!data) return;
+
     const type = getItem("type", typeId)
-    const typewidth = getTypeWidth(type);
+    
+    if (usedNormal) {
+        typewidth = getTypeWidth(type, usedNormal);
+    } else {
+        typewidth = 0;
+    }
 
     drawImage(data, typewidth, 0, matrix);
 }
 
 function drawDestinationSmall(dest, matrix) {
 
-    const data =
-        dest.view?.small?.[lang]
-        ?? dest.view?.small?.ja;
+    let usedSmall = false;
+    let typewidth;
+
+    const view = isDestinationFullScreen(dest)
+        ? "full_small"
+        : "small";
+
+    let data =
+        dest.view?.[view]?.[lang]
+        ?? dest.view?.[view]?.ja;
+        if (view === "small") {
+            usedSmall = true;
+        }
+
+    if (!data) {
+        data =
+            dest.view?.small?.[lang]
+            ?? dest.view?.small?.ja;
+        usedSmall = true;
+    }
 
     if (!data) return;
+
     const type = getItem("type", typeId)
-    const typewidth = getTypeWidth(type);
+    if (usedSmall) {
+        typewidth = getTypeWidth(type, usedSmall);
+    } else {
+        typewidth = 0;
+    }
 
     drawImage(data, typewidth, 0, matrix);
 }
 
 function drawInformation(info, matrix) {
 
-    const data =
-        info.view?.normal?.[lang]
-        ?? info.view?.normal?.ja;
+    let usedNormal = false;
+    let typewidth;
+
+    const view = isInformationFullScreen(info)
+        ? "full"
+        : "normal";
+
+    let data =
+        info.view?.[view]?.[lang]
+        ?? info.view?.[view]?.ja;
+        if (view === "normal") {
+            usedNormal = true;
+        }
+
+    if (!data) {
+        data =
+            info.view?.normal?.[lang]
+            ?? info.view?.normal?.ja;
+        usedNormal = true;
+    }
 
     if (!data) return;
+
     const type = getItem("type", typeId)
-    const typewidth = getTypeWidth(type);
+    if (usedNormal) {
+        typewidth = getTypeWidth(type, usedNormal);
+    } else {
+        typewidth = 0;
+    }
 
     drawImage(data, typewidth, 0, matrix);
 }
 
 function drawInformationSmall(info, matrix) {
 
-    const data =
-        info.view?.small?.[lang]
-        ?? info.view?.small?.ja;
+    let usedSmall = false;
+    let typewidth;
+
+    const view = isInformationFullScreen(info)
+        ? "full_small"
+        : "small";
+
+    let data =
+        info.view?.[view]?.[lang]
+        ?? info.view?.[view]?.ja;
+        if (view === "small") {
+            usedSmall = true;
+        }
+
+    if (!data) {
+        data =
+            info.view?.small?.[lang]
+            ?? info.view?.small?.ja;
+        usedSmall = true;
+    }
 
     if (!data) return;
     const type = getItem("type", typeId)
-    const typewidth = getTypeWidth(type);
-
+    if (usedSmall) {
+        typewidth = getTypeWidth(type, usedSmall);
+    } else {
+        typewidth = 0;
+    }
     drawImage(data, typewidth, 0, matrix);
 }
 
 function drawNext(next, matrix, yOffset) {
 
-    const data =
-        next?.view?.normal?.[lang]
-        ?? next?.view?.normal?.ja;
+    let usedNormal = false;
+    let typewidth;
+
+    const view = isNextFullScreen(next)
+        ? "full"
+        : "normal"
+
+    let data =
+        next?.view?.[view]?.[lang]
+        ?? next?.view?.[view]?.ja;
+        if (view === "normal") {
+            usedNormal = true;
+        }
+
+    if (!data) {
+        data =
+            next?.view?.normal?.[lang]
+            ?? next?.view?.normal?.ja;
+        usedNormal = true;
+    }
 
     if (!data) return;
     const type = getItem("type", typeId)
-    const typewidth = getTypeWidth(type);
+    if (usedNormal) {
+        typewidth = getTypeWidth(type, usedNormal);
+    } else {
+        typewidth = 0;
+    }
 
     drawImage(data, typewidth, yOffset, matrix);
 }
 
-function getTypeWidth(type) {
+function getTypeWidth(type, used) {
+
+    if(!type) {
+        if(used) {
+            return (
+                getItem("type", "null_type").view.normal.ja.width
+            )
+        } else {
+            return 0;
+        }
+    }
 
     const view = isTypeFullScreen(type)
         ? "full"
@@ -106,6 +225,60 @@ function isTypeFullScreen(type) {
     }
 
     if(destinationId===null && nextId===null){
+        return true;
+    }
+
+    return false;
+}
+
+function isDestinationFullScreen(dest) {
+
+    if(!dest) return false;
+
+    const hasNormal = !!dest.view.normal;
+    const hasFull = !!dest.view.full;
+
+    if(hasFull && !hasNormal){
+        return true;
+    }
+
+    if(typeId===null){
+        return true;
+    }
+
+    return false;
+}
+
+function isInformationFullScreen(info) {
+
+    if(!info) return false;
+
+    const hasNormal = !!info.view.normal;
+    const hasFull = !!info.view.full;
+
+    if(hasFull && !hasNormal){
+        return true;
+    }
+
+    if(typeId===null){
+        return true;
+    }
+
+    return false;
+}
+
+function isNextFullScreen(next) {
+
+    if(!next) return false;
+
+    const hasNormal = !!next.view.normal;
+    const hasFull = !!next.view.full;
+
+    if(hasFull && !hasNormal){
+        return true;
+    }
+
+    if(typeId===null){
         return true;
     }
 

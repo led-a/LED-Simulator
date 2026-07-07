@@ -38,12 +38,11 @@ function updateScene() {
     });
 
     // 次駅があるなら英語も入れる
-    if (nextId) {
-        sceneList.push({
-            lang: "en",
-            information: "destination"
-        });
-    }
+    sceneList.push({
+        lang: "en",
+        information: "destination"
+    });
+    
 
     // 案内があるなら入れる
     if (informationId) {
