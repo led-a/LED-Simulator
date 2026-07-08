@@ -174,3 +174,12 @@ function setSelected(container, button) {
 
     button.classList.add("selected");
 }
+
+function setVehicleSelectButton() {
+    const container = document.getElementById("vehicleSelectButton");
+    container.addEventListener("click", () => {
+        initSimulator();
+        document.getElementById("simulator").hidden = true;
+        document.getElementById("vehicleSelector").hidden = false;
+    })
+}

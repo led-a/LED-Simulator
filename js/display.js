@@ -4,11 +4,28 @@ function drawType(type, matrix) {
         ? "full"
         : "normal";
 
-    const data =
-        type.view?.[view]?.[lang]
-        ?? type.view?.[view]?.ja
-        ?? type.view?.normal?.[lang]
-        ?? type.view?.normal?.ja;
+    let data = null;
+    
+    if (config.languageSwitching) {
+        data =
+            type.view?.[view]?.[lang]
+            ?? type.view?.[view]?.ja
+            ?? type.view?.normal?.[lang]
+            ?? type.view?.normal?.ja;
+    } else {
+        if (nextId != null) {
+            data =
+                type.view?.[view]?.[lang]
+                ?? type.view?.[view]?.ja
+                ?? type.view?.normal?.[lang]
+                ?? type.view?.normal?.ja;
+        } else {
+            data =
+                type.view?.[view]?.ja_en
+                ?? type.view?.[view]?.ja;
+        }
+    }
+    
     
     if (!data) return;
 
@@ -287,4 +304,11 @@ function isNextFullScreen(next) {
 
 function getLangForPart() {
     return lang;
+}
+
+function hasEnglishType() {
+    const type = getItem("type", typeId);
+    if (!type) return;
+    return !!type.view?.normal?.en
+        || !!type.view?.full?.en;
 }

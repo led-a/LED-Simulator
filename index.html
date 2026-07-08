@@ -17,38 +17,63 @@
 
     	</header>
 
-    	<div class="container">
+		<div id="vehicleSelector">
 
-            <aside>
+			<label id="vehicle">車両を選択</label>
+			<div id="vehicleSelect" class="selectGroup"></div>
 
-				<label id="type">種別</label>
-				<div id="typeButtons" class="buttonGroup"></div>
+		</div>
 
-				<label id="destination">行先</label>
-				<div id="destinationButtons" class="buttonGroup"></div>
+		<div id="simulator" hidden>
 
-				<label id="information">案内</label>
-				<div id="informationButtons" class="buttonGroup"></div>
+			<div class="container">
 
-				<label id="nextMode">次駅</label>
-				<div id="nextModeButtons" class="buttonGroup"></div>
-		
-            </aside>
+				<aside>
+					
+					<div id="typeGroup">
+						<label id="type">種別</label>
+						<div id="typeButtons" class="buttonGroup"></div>
+					</div>
 
-            <main>
+					<div id="destinationGroup">
+						<label id="destination">行先</label>
+						<div id="destinationButtons" class="buttonGroup"></div>
+					</div>
 
-				<div class="ledFrame">
+					<div id="informationGroup">
+						<label id="information">案内</label>
+						<div id="informationButtons" class="buttonGroup"></div>
+					</div>
 
-            	    <canvas id="led" width="895" height="223"></canvas>
+					<div id="information2Group">
+						<label id="information2">案内2</label>
+						<div id="information2Buttons" class="buttonGroup"></div>
+					</div>
 
-				</div>
+					<div id="nextModeGroup">
+						<label id="nextMode">次駅</label>
+						<div id="nextModeButtons" class="buttonGroup"></div>
+					</div>
+
+					<button id="vehicleSelectButton">車両選択に戻る</button>
 			
-			</main>
+				</aside>
 
-        </div>
+				<main>
+
+					<div class="ledFrame">
+
+						<canvas id="led" width="895" height="223"></canvas>
+
+					</div>
+				
+				</main>
+
+        	</div>
+		
+		</div>
 
         <footer id="status">
-            待機中
         </footer>
 
 	<script src="js/state.js"></script>
@@ -58,6 +83,7 @@
 	<script src="js/buttons.js"></script>
 	<script src="js/display.js"></script>
 	<script src="js/render.js"></script>
+	<script src="js/vehicle.js"></script>
     <script src="js/script.js"></script>
 
     </body>
