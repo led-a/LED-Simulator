@@ -1,0 +1,12 @@
+{
+    "name": "E131系200番台",
+
+    "hasType": true,
+    "hasDestination": true,
+    "hasInformation": true,
+    "hasInformation2": false,
+    "hasNext": true,
+
+    "sceneInterval": 3000,
+    "languageSwitching": false
+}

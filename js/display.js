@@ -22,7 +22,9 @@ function drawType(type, matrix) {
         } else {
             data =
                 type.view?.[view]?.ja_en
-                ?? type.view?.[view]?.ja;
+                ?? type.view?.[view]?.ja
+                ?? type.view?.normal?.ja_en
+                ?? type.view?.normal?.ja
         }
     }
     

@@ -1,5 +1,12 @@
 [
     {
+        "id": "E131-200",
+        "name": "E131系200番台",
+        "config": "vehicles/E131-200/config.json",
+        "led": "vehicles/E131-200/led.json",
+        "preview": "vehicles/E131-200/preview.png"
+    },
+    {
         "id": "E131-500",
         "name": "E131系500番台",
         "config": "vehicles/E131-500/config.json",

@@ -26,15 +26,29 @@ function render() {
 
             if(informationMode==="destination"){
 
-                drawDestinationSmall(dest,matrix);
+                if (destinationId != null) {
+
+                    drawDestinationSmall(dest,matrix);
+
+                }
 
             }else{
                 if(info.view?.small) {
 
-                drawInformationSmall(info,matrix);
+                    if (informationId != null) {
+
+                    drawInformationSmall(info,matrix);
+
+                    }
 
                 }else{
-                    drawInformation(info, matrix);
+
+                    if (informationId != null) {
+
+                        drawInformation(info, matrix);
+
+                    }
+
                 }
 
             }
@@ -53,11 +67,19 @@ function render() {
 
             if(informationMode==="destination"){
 
-                drawDestination(dest,matrix);
+                if (destinationId != null) {
+
+                    drawDestination(dest,matrix);
+
+                }
 
             }else{
 
-                drawInformation(info,matrix);
+                if (informationId != null) {
+
+                    drawInformation(info,matrix);
+
+                }
 
             }
         }
