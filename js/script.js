@@ -40,6 +40,7 @@ function setupVehicleUI() {
     }
     if (config.hasInformation2) {
         document.getElementById("information2Group").hidden = false;
+        createInformation2Buttons();
     } else {
         document.getElementById("information2Group").hidden = true;
     }
@@ -109,6 +110,13 @@ function updateScene() {
         sceneList.push({
             lang: "ja",
             information: "information"
+        });
+    }
+
+    if (information2Id != null) {
+        sceneList.push({
+            lang: "ja",
+            information: "information2"
         });
     }
 

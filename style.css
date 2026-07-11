@@ -74,30 +74,6 @@ button:active {
     100% { transform: scale(1.03); }
 }
 
-#typeButtons {
-    display:grid;
-    grid-template-columns: repeat(3,1fr);
-    gap:8px;
-}
-
-#destinationButtons {
-    display:grid;
-    grid-template-columns: repeat(3,1fr);
-    gap:8px;
-}
-
-#nextModeButtons {
-    display:grid;
-    grid-template-columns: repeat(3,1fr);
-    gap:8px;
-}
-
-#informationButtons {
-    display:grid;
-    grid-template-columns: repeat(3,1fr);
-    gap:8px;
-}
-
 #vehicleSelect {
     display:grid;
     grid-template-columns: repeat(3,1fr);
@@ -120,6 +96,48 @@ button:active {
 .buttonGroup button.selected {
     background: #0078d7;
     color: white;
+}
+
+.groupHeader {
+    font-weight: bold;
+    background: #e5e5e5;
+    border: 1px solid #b0b0b0;
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.groupHeader:hover {
+    background: #d8d8d8;
+}
+
+.groupHeader:active {
+    transform: scale(0.97);
+}
+
+.groupedButtons {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 8px;
+}
+
+.groupButtons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.groupButtons[hidden] {
+    display: none;
+}
+
+.normalButtons {
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:8px;
 }
 
 .selectGroup {

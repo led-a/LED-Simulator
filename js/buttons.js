@@ -1,7 +1,20 @@
 function createTypeButtons() {
 
     const container = document.getElementById("typeButtons");
+    container.innerHTML = "";
+
+    const typeCategory = getCategory("type");
+    if (!typeCategory) return;
+
     const normalBtn = document.createElement("button");
+    container.classList.remove("groupedButtons", "normalButtons");
+
+    if (config.typeDistinction) {
+        container.classList.add("groupedButtons");
+    } else {
+        container.classList.add("normalButtons");
+    }
+
     normalBtn.textContent = "種別なし";
 
     normalBtn.addEventListener ("click", () => {
@@ -11,38 +24,132 @@ function createTypeButtons() {
     });
 
     container.appendChild(normalBtn);
-    const typeCategory = getCategory("type");
 
-    if (!typeCategory) return;
+    if (config.typeDistinction) {
 
-    typeCategory.items.forEach(item => {
+        typeCategory.groups.forEach(group => {
 
-        const btn = document.createElement("button");
+            // ===== 無表示グループ =====
+            if (group.name === "無表示") {
 
-        const label =
-            item.view?.normal?.ja?.name ??
-            item.view?.normal?.en?.name ??
-            item.view?.full?.ja?.name ??
-            item.view?.full?.en?.name ??
-            item.name ??
+                group.items.forEach(item => {
+
+                    const btn = document.createElement("button");
+
+                    const label =
+                        item.view?.normal?.ja?.name ??
+                        item.view?.normal?.en?.name ??
+                        item.view?.full?.ja?.name ??
+                        item.view?.full?.en?.name ??
+                        item.name ??
+                        "no-name";
+
+                    btn.textContent = label;
+
+                    btn.addEventListener("click", () => {
+                        setSelected(container, btn);
+                        typeId = item.id;
+                        render();
+                    });
+
+                    container.appendChild(btn);
+                });
+
+                return;
+            }
+
+            // ===== 路線グループ =====
+
+            const header = document.createElement("div");
+            header.className = "groupHeader";
+            header.textContent = "▶ " + group.name;
+
+            const groupContainer = document.createElement("div");
+            groupContainer.className = "groupButtons";
+            groupContainer.hidden = true;
+
+            header.addEventListener("click", () => {
+
+                groupContainer.hidden = !groupContainer.hidden;
+
+                header.textContent =
+                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+
+            });
+
+            container.appendChild(header);
+            container.appendChild(groupContainer);
+
+            group.items.forEach(item => {
+
+                const btn = document.createElement("button");
+
+                const label =
+                    item.view?.normal?.ja?.name ??
+                    item.view?.normal?.en?.name ??
+                    item.view?.full?.ja?.name ??
+                    item.view?.full?.en?.name ??
+                    item.name ??
             "no-name";
 
-        btn.textContent = label;
+                btn.textContent = label;
 
-        btn.addEventListener("click", () => {
-            setSelected(container, btn);
-            typeId = item.id;
-            render();
+                btn.addEventListener("click", () => {
+                    setSelected(container, btn);
+                    typeId = item.id;
+                    render();
+                });
+
+            groupContainer.appendChild(btn);
+
+            });
+
         });
+    } else {
+        const container = document.getElementById("typeButtons");
 
-        container.appendChild(btn);
-    });
+        const category = getCategory("type");
+
+        category?.items.forEach(item => {
+
+            const btn = document.createElement("button");
+            const label =
+                item.view?.normal?.ja?.name ??
+                item.view?.normal?.en?.name ??
+                item.view?.full?.ja?.name ??
+                item.view?.full?.en?.name ??
+                item.name ??
+                "no-name";
+            btn.textContent = label;
+
+            btn.addEventListener ("click", () => {
+                setSelected(container, btn);
+                typeId = item.id;
+                render();
+            });
+
+            container.appendChild(btn);
+        });
+    }
 }
 
 function createDestinationButtons() {
 
     const container = document.getElementById("destinationButtons");
+    container.innerHTML = "";
+
+    const destinationCategory = getCategory("destination");
+    if (!destinationCategory) return;
+
     const normalBtn = document.createElement("button");
+    container.classList.remove("groupedButtons", "normalButtons");
+
+    if (config.destinationDistinction) {
+        container.classList.add("groupedButtons");
+    } else {
+        container.classList.add("normalButtons");
+    }
+
     normalBtn.textContent = "行先なし";
 
     normalBtn.addEventListener ("click", () => {
@@ -52,119 +159,539 @@ function createDestinationButtons() {
     });
 
     container.appendChild(normalBtn);
-    const destinationcategory = getCategory("destination");
-    if (!destinationcategory) return;
 
-    destinationcategory.items.forEach(dest => {
+    if (config.destinationDistinction) {
 
-        const btn = document.createElement("button");
-        const label =
-            dest.view?.normal?.ja?.name ??
-            dest.view?.normal?.en?.name ??
-            dest.view?.small?.ja?.name ??
-            dest.view?.small?.en?.name ??
-            dest.view?.full?.ja?.name ??
-            dest.view?.full?.en?.name ??
-            dest.name ??
-            "no-name";
-        btn.textContent = label;
+        destinationCategory.groups.forEach(group => {
 
-        btn.addEventListener("click", () => {
-            setSelected(container, btn);
-            destinationId = dest.id;
-            render();
+            // ===== 無表示グループ =====
+            if (group.name === "無表示") {
+
+                group.items.forEach(dest => {
+
+                    const btn = document.createElement("button");
+
+                    const label =
+                        dest.view?.normal?.ja?.name ??
+                        dest.view?.normal?.en?.name ??
+                        dest.view?.small?.ja?.name ??
+                        dest.view?.small?.en?.name ??
+                        dest.view?.full?.ja?.name ??
+                        dest.view?.full?.en?.name ??
+                        dest.name ??
+                        "no-name";
+
+                    btn.textContent = label;
+
+                    btn.addEventListener("click", () => {
+                        setSelected(container, btn);
+                        destinationId = dest.id;
+                        render();
+                    });
+
+                    container.appendChild(btn);
+                });
+
+                return;
+            }
+
+            // ===== 路線グループ =====
+
+            const header = document.createElement("div");
+            header.className = "groupHeader";
+            header.textContent = "▶ " + group.name;
+
+            const groupContainer = document.createElement("div");
+            groupContainer.className = "groupButtons";
+            groupContainer.hidden = true;
+
+            header.addEventListener("click", () => {
+
+                groupContainer.hidden = !groupContainer.hidden;
+
+                header.textContent =
+                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+
+            });
+
+            container.appendChild(header);
+            container.appendChild(groupContainer);
+
+            group.items.forEach(dest => {
+
+                const btn = document.createElement("button");
+
+                const label =
+                    dest.view?.normal?.ja?.name ??
+                    dest.view?.normal?.en?.name ??
+                    dest.view?.small?.ja?.name ??
+                    dest.view?.small?.en?.name ??
+                    dest.view?.full?.ja?.name ??
+                    dest.view?.full?.en?.name ??
+                    dest.name ??
+                    "no-name";
+
+                btn.textContent = label;
+
+                btn.addEventListener("click", () => {
+                    setSelected(container, btn);
+                    destinationId = dest.id;
+                    render();
+                });
+
+            groupContainer.appendChild(btn);
+
+            });
+
         });
+    } else {
+        const container = document.getElementById("destinationButtons");
 
-        container.appendChild(btn);
-    });
+        const category = getCategory("destination");
+
+        category?.items.forEach(dest => {
+
+            const btn = document.createElement("button");
+            const label =
+                dest.view?.normal?.ja?.name ??
+                dest.view?.normal?.en?.name ??
+                dest.view?.small?.ja?.name ??
+                dest.view?.small?.en?.name ??
+                dest.view?.full?.ja?.name ??
+                dest.view?.full?.en?.name ??
+                dest.name ??
+                "no-name";
+            btn.textContent = label;
+
+            btn.addEventListener ("click", () => {
+                setSelected(container, btn);
+                destinationId = dest.id;
+                render();
+            });
+
+            container.appendChild(btn);
+        });
+    }
 }
 
 function createNextModeButtons() {
 
     const container = document.getElementById("nextModeButtons");
+    container.innerHTML = "";
 
-    // 無表示
+    const nextModeCategory = getCategory("next");
+    if (!nextModeCategory) return;
+
     const normalBtn = document.createElement("button");
+    container.classList.remove("groupedButtons", "normalButtons");
+
+    if (config.nextModeDistinction) {
+        container.classList.add("groupedButtons");
+    } else {
+        container.classList.add("normalButtons");
+    }
+
     normalBtn.textContent = "次駅なし";
 
     normalBtn.addEventListener ("click", () => {
+        setSelected(container, normalBtn);
         displayMode = "normal";
         scene = 0;
         langIndex = 0;
-        setSelected(container, normalBtn);
         nextId = null;
         render();
     });
 
     container.appendChild(normalBtn);
 
-    const category = getCategory("next");
+    if (config.nextModeDistinction) {
 
-    category?.items.forEach(item => {
+        nextModeCategory.groups.forEach(group => {
 
-        const btn = document.createElement("button");
-        const label =
-            item.view?.normal?.ja?.name ??
-            item.view?.normal?.en?.name ??
-            item.name ??
-            "no-name";
-        btn.textContent = label;
+            // ===== 無表示グループ =====
+            if (group.name === "無表示") {
 
-        btn.addEventListener ("click", () => {
-            setSelected(container, btn);
-            displayMode = "next";
-            scene = 0;
-            langIndex = 0;
-            nextId = item.id;
-            render();
+                group.items.forEach(item => {
+
+                    const btn = document.createElement("button");
+
+                    const label =
+                        item.view?.normal?.ja?.name ??
+                        item.view?.normal?.en?.name ??
+                        item.name ??
+                        "no-name";
+
+                    btn.textContent = label;
+
+                    btn.addEventListener("click", () => {
+                        setSelected(container, btn);
+                        nextId = item.id;
+                        render();
+                    });
+
+                    container.appendChild(btn);
+                });
+
+                return;
+            }
+
+            // ===== 路線グループ =====
+
+            const header = document.createElement("div");
+            header.className = "groupHeader";
+            header.textContent = "▶ " + group.name;
+
+            const groupContainer = document.createElement("div");
+            groupContainer.className = "groupButtons";
+            groupContainer.hidden = true;
+
+            header.addEventListener("click", () => {
+
+                groupContainer.hidden = !groupContainer.hidden;
+
+                header.textContent =
+                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+
+            });
+
+            container.appendChild(header);
+            container.appendChild(groupContainer);
+
+            group.items.forEach(item => {
+
+                const btn = document.createElement("button");
+
+                const label =
+                    item.view?.normal?.ja?.name ??
+                    item.view?.normal?.en?.name ??
+                    item.name ??
+                    "no-name";
+
+                btn.textContent = label;
+
+                btn.addEventListener("click", () => {
+                    setSelected(container, btn);
+                    displayMode = "next";
+                    scene = 0;
+                    langIndex = 0;
+                    nextId = item.id;
+                    render();
+                });
+
+            groupContainer.appendChild(btn);
+
+            });
+
         });
+    } else {
+        const container = document.getElementById("nextModeButtons");
 
-        container.appendChild(btn);
-    });
+        const category = getCategory("next");
+
+        category?.items.forEach(item => {
+
+            const btn = document.createElement("button");
+            const label =
+                item.view?.normal?.ja?.name ??
+                item.view?.normal?.en?.name ??
+                item.name ??
+                "no-name";
+            btn.textContent = label;
+
+            btn.addEventListener ("click", () => {
+                setSelected(container, btn);
+                displayMode = "next";
+                scene = 0;
+                langIndex = 0;
+                nextId = item.id;
+                render();
+            });
+
+            container.appendChild(btn);
+        });
+    }
 }
 
 function createInformationButtons() {
 
     const container = document.getElementById("informationButtons");
+    container.innerHTML = "";
 
-    // 無表示
+    const informationCategory = getCategory("information");
+    if (!informationCategory) return;
+
     const normalBtn = document.createElement("button");
+    container.classList.remove("groupedButtons", "normalButtons");
+
+    if (config.informationDistinction) {
+        container.classList.add("groupedButtons");
+    } else {
+        container.classList.add("normalButtons");
+    }
+
     normalBtn.textContent = "案内なし";
 
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         informationId = null;
-        scene = 0;
-        langIndex = 0;
         render();
     });
 
     container.appendChild(normalBtn);
 
-    const category = getCategory("information");
+    if (config.informationDistinction) {
 
-    category?.items.forEach(info => {
+        informationCategory.groups.forEach(group => {
 
-        const btn = document.createElement("button");
-        const label =
-            info.view?.normal?.ja?.name ??
-            info.view?.normal?.en?.name ??
-            info.view?.small?.ja?.name ??
-            info.view?.small?.en?.name ??
-            info.name ??
-            "no-name";
-        btn.textContent = label;
+            // ===== 無表示グループ =====
+            if (group.name === "無表示") {
 
-        btn.addEventListener ("click", () => {
-            setSelected(container, btn);
-            informationId = info.id;
-            scene = 0;
-            langIndex = 0;
-            render();
+                group.items.forEach(info => {
+
+                    const btn = document.createElement("button");
+
+                    const label =
+                        info.view?.full?.ja?.name ??
+                        info.view?.full?.en?.name ??
+                        info.view?.normal?.ja?.name ??
+                        info.view?.normal?.en?.name ??
+                        info.view?.small?.ja?.name ??
+                        info.view?.small?.en?.name ??
+                        info.name ??
+                        "no-name";
+
+                    btn.textContent = label;
+
+                    btn.addEventListener("click", () => {
+                        setSelected(container, btn);
+                        informationId = info.id;
+                        render();
+                    });
+
+                    container.appendChild(btn);
+                });
+
+                return;
+            }
+
+            // ===== 路線グループ =====
+
+            const header = document.createElement("div");
+            header.className = "groupHeader";
+            header.textContent = "▶ " + group.name;
+
+            const groupContainer = document.createElement("div");
+            groupContainer.className = "groupButtons";
+            groupContainer.hidden = true;
+
+            header.addEventListener("click", () => {
+
+                groupContainer.hidden = !groupContainer.hidden;
+
+                header.textContent =
+                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+
+            });
+
+            container.appendChild(header);
+            container.appendChild(groupContainer);
+
+            group.items.forEach(info => {
+
+                const btn = document.createElement("button");
+
+                const label =
+                    info.view?.full?.ja?.name ??
+                    info.view?.full?.en?.name ??
+                    info.view?.normal?.ja?.name ??
+                    info.view?.normal?.en?.name ??
+                    info.view?.small?.ja?.name ??
+                    info.view?.small?.en?.name ??
+                    info.name ??
+                    "no-name";
+
+                btn.textContent = label;
+
+                btn.addEventListener("click", () => {
+                    setSelected(container, btn);
+                    informationId = info.id;
+                    render();
+                });
+
+            groupContainer.appendChild(btn);
+
+            });
+
         });
+    } else {
+        const container = document.getElementById("informationButtons");
 
-        container.appendChild(btn);
+        const category = getCategory("information");
+
+        category?.items.forEach(info => {
+
+            const btn = document.createElement("button");
+            const label =
+                info.view?.full?.ja?.name ??
+                info.view?.full?.en?.name ??
+                info.view?.normal?.ja?.name ??
+                info.view?.normal?.en?.name ??
+                info.view?.small?.ja?.name ??
+                info.view?.small?.en?.name ??
+                info.name ??
+                "no-name";
+                btn.textContent = label;
+
+            btn.addEventListener ("click", () => {
+                setSelected(container, btn);
+                informationId = info.id;
+                render();
+            });
+
+            container.appendChild(btn);
+        });
+    }
+}
+
+function createInformation2Buttons() {
+
+    const container = document.getElementById("information2Buttons");
+    container.innerHTML = "";
+
+    const informationCategory = getCategory("information2");
+    if (!informationCategory) return;
+
+    const normalBtn = document.createElement("button");
+    container.classList.remove("groupedButtons", "normalButtons");
+
+    if (config.information2Distinction) {
+        container.classList.add("groupedButtons");
+    } else {
+        container.classList.add("normalButtons");
+    }
+
+    normalBtn.textContent = "案内2なし";
+
+    normalBtn.addEventListener ("click", () => {
+        setSelected(container, normalBtn);
+        information2Id = null;
+        render();
     });
+
+    container.appendChild(normalBtn);
+
+    if (config.information2Distinction) {
+
+        informationCategory.groups.forEach(group => {
+
+            // ===== 無表示グループ =====
+            if (group.name === "無表示") {
+
+                group.items.forEach(info => {
+
+                    const btn = document.createElement("button");
+
+                    const label =
+                        info.view?.full?.ja?.name ??
+                        info.view?.full?.en?.name ??
+                        info.view?.normal?.ja?.name ??
+                        info.view?.normal?.en?.name ??
+                        info.view?.small?.ja?.name ??
+                        info.view?.small?.en?.name ??
+                        info.name ??
+                        "no-name";
+
+                    btn.textContent = label;
+
+                    btn.addEventListener("click", () => {
+                        setSelected(container, btn);
+                        information2Id = info.id;
+                        render();
+                    });
+
+                    container.appendChild(btn);
+                });
+
+                return;
+            }
+
+            // ===== 路線グループ =====
+
+            const header = document.createElement("div");
+            header.className = "groupHeader";
+            header.textContent = "▶ " + group.name;
+
+            const groupContainer = document.createElement("div");
+            groupContainer.className = "groupButtons";
+            groupContainer.hidden = true;
+
+            header.addEventListener("click", () => {
+
+                groupContainer.hidden = !groupContainer.hidden;
+
+                header.textContent =
+                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+
+            });
+
+            container.appendChild(header);
+            container.appendChild(groupContainer);
+
+            group.items.forEach(info => {
+
+                const btn = document.createElement("button");
+
+                const label =
+                    info.view?.full?.ja?.name ??
+                    info.view?.full?.en?.name ??
+                    info.view?.normal?.ja?.name ??
+                    info.view?.normal?.en?.name ??
+                    info.view?.small?.ja?.name ??
+                    info.view?.small?.en?.name ??
+                    info.name ??
+                    "no-name";
+
+                btn.textContent = label;
+
+                btn.addEventListener("click", () => {
+                    setSelected(container, btn);
+                    information2Id = info.id;
+                    render();
+                });
+
+            groupContainer.appendChild(btn);
+
+            });
+
+        });
+    } else {
+        const container = document.getElementById("information2Buttons");
+
+        const category = getCategory("information2");
+
+        category?.items.forEach(info => {
+
+            const btn = document.createElement("button");
+            const label =
+                info.view?.full?.ja?.name ??
+                info.view?.full?.en?.name ??
+                info.view?.normal?.ja?.name ??
+                info.view?.normal?.en?.name ??
+                info.view?.small?.ja?.name ??
+                info.view?.small?.en?.name ??
+                info.name ??
+                "no-name";
+                btn.textContent = label;
+
+            btn.addEventListener ("click", () => {
+                setSelected(container, btn);
+                information2Id = info.id;
+                render();
+            });
+
+            container.appendChild(btn);
+        });
+    }
 }
 
 function setSelected(container, button) {

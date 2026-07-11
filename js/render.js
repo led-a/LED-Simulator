@@ -12,7 +12,8 @@ function render() {
     const type = getItem("type", typeId);
     const dest = getItem("destination", destinationId);
     const next = getItem("next", nextId);
-    const info = getItem("information", informationId)
+    const info = getItem("information", informationId);
+    const info2 = getItem("information2", information2Id)
     let nextY = 0;
     // 種別
     if (type) drawType(type, matrix);
@@ -21,38 +22,22 @@ function render() {
     const fullType = isTypeFullScreen(type);
     const fullDestination = isDestinationFullScreen(dest);
     if (!fullType) {
-
-        if(displayMode==="next"){
-
+        if(displayMode === "next"){
             if(informationMode==="destination"){
-
                 if (destinationId != null) {
-
                     drawDestinationSmall(dest,matrix);
-
                 }
-
             }else{
                 if(info.view?.small) {
-
                     if (informationId != null) {
-
-                    drawInformationSmall(info,matrix);
-
+                        drawInformationSmall(info,matrix);
                     }
-
                 }else{
-
                     if (informationId != null) {
-
                         drawInformation(info, matrix);
-
                     }
-
                 }
-
             }
-
             if(next){
                 if(informationMode === "destination"){
                     drawNext(next,matrix,16)      
@@ -62,25 +47,21 @@ function render() {
                     }
                 }
             }
-
         }else{
-
-            if(informationMode==="destination"){
-
+            if(informationMode === "destination") {
                 if (destinationId != null) {
-
                     drawDestination(dest,matrix);
-
                 }
-
-            }else{
-
+            }
+            if(informationMode === "information") {
                 if (informationId != null) {
-
                     drawInformation(info,matrix);
-
                 }
-
+            }
+            if(informationMode === "information2") {
+                if (information2Id != null) {
+                    drawInformation2(info2,matrix);
+                }
             }
         }
     }

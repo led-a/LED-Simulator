@@ -4,6 +4,7 @@ let typeId = null;
 let destinationId = null;
 let nextId = null;
 let informationId = null;
+let information2Id = null;
 
 let displayMode = "normal";
 let informationMode = "destination";

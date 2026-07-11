@@ -140,6 +140,41 @@ function drawInformation(info, matrix) {
     drawImage(data, typewidth, 0, matrix);
 }
 
+function drawInformation2(info, matrix) {
+
+    let usedNormal = false;
+    let typewidth;
+
+    const view = isInformation2FullScreen(info)
+        ? "full"
+        : "normal";
+
+    let data =
+        info.view?.[view]?.[lang]
+        ?? info.view?.[view]?.ja;
+        if (view === "normal") {
+            usedNormal = true;
+        }
+
+    if (!data) {
+        data =
+            info.view?.normal?.[lang]
+            ?? info.view?.normal?.ja;
+        usedNormal = true;
+    }
+
+    if (!data) return;
+
+    const type = getItem("type", typeId)
+    if (usedNormal) {
+        typewidth = getTypeWidth(type, usedNormal);
+    } else {
+        typewidth = 0;
+    }
+
+    drawImage(data, typewidth, 0, matrix);
+}
+
 function drawInformationSmall(info, matrix) {
 
     let usedSmall = false;
@@ -269,6 +304,24 @@ function isDestinationFullScreen(dest) {
 }
 
 function isInformationFullScreen(info) {
+
+    if(!info) return false;
+
+    const hasNormal = !!info.view.normal;
+    const hasFull = !!info.view.full;
+
+    if(hasFull && !hasNormal){
+        return true;
+    }
+
+    if(typeId===null){
+        return true;
+    }
+
+    return false;
+}
+
+function isInformation2FullScreen(info) {
 
     if(!info) return false;
 

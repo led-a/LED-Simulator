@@ -6,6 +6,11 @@
     "hasInformation": true,
     "hasInformation2": false,
     "hasNext": true,
+    "destinationDistinction": false,
+    "nextModeDistinction": false,
+    "typeDistinction": false,
+    "informationDistinction": false,
+    "information2Distinction": false,
 
     "sceneInterval": 3000,
     "languageSwitching": false

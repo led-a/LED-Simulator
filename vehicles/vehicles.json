@@ -19,5 +19,12 @@
         "config": "vehicles/E131-600/config.json",
         "led": "vehicles/E131-600/led.json",
         "preview": "vehicles/E131-600/preview.png"
+    },
+    {
+        "id": "E233-1000",
+        "name": "E233系1000番台",
+        "config": "vehicles/E233-1000/config.json",
+        "led": "vehicles/E233-1000/led.json",
+        "preview": "vehicles/E233-1000/led.json"
     }
 ]
