@@ -6,12 +6,26 @@
     "hasInformation": true,
     "hasInformation2": false,
     "hasNext": true,
+    "hasCarNumber": false,
+    "hasCarNumberFull": false,
+    "hasCarNumberSmall": false,
+    "carNumber": null,
+
     "destinationDistinction": false,
     "nextModeDistinction": false,
     "typeDistinction": false,
     "informationDistinction": false,
     "information2Distinction": false,
+    "carNumberDistinction": false,
 
     "sceneInterval": 3000,
-    "languageSwitching": false
+    "languageSwitching": false,
+    "carNumberLanguageSwitching": false,
+    "ledWidth": 128,
+    "ledHeight": 32,
+    "pixelSize": 7,
+    "ledSize": 6,
+    "ledGap": 1,
+
+    "next_normal": false
 }

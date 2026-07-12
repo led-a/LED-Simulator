@@ -1,7 +1,7 @@
 function render() {
     ctx.setTransform(1,0,0,1,0,0);
     ctx.globalAlpha = 1;
-    if (!typeId && !destinationId && !nextId) {
+    if (!typeId && !destinationId && !nextId && !carNumberId) {
         clearMatrix();
         drawMatrix(createEmptyMatrix());
         return;
@@ -13,21 +13,27 @@ function render() {
     const dest = getItem("destination", destinationId);
     const next = getItem("next", nextId);
     const info = getItem("information", informationId);
-    const info2 = getItem("information2", information2Id)
+    const info2 = getItem("information2", information2Id);
+    const carNumber = getItem("carNumber", carNumberId);
+    const fullCarNumber = isCarNumberFullScreen(carNumber);
     let nextY = 0;
     // 種別
+    if (config.hasCarNumberSmall) {
+        drawCarNumber(carNumber, matrix);
+    }
     if (type) drawType(type, matrix);
 
     // 行先 / 次駅
     const fullType = isTypeFullScreen(type);
     const fullDestination = isDestinationFullScreen(dest);
     if (!fullType) {
-        if(displayMode === "next"){
-            if(informationMode==="destination"){
+        if(showNext){
+            if(informationMode === "destination"){
                 if (destinationId != null) {
                     drawDestinationSmall(dest,matrix);
                 }
-            }else{
+            }
+            if(informationMode === "information") {
                 if(info.view?.small) {
                     if (informationId != null) {
                         drawInformationSmall(info,matrix);
@@ -38,10 +44,16 @@ function render() {
                     }
                 }
             }
+            if(informationMode === "carNumber") {
+                if (carNumberId != null) {
+                    drawCarNumber(carNumber, matrix);
+                }
+            }
             if(next){
                 if(informationMode === "destination"){
                     drawNext(next,matrix,16)      
-                }else{
+                }
+                if(informationMode === "information"){
                     if(info.view?.small) {
                         drawNext(next,matrix,16)
                     }
@@ -63,14 +75,19 @@ function render() {
                     drawInformation2(info2,matrix);
                 }
             }
+            if(informationMode === "carNumber") {
+                if (carNumberId != null) {
+                    drawCarNumber(carNumber,matrix);
+                }
+            }
         }
     }
     drawMatrix(matrix);
 }
 
 function createEmptyMatrix() {
-    return Array.from({ length: 32 }, () =>
-        Array.from({ length: 128 }, () => ({
+    return Array.from({ length: led.height }, () =>
+        Array.from({ length: led.width }, () => ({
             r: 0,
             g: 0,
             b: 0
@@ -83,8 +100,8 @@ function drawMatrix(matrix) {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, led.width, led.height);
 
-    for (let y = 0; y < 32; y++) {
-        for (let x = 0; x < 128; x++) {
+    for (let y = 0; y < led.height; y++) {
+        for (let x = 0; x < led.width; x++) {
 
             const p = matrix[y][x];
 

@@ -1,31 +1,31 @@
 {
-    "name": "E131系600番台",
+    "name": "315系",
 
     "hasType": true,
     "hasDestination": true,
-    "hasInformation": true,
+    "hasInformation": false,
     "hasInformation2": false,
     "hasNext": true,
-    "hasCarNumber": false,
+    "hasCarNumber": true,
     "hasCarNumberFull": false,
-    "hasCarNumberSmall": false,
-    "carNumber": null,
+    "hasCarNumberSmall": true,
+    "carNumber": "left",
 
     "destinationDistinction": true,
     "nextModeDistinction": true,
-    "typeDistinction": false,
+    "typeDistinction": true,
     "informationDistinction": false,
     "information2Distinction": false,
     "carNumberDistinction": false,
 
     "sceneInterval": 3000,
-    "languageSwitching": false,
-    "carNumberLanguageSwitching": false,
-    "ledWidth": 128,
+    "languageSwitching": true,
+    "carNumberLanguageSwitching": true,
+    "ledWidth": 192,
     "ledHeight": 32,
-    "pixelSize": 7,
-    "ledSize": 6,
-    "ledGap": 1,
+    "pixelSize": 5.8,
+    "ledSize": 5,
+    "ledGap": 0.8,
 
-    "next_normal": false
+    "next_normal": true
 }

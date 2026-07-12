@@ -133,6 +133,141 @@ function createTypeButtons() {
     }
 }
 
+function createCarNumberButtons() {
+
+    const container = document.getElementById("carNumberButtons");
+    container.innerHTML = "";
+
+    const carNumberCategory = getCategory("carNumber");
+    if (!carNumberCategory) return;
+
+    const normalBtn = document.createElement("button");
+    container.classList.remove("groupedButtons", "normalButtons");
+
+    if (config.carNumberDistinction) {
+        container.classList.add("groupedButtons");
+    } else {
+        container.classList.add("normalButtons");
+    }
+
+    normalBtn.textContent = "号車なし";
+
+    normalBtn.addEventListener ("click", () => {
+        setSelected(container, normalBtn);
+        carNumberId = null;
+        render();
+    });
+
+    container.appendChild(normalBtn);
+
+    if (config.carNumberDistinction) {
+
+        carNumberCategory.groups.forEach(group => {
+
+            // ===== 無表示グループ =====
+            if (group.name === "無表示") {
+
+                group.items.forEach(item => {
+
+                    const btn = document.createElement("button");
+
+                    const label =
+                        item.view?.normal?.ja?.name ??
+                        item.view?.normal?.en?.name ??
+                        item.view?.full?.ja?.name ??
+                        item.view?.full?.en?.name ??
+                        item.name ??
+                        "no-name";
+
+                    btn.textContent = label;
+
+                    btn.addEventListener("click", () => {
+                        setSelected(container, btn);
+                        carNumberId = item.id;
+                        render();
+                    });
+
+                    container.appendChild(btn);
+                });
+
+                return;
+            }
+
+            // ===== 路線グループ =====
+
+            const header = document.createElement("div");
+            header.className = "groupHeader";
+            header.textContent = "▶ " + group.name;
+
+            const groupContainer = document.createElement("div");
+            groupContainer.className = "groupButtons";
+            groupContainer.hidden = true;
+
+            header.addEventListener("click", () => {
+
+                groupContainer.hidden = !groupContainer.hidden;
+
+                header.textContent =
+                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+
+            });
+
+            container.appendChild(header);
+            container.appendChild(groupContainer);
+
+            group.items.forEach(item => {
+
+                const btn = document.createElement("button");
+
+                const label =
+                    item.view?.normal?.ja?.name ??
+                    item.view?.normal?.en?.name ??
+                    item.view?.full?.ja?.name ??
+                    item.view?.full?.en?.name ??
+                    item.name ??
+            "no-name";
+
+                btn.textContent = label;
+
+                btn.addEventListener("click", () => {
+                    setSelected(container, btn);
+                    carNumberId = item.id;
+                    render();
+                });
+
+            groupContainer.appendChild(btn);
+
+            });
+
+        });
+    } else {
+        const container = document.getElementById("carNumberButtons");
+
+        const category = getCategory("carNumber");
+
+        category?.items.forEach(item => {
+
+            const btn = document.createElement("button");
+            const label =
+                item.view?.normal?.ja?.name ??
+                item.view?.normal?.en?.name ??
+                item.view?.full?.ja?.name ??
+                item.view?.full?.en?.name ??
+                item.name ??
+                "no-name";
+            btn.textContent = label;
+
+            btn.addEventListener ("click", () => {
+                setSelected(container, btn);
+                carNumberId = item.id;
+                render();
+            });
+
+            container.appendChild(btn);
+        });
+    }
+}
+
 function createDestinationButtons() {
 
     const container = document.getElementById("destinationButtons");

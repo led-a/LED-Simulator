@@ -1,7 +1,20 @@
 async function startVehicle() {
-    await loadConfig();
+
     await loadLed();
+
+    const led = document.getElementById("led");
+
+    led.width = config.ledWidth * pitch;
+    led.height = config.ledHeight * pitch;
+
+    led.style.width =
+        config.ledWidth * config.pixelSize + "px";
+
+    led.style.height =
+        config.ledHeight * config.pixelSize + "px";
+
     setupVehicleUI();
+
     startRenderLoop();
 }
 async function loadConfig() {
@@ -10,8 +23,15 @@ async function loadConfig() {
 }
 
 async function loadLed() {
-    const response = await fetch(selectedVehicle.led);
+
+    // config.json
+    let response = await fetch(selectedVehicle.config);
+    config = await response.json();
+
+    // led.json
+    response = await fetch(selectedVehicle.led);
     jsonData = await response.json();
+
     if (!jsonData?.categories) {
         console.error("JSONが壊れてる");
         return;
@@ -50,6 +70,12 @@ function setupVehicleUI() {
     } else {
         document.getElementById("nextModeGroup").hidden = true;
     }
+    if (config.hasCarNumber) {
+        document.getElementById("carNumberGroup").hidden = false;
+        createCarNumberButtons();
+    } else {
+        document.getElementById("carNumberGroup").hidden = true;
+    }
 
     setVehicleSelectButton();
 
@@ -82,44 +108,121 @@ function updateScene() {
 
     sceneList = [];
 
-    // 日本語行先は必ず入れる
-    sceneList.push({
-        lang: "ja",
-        information: "destination"
-    });
+    if(nextId != null) {
+        sceneList.push({
+            lang: "ja",
+            information: "destination",
+            next: true,
+        });
+    } else {
+        sceneList.push({
+            lang: "ja",
+            information: "destination",
+            next: false,
+        });
+    }
 
-    // 次駅があるなら英語も入れる
     if (config.languageSwitching) {
         if (hasEnglishType()) {
+            if (nextId != null) {
                 sceneList.push({
-                lang: "en",
-                information: "destination"
-            });
+                    lang: "en",
+                    information: "destination",
+                    next: true
+                });
+            } else {
+                sceneList.push({
+                    lang: "en",
+                    information: "destination",
+                    next: false
+                });
+            }
         }
     } else {
         if (nextId != null) {
             sceneList.push({
                 lang: "en",
-                information: "destination"
+                information: "destination",
+                next: true
             });
         }
     }
 
-    // 案内があるなら入れる
     if (informationId != null) {
-        sceneList.push({
-            lang: "ja",
-            information: "information"
-        });
+        if (nextId != null) {
+            sceneList.push({
+                lang: "ja",
+                information: "information",
+                next: true
+            });
+        } else {
+            sceneList.push({
+                lang: "ja",
+                information: "information",
+                next: false
+            });
+        }
     }
 
     if (information2Id != null) {
-        sceneList.push({
-            lang: "ja",
-            information: "information2"
-        });
+        if (nextId != null) {
+            sceneList.push({
+                lang: "ja",
+                information: "information2",
+                next: true
+            });
+        } else {
+            sceneList.push({
+                lang: "ja",
+                information: "information2",
+                next: false
+            });
+        }
     }
 
+    if (config.hasCarNumberFull) {
+        if (nextId != null) {
+            sceneList.push({
+                lang: "ja",
+                information: "carNumber",
+                next: true
+            });
+        } else {
+            sceneList.push({
+                lang: "ja",
+                information: "carNumber",
+                next: false
+            });
+        }
+        if (hasEnglishCarNumber()) {
+            if (nextId != null) {
+                sceneList.push({
+                    lang: "en",
+                    information: "carNumber",
+                    next: true
+                });
+            } else {
+                sceneList.push({
+                    lang: "en",
+                    information: "carNumber",
+                    next: false
+                });
+            }
+        }
+    }
+
+    if (config.next_normal) {
+        sceneList.push({
+            lang: "ja",
+            information: "destination",
+            next: false
+        });
+        sceneList.push({
+            lang: "en",
+            information: "destination",
+            next: false
+        });
+    }
     // scene番号がはみ出したら戻す
     if (scene >= sceneList.length) {
         scene = 0;
@@ -127,6 +230,7 @@ function updateScene() {
 
     lang = sceneList[scene].lang;
     informationMode = sceneList[scene].information;
+    showNext = sceneList[scene].next;
 }
 
 function initSimulator() {

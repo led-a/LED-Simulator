@@ -25,6 +25,13 @@
         "name": "E233系1000番台",
         "config": "vehicles/E233-1000/config.json",
         "led": "vehicles/E233-1000/led.json",
-        "preview": "vehicles/E233-1000/led.json"
+        "preview": "vehicles/E233-1000/preview.png"
+    },
+    {
+        "id": "315",
+        "name": "315系",
+        "config": "vehicles/315/config.json",
+        "led": "vehicles/315/led.json",
+        "preview": "vehicles/315/preview.png"
     }
 ]

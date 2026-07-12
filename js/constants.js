@@ -1,6 +1,6 @@
 const destinationWidth = 81;
-const matrixWidth = 128;
-const matrixHeight = 32;
+const matrixWidth = led.width;
+const matrixHeight = led.height;
 
 const ledsize = 6;
 const ledgap = 1;

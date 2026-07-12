@@ -38,9 +38,7 @@ main {
 }
 
 #led {
-    width: 100%;
-    max-width: 1088px;
-    height:auto;
+    display: block;
 }
 
 button {
@@ -76,7 +74,7 @@ button:active {
 
 #vehicleSelect {
     display:grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(5,1fr);
     gap:8px;
 }
 
@@ -115,7 +113,7 @@ button:active {
 }
 
 .groupHeader:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
 }
 
 .groupedButtons {
