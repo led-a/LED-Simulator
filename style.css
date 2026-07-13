@@ -158,10 +158,16 @@ button:active {
 
 @media (max-width: 768px) {
     .container {
+        display: flex;
         flex-direction: column;
     }
 
+    main {
+        order: 1;
+    }
+
     aside {
+        order: 2;
         width: auto;
     }
 

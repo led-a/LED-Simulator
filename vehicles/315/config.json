@@ -21,7 +21,7 @@
     "sceneInterval": 3000,
     "languageSwitching": true,
     "carNumberLanguageSwitching": true,
-    "ledWidth": 192,
+    "ledWidth": 160,
     "ledHeight": 32,
     "pixelSize": 5.8,
     "ledSize": 5,
