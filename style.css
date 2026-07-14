@@ -158,17 +158,15 @@ button:active {
 }
 
 @media (max-width: 768px) {
-    main {
-        overflow-x: auto;
+    .container {
+        flex-direction: column;
+    }
+
+    aside {
+        width: auto;
     }
 
     .ledFrame {
-        max-width: 100%;
-    }
-
-    #led {
-        display: block;
-        max-width: 100%;
-        height: auto;
+        margin: 20px;
     }
 }
