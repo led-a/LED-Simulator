@@ -163,18 +163,19 @@ button:active {
     }
 
     aside {
-        width: auto;
+        width: 100%;
         box-sizing: border-box;
     }
 
     main {
+        width: 100%;
+        box-sizing: border-box;
         overflow-x: auto;
         justify-content: flex-start;
-        align-items: flex-start;
     }
 
     .ledFrame {
-        margin: 20px auto;
-        width: fit-content;
+        margin: 10px;
+        padding: 10px;
     }
 }
