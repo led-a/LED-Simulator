@@ -156,3 +156,25 @@ button:active {
     background: #0078d7;
     color: white;
 }
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    aside {
+        width: auto;
+        box-sizing: border-box;
+    }
+
+    main {
+        overflow-x: auto;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .ledFrame {
+        margin: 20px auto;
+        width: fit-content;
+    }
+}
