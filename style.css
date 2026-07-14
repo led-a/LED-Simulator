@@ -163,11 +163,13 @@ button:active {
     }
 
     aside {
+        order: 2;
         width: 100%;
         box-sizing: border-box;
     }
 
     main {
+        order: 1;
         width: 100%;
         box-sizing: border-box;
         overflow-x: auto;

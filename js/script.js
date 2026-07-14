@@ -12,7 +12,9 @@ async function startVehicle() {
     led.width = config.ledWidth * pitch;
     led.height = config.ledHeight * pitch;
 
-    const scale = window.innerWidth <= 768 ? 0.6 : 1;
+    const maxWidth = window.innerWidth - 40;
+    const canvasWidth = led.width;
+    const scale = Math.min(1, maxWidth / canvasWidth);
 
     led.style.width = led.width * scale + "px";
     led.style.height = led.height * scale + "px";
