@@ -62,7 +62,7 @@ function createTypeButtons() {
 
             const header = document.createElement("div");
             header.className = "groupHeader";
-            header.textContent = "▶ " + group.name;
+            header.textContent = "▸ " + group.name;
 
             const groupContainer = document.createElement("div");
             groupContainer.className = "groupButtons";
@@ -73,7 +73,7 @@ function createTypeButtons() {
                 groupContainer.hidden = !groupContainer.hidden;
 
                 header.textContent =
-                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+                    (groupContainer.hidden ? "▸ " : "▾ ") + group.name;
 
             });
 
@@ -197,7 +197,7 @@ function createCarNumberButtons() {
 
             const header = document.createElement("div");
             header.className = "groupHeader";
-            header.textContent = "▶ " + group.name;
+            header.textContent = "▸ " + group.name;
 
             const groupContainer = document.createElement("div");
             groupContainer.className = "groupButtons";
@@ -208,7 +208,7 @@ function createCarNumberButtons() {
                 groupContainer.hidden = !groupContainer.hidden;
 
                 header.textContent =
-                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+                    (groupContainer.hidden ? "▸ " : "▾ ") + group.name;
 
             });
 
@@ -334,7 +334,7 @@ function createDestinationButtons() {
 
             const header = document.createElement("div");
             header.className = "groupHeader";
-            header.textContent = "▶ " + group.name;
+            header.textContent = "▸  " + group.name;
 
             const groupContainer = document.createElement("div");
             groupContainer.className = "groupButtons";
@@ -345,7 +345,7 @@ function createDestinationButtons() {
                 groupContainer.hidden = !groupContainer.hidden;
 
                 header.textContent =
-                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+                    (groupContainer.hidden ? "▸  " : "▾  ") + group.name;
 
             });
 
@@ -474,7 +474,7 @@ function createNextModeButtons() {
 
             const header = document.createElement("div");
             header.className = "groupHeader";
-            header.textContent = "▶ " + group.name;
+            header.textContent = "▸ " + group.name;
 
             const groupContainer = document.createElement("div");
             groupContainer.className = "groupButtons";
@@ -485,7 +485,7 @@ function createNextModeButtons() {
                 groupContainer.hidden = !groupContainer.hidden;
 
                 header.textContent =
-                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+                    (groupContainer.hidden ? "▸ " : "▾ ") + group.name;
 
             });
 
@@ -613,7 +613,7 @@ function createInformationButtons() {
 
             const header = document.createElement("div");
             header.className = "groupHeader";
-            header.textContent = "▶ " + group.name;
+            header.textContent = "▸ " + group.name;
 
             const groupContainer = document.createElement("div");
             groupContainer.className = "groupButtons";
@@ -624,7 +624,7 @@ function createInformationButtons() {
                 groupContainer.hidden = !groupContainer.hidden;
 
                 header.textContent =
-                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+                    (groupContainer.hidden ? "▸ " : "▾ ") + group.name;
 
             });
 
@@ -754,7 +754,7 @@ function createInformation2Buttons() {
 
             const header = document.createElement("div");
             header.className = "groupHeader";
-            header.textContent = "▶ " + group.name;
+            header.textContent = "▸ " + group.name;
 
             const groupContainer = document.createElement("div");
             groupContainer.className = "groupButtons";
@@ -765,7 +765,7 @@ function createInformation2Buttons() {
                 groupContainer.hidden = !groupContainer.hidden;
 
                 header.textContent =
-                    (groupContainer.hidden ? "▶ " : "▼ ") + group.name;
+                    (groupContainer.hidden ? "▸ " : "▾ ") + group.name;
 
             });
 

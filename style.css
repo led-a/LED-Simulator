@@ -106,6 +106,7 @@ button:active {
     margin-bottom: 4px;
     cursor: pointer;
     user-select: none;
+    font-family: Arial, "Noto Sans JP", sans-serif;
 }
 
 .groupHeader:hover {

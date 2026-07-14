@@ -3,7 +3,7 @@
 
     "hasType": true,
     "hasDestination": true,
-    "hasInformation": false,
+    "hasInformation": true,
     "hasInformation2": false,
     "hasNext": true,
     "hasCarNumber": true,
@@ -13,7 +13,7 @@
 
     "destinationDistinction": true,
     "nextModeDistinction": true,
-    "typeDistinction": true,
+    "typeDistinction": false,
     "informationDistinction": false,
     "information2Distinction": false,
     "carNumberDistinction": false,
@@ -21,7 +21,7 @@
     "sceneInterval": 3000,
     "languageSwitching": true,
     "carNumberLanguageSwitching": true,
-    "ledWidth": 160,
+    "ledWidth": 176,
     "ledHeight": 32,
     "pixelSize": 5.8,
     "ledSize": 5,
