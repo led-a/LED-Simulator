@@ -7,12 +7,6 @@ async function startVehicle() {
     led.width = config.ledWidth * pitch;
     led.height = config.ledHeight * pitch;
 
-    led.style.width =
-        config.ledWidth * config.pixelSize + "px";
-
-    led.style.height =
-        config.ledHeight * config.pixelSize + "px";
-
     setupVehicleUI();
 
     startRenderLoop();
