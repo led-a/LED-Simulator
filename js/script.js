@@ -2,10 +2,20 @@ async function startVehicle() {
 
     await loadLed();
 
+    ledsize = config.ledSize;
+    ledgap = config.ledGap;
+    pitch = ledsize + ledgap;
+    radius = ledsize / 2;
+
     const led = document.getElementById("led");
 
     led.width = config.ledWidth * pitch;
     led.height = config.ledHeight * pitch;
+
+    const scale = window.innerWidth <= 768 ? 0.6 : 1;
+
+    led.style.width = led.width * scale + "px";
+    led.style.height = led.height * scale + "px";
 
     setupVehicleUI();
 

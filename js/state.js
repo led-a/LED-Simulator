@@ -14,5 +14,10 @@ let showNext = false;
 let scene = 0;
 let sceneList = [];
 
+let ledsize = 6;
+let ledgap = 1;
+let pitch = ledsize + ledgap;
+let radius = ledsize / 2;
+
 let langIndex = 0;
 const langs = ["ja", "en"];
