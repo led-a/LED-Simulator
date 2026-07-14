@@ -156,17 +156,3 @@ button:active {
     background: #0078d7;
     color: white;
 }
-
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    aside {
-        width: auto;
-    }
-
-    .ledFrame {
-        margin: 20px;
-    }
-}
