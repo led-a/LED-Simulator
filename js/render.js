@@ -49,13 +49,21 @@ function render() {
                     drawCarNumber(carNumber, matrix);
                 }
             }
+            if(informationMode === "information_next") {
+                if (destinationId != null) {
+                    drawDestinationSmall(dest,matrix);
+                }
+                if (informationId != null) {
+                    drawInformation(info, matrix);
+                }
+            }
             if(next){
                 if(informationMode === "destination"){
-                    drawNext(next,matrix,16)      
+                    drawNext(next,matrix)      
                 }
                 if(informationMode === "information"){
                     if(info.view?.small) {
-                        drawNext(next,matrix,16)
+                        drawNext(next,matrix)
                     }
                 }
             }
@@ -73,6 +81,14 @@ function render() {
             if(informationMode === "information2") {
                 if (information2Id != null) {
                     drawInformation2(info2,matrix);
+                }
+            }
+            if(informationMode === "information_next") {
+                if (destinationId != null) {
+                    drawDestinationSmall(dest,matrix);
+                }
+                if (informationId != null) {
+                    drawInformation(info, matrix);
                 }
             }
             if(informationMode === "carNumber") {

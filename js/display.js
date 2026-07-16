@@ -178,8 +178,15 @@ function drawInformation(info, matrix) {
     } else {
         typewidth = 0;
     }
+    let yOffset;
+    const nextPosition = config.nextPosition;
+    if (config.informationPosition === "next") {
+        yOffset = nextPosition;
+    } else {
+        yOffset = 0;
+    }
 
-    drawImage(data, typewidth, 0, matrix);
+    drawImage(data, typewidth, yOffset, matrix);
 }
 
 function drawInformation2(info, matrix) {
@@ -250,7 +257,7 @@ function drawInformationSmall(info, matrix) {
     drawImage(data, typewidth, 0, matrix);
 }
 
-function drawNext(next, matrix, yOffset) {
+function drawNext(next, matrix) {
 
     let usedNormal = false;
     let typewidth;
@@ -280,8 +287,9 @@ function drawNext(next, matrix, yOffset) {
     } else {
         typewidth = 0;
     }
+    const nextPosition = config.nextPosition
 
-    drawImage(data, typewidth, yOffset, matrix);
+    drawImage(data, typewidth, nextPosition, matrix);
 }
 
 function getTypeWidth(type, used) {

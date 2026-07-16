@@ -19,9 +19,6 @@ async function startVehicle() {
     led.style.width = led.width * scale + "px";
     led.style.height = led.height * scale + "px";
 
-    console.log(led.style.width);
-    console.log(led.clientWidth);
-
     setupVehicleUI();
 
     startRenderLoop();
@@ -30,7 +27,6 @@ async function loadConfig() {
     const response = await fetch(selectedVehicle.config);
     config = await response.json();
 }
-
 async function loadLed() {
 
     // config.json
@@ -158,18 +154,48 @@ function updateScene() {
     }
 
     if (informationId != null) {
-        if (nextId != null) {
+        if (config.informationPosition === "normal") {
+            if (nextId != null) {
+                sceneList.push({
+                    lang: "ja",
+                    information: "information",
+                    next: true
+                });
+                if (config.informationLanguageSwitching) {
+                    sceneList.push({
+                        lang: "en",
+                        information: "information",
+                        next: true
+                    });
+                }
+            } else {
+                sceneList.push({
+                    lang: "ja",
+                    information: "information",
+                    next: false
+                });
+                if (config.informationLanguageSwitching) {
+                    sceneList.push({
+                        lang: "en",
+                        information: "information",
+                        next: false
+                    });
+                }
+            }
+        }
+        if (config.informationPosition === "next") {
             sceneList.push({
                 lang: "ja",
-                information: "information",
-                next: true
-            });
-        } else {
-            sceneList.push({
-                lang: "ja",
-                information: "information",
+                information: "information_next",
                 next: false
             });
+            if (config.informationLanguageSwitching) {
+                sceneList.push({
+                    lang: "en",
+                    information: "information_next",
+                    next: false
+                });
+            }
         }
     }
 

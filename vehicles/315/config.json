@@ -10,6 +10,7 @@
     "hasCarNumberFull": false,
     "hasCarNumberSmall": true,
     "carNumber": "left",
+    "informationPosition": "next",
 
     "destinationDistinction": true,
     "nextModeDistinction": true,
@@ -21,11 +22,14 @@
     "sceneInterval": 3000,
     "languageSwitching": true,
     "carNumberLanguageSwitching": true,
+    "destinationLanguageSwitching": true,
+    "informationLanguageSwitching": true,
     "ledWidth": 176,
     "ledHeight": 32,
     "pixelSize": 5.8,
     "ledSize": 5,
     "ledGap": 0.8,
 
-    "next_normal": true
+    "next_normal": true,
+    "nextPosition": 16
 }
