@@ -126,9 +126,23 @@ function updateScene() {
             next: false,
         });
     }
-
     if (config.languageSwitching) {
         if (hasEnglishType()) {
+            if (nextId != null) {
+                sceneList.push({
+                    lang: "en",
+                    information: "destination",
+                    next: true
+                });
+            } else {
+                sceneList.push({
+                    lang: "en",
+                    information: "destination",
+                    next: false
+                });
+            }
+        }
+        if (type === null) {
             if (nextId != null) {
                 sceneList.push({
                     lang: "en",
@@ -247,16 +261,18 @@ function updateScene() {
     }
 
     if (config.next_normal) {
-        sceneList.push({
-            lang: "ja",
-            information: "destination",
-            next: false
-        });
-        sceneList.push({
-            lang: "en",
-            information: "destination",
-            next: false
-        });
+        if (nextId != null) {
+            sceneList.push({
+                lang: "ja",
+                information: "destination",
+                next: false
+            });
+            sceneList.push({
+                lang: "en",
+                information: "destination",
+                next: false
+            });
+        }
     }
     // scene番号がはみ出したら戻す
     if (scene >= sceneList.length) {

@@ -296,9 +296,18 @@ function getTypeWidth(type, used) {
 
     if(!type) {
         if(used) {
-            return (
-                getItem("type", "null_type").view.normal.ja.width
-            )
+            if (config.hasCarNumber) {
+                let data = getItem("type", "null_type").view.normal.ja.width
+                const carNumber = getItem("carNumber", carNumberId)
+                return (
+                    data + getCarNumberWidth(carNumber, true)
+                )
+
+            } else {
+                return (
+                    getItem("type", "null_type").view.normal.ja.width
+                );
+            }
         } else {
             return 0;
         }
