@@ -20,6 +20,8 @@ function createTypeButtons() {
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         typeId = null;
+        const typeLabel = document.getElementById("type");
+        typeLabel.textContent = "種別:なし"
         render();
     });
 
@@ -49,6 +51,9 @@ function createTypeButtons() {
                     btn.addEventListener("click", () => {
                         setSelected(container, btn);
                         typeId = item.id;
+                        const typeLabel = document.getElementById("type");
+                        const typeName = getName("type", typeId)
+                        typeLabel.textContent = "種別:" + typeName
                         render();
                     });
 
@@ -97,6 +102,9 @@ function createTypeButtons() {
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     typeId = item.id;
+                    const typeLabel = document.getElementById("type");
+                    const typeName = getName("type", typeId)
+                    typeLabel.textContent = "種別:" + typeName
                     render();
                 });
 
@@ -125,6 +133,9 @@ function createTypeButtons() {
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
                 typeId = item.id;
+                const typeLabel = document.getElementById("type");
+                const typeName = getName("type", typeId)
+                typeLabel.textContent = "種別:" + typeName
                 render();
             });
 
@@ -155,6 +166,8 @@ function createCarNumberButtons() {
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         carNumberId = null;
+        const carNumberLabel = document.getElementById("carNumber");
+        carNumberLabel.textContent = "号車:なし"
         render();
     });
 
@@ -184,6 +197,9 @@ function createCarNumberButtons() {
                     btn.addEventListener("click", () => {
                         setSelected(container, btn);
                         carNumberId = item.id;
+                        const carNumberLabel = document.getElementById("carNumber");
+                        const carNumberName = getName("carNumber", carNumberId)
+                        carNumberLabel.textContent = "号車:" + carNumberName
                         render();
                     });
 
@@ -232,6 +248,9 @@ function createCarNumberButtons() {
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     carNumberId = item.id;
+                    const carNumberLabel = document.getElementById("carNumber");
+                    const carNumberName = getName("carNumber", carNumberId)
+                    carNumberLabel.textContent = "号車:" + carNumberName
                     render();
                 });
 
@@ -260,6 +279,9 @@ function createCarNumberButtons() {
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
                 carNumberId = item.id;
+                const carNumberLabel = document.getElementById("carNumber");
+                const carNumberName = getName("carNumber", carNumberId)
+                carNumberLabel.textContent = "号車:" + carNumberName
                 render();
             });
 
@@ -290,6 +312,8 @@ function createDestinationButtons() {
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         destinationId = null;
+        const destinationLabel = document.getElementById("destination");
+        destinationLabel.textContent = "行先:なし"
         render();
     });
 
@@ -321,6 +345,9 @@ function createDestinationButtons() {
                     btn.addEventListener("click", () => {
                         setSelected(container, btn);
                         destinationId = dest.id;
+                        const destinationLabel = document.getElementById("destination");
+                        const destinationName = getName("destination", destinationId)
+                        destinationLabel.textContent = "行先:" + destinationName
                         render();
                     });
 
@@ -371,6 +398,9 @@ function createDestinationButtons() {
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     destinationId = dest.id;
+                    const destinationLabel = document.getElementById("destination");
+                    const destinationName = getName("destination", destinationId)
+                    destinationLabel.textContent = "行先:" + destinationName
                     render();
                 });
 
@@ -401,6 +431,9 @@ function createDestinationButtons() {
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
                 destinationId = dest.id;
+                const destinationLabel = document.getElementById("destination");
+                const destinationName = getName("destination", destinationId)
+                destinationLabel.textContent = "行先:" + destinationName
                 render();
             });
 
@@ -434,6 +467,8 @@ function createNextModeButtons() {
         scene = 0;
         langIndex = 0;
         nextId = null;
+        const nextModeLabel = document.getElementById("nextMode");
+        nextModeLabel.textContent = "次駅:なし"
         render();
     });
 
@@ -461,6 +496,9 @@ function createNextModeButtons() {
                     btn.addEventListener("click", () => {
                         setSelected(container, btn);
                         nextId = item.id;
+                        const nextModeLabel = document.getElementById("nextMode");
+                        const nextModeName = getName("next", nextId)
+                        nextModeLabel.textContent = "次駅:" + nextModeName
                         render();
                     });
 
@@ -510,6 +548,9 @@ function createNextModeButtons() {
                     scene = 0;
                     langIndex = 0;
                     nextId = item.id;
+                    const nextModeLabel = document.getElementById("nextMode");
+                    const nextModeName = getName("next", nextId)
+                    nextModeLabel.textContent = "次駅:" + nextModeName
                     render();
                 });
 
@@ -539,6 +580,9 @@ function createNextModeButtons() {
                 scene = 0;
                 langIndex = 0;
                 nextId = item.id;
+                const nextModeLabel = document.getElementById("nextMode");
+                const nextModeName = getName("next", nextId)
+                nextModeLabel.textContent = "次駅:" + nextModeName
                 render();
             });
 
@@ -569,6 +613,8 @@ function createInformationButtons() {
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         informationId = null;
+        const informationLabel = document.getElementById("information");
+        informationLabel.textContent = "案内:なし"
         render();
     });
 
@@ -600,6 +646,9 @@ function createInformationButtons() {
                     btn.addEventListener("click", () => {
                         setSelected(container, btn);
                         informationId = info.id;
+                        const informationLabel = document.getElementById("information");
+                        const informationName = getName("information", informationId)
+                        informationLabel.textContent = "案内:" + informationName
                         render();
                     });
 
@@ -650,6 +699,9 @@ function createInformationButtons() {
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     informationId = info.id;
+                    const informationLabel = document.getElementById("information");
+                    const informationName = getName("information", informationId)
+                    informationLabel.textContent = "案内:" + informationName
                     render();
                 });
 
@@ -680,6 +732,9 @@ function createInformationButtons() {
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
                 informationId = info.id;
+                const informationLabel = document.getElementById("information");
+                const informationName = getName("information", informationId)
+                informationLabel.textContent = "案内:" + informationName
                 render();
             });
 
@@ -710,6 +765,8 @@ function createInformation2Buttons() {
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         information2Id = null;
+        const information2Label = document.getElementById("information2");
+        information2Label.textContent = "案内2:なし"
         render();
     });
 
@@ -741,6 +798,9 @@ function createInformation2Buttons() {
                     btn.addEventListener("click", () => {
                         setSelected(container, btn);
                         information2Id = info.id;
+                        const information2Label = document.getElementById("information2");
+                        const information2Name = getName("information2", information2Id)
+                        information2Label.textContent = "案内2:" + information2Name
                         render();
                     });
 
@@ -791,6 +851,9 @@ function createInformation2Buttons() {
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     information2Id = info.id;
+                    const information2Label = document.getElementById("information2");
+                    const information2Name = getName("information2", information2Id)
+                    information2Label.textContent = "案内2:" + information2Name
                     render();
                 });
 
@@ -821,6 +884,9 @@ function createInformation2Buttons() {
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
                 information2Id = info.id;
+                const information2Label = document.getElementById("information2");
+                const information2Name = getName("information2", information2Id)
+                information2Label.textContent = "案内2:" + information2Name
                 render();
             });
 
@@ -844,4 +910,14 @@ function setVehicleSelectButton() {
         document.getElementById("simulator").hidden = true;
         document.getElementById("vehicleSelector").hidden = false;
     })
+}
+
+function getName(items, itemId) {
+    const item = getItem(items, itemId);
+    return (
+        item.view?.normal?.ja?.name ??
+        item.view?.small?.ja?.name ??
+        item.view?.full?.ja?.name ??
+        ""
+    );
 }

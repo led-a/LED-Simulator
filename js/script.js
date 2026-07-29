@@ -142,7 +142,7 @@ function updateScene() {
                 });
             }
         }
-        if (type === null) {
+        if (typeId === null) {
             if (nextId != null) {
                 sceneList.push({
                     lang: "en",

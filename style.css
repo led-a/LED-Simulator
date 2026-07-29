@@ -74,7 +74,7 @@ button:active {
 
 #vehicleSelect {
     display:grid;
-    grid-template-columns: repeat(5,1fr);
+    grid-template-columns: repeat(6,1fr);
     gap:8px;
 }
 
@@ -94,6 +94,7 @@ button:active {
 .buttonGroup button.selected {
     background: #0078d7;
     color: white;
+    font-weight: 700;
 }
 
 .groupHeader {
@@ -155,6 +156,7 @@ button:active {
 .selectGroup button.selected {
     background: #0078d7;
     color: white;
+    font-weight: 700;
 }
 
 @media (max-width: 768px) {
@@ -179,5 +181,9 @@ button:active {
     .ledFrame {
         margin: 10px;
         padding: 10px;
+    }
+
+    body {
+        font-size: 20px;
     }
 }

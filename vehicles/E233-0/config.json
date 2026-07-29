@@ -1,0 +1,35 @@
+{
+    "name": "E233系0番台",
+
+    "hasType": true,
+    "hasDestination": true,
+    "hasInformation": false,
+    "hasInformation2": false,
+    "hasNext": true,
+    "hasCarNumber": false,
+    "hasCarNumberFull": false,
+    "hasCarNumberSmall": false,
+    "carNumber": null,
+    "informationPosition": "normal",
+
+    "destinationDistinction": false,
+    "nextModeDistinction": false,
+    "typeDistinction": false,
+    "informationDistinction": false,
+    "information2Distinction": false,
+    "carNumberDistinction": false,
+
+    "sceneInterval": 3000,
+    "languageSwitching": false,
+    "carNumberLanguageSwitching": false,
+    "destinationLanguageSwitching": false,
+    "informationLanguageSwitching": false,
+    "ledWidth": 128,
+    "ledHeight": 32,
+    "pixelSize": 7,
+    "ledSize": 6,
+    "ledGap": 1,
+
+    "next_normal": false,
+    "nextPosition": 16
+}
