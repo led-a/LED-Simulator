@@ -190,4 +190,8 @@ button:active {
     button {
         font-size: 18px;
     }
+
+    #vehicleSelect {
+        grid-template-columns: repeat(3,1fr);
+    }
 }
