@@ -35,6 +35,13 @@
         "preview": "vehicles/E233-1000/preview.png"
     },
     {
+        "id": "225・227・323",
+        "name": "225系・227系・323系",
+        "config": "vehicles/225・227・323/config.json",
+        "led": "vehicles/225・227・323/led.json",
+        "preview": "vehicles/225・227・323/preview.png"
+    },
+    {
         "id": "315",
         "name": "315系",
         "config": "vehicles/315/config.json",

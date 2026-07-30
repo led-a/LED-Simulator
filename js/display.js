@@ -359,20 +359,35 @@ function getDestinationWidth(type, dest, used) {
     const typeLang = getLangForPart();
 
     if (config.hasCarNumber) {
-        let data =
-            type.view?.[typeView]?.[typeLang]?.width
-            ?? type.view?.[typeView]?.ja?.width
-            ?? 0
-        const carNumber = getItem("carNumber", carNumberId)
-        typeData =
-            data + getCarNumberWidth(carNumber, true);
+        if (config.carNumber === "left") {
+            if(type != null) {
+                let data =
+                    type.view?.[typeView]?.[typeLang]?.width
+                    ?? type.view?.[typeView]?.ja?.width
+                    ?? 0
+            } else {
+                let data = typeData
+            }
+            const carNumber = getItem("carNumber", carNumberId)
+            typeData =
+                data + getCarNumberWidth(carNumber, true);
+        } else {
+            if(type != null) {
+                typeData =
+                    type.view?.[typeView]?.[typeLang]?.width
+                    ?? type.view?.[typeView]?.ja?.width
+                    ?? 0
+            }
+        }
 
     } else {
 
-        typeData =
-            type.view?.[typeView]?.[typeLang]?.width
-            ?? type.view?.[typeView]?.ja?.width
-            ?? 0
+        if(type != null) {
+            typeData =
+                type.view?.[typeView]?.[typeLang]?.width
+                ?? type.view?.[typeView]?.ja?.width
+                ?? 0
+        }
     }
     if(!dest) {
         if(used) {
@@ -388,13 +403,19 @@ function getDestinationWidth(type, dest, used) {
 
     const destLang = getLangForPart();
 
-    destData =
-        type.view?.[destView]?.[destLang]?.width
-        ?? type.view?.[destView]?.ja?.width
-        ?? 0
+    if (dest != null) {
+        destData =
+            dest.view?.[destView]?.[destLang]?.width
+            ?? dest.view?.[destView]?.ja?.width
+            ?? 0
+    }
+    if (typeView === "full") {
+        destData = 0
+    }
+    console.log(typeData, destData)
 
     return (
-        typedata + destData
+        typeData + destData
     )
 }
 
@@ -443,7 +464,9 @@ function isTypeFullScreen(type) {
     }
 
     if(destinationId===null && nextId===null){
-        return true;
+        if (hasFull) {
+            return true;
+        }
     }
 
     return false;
@@ -479,7 +502,9 @@ function isDestinationFullScreen(dest) {
     }
 
     if(typeId===null){
-        return true;
+        if(hasFull) {
+            return true;
+        }
     }
 
     return false;
@@ -548,6 +573,32 @@ function hasEnglishType() {
     if (!type) return;
     return !!type.view?.normal?.en
         || !!type.view?.full?.en;
+}
+
+function hasEnglishDestination() {
+    const dest = getItem("destination", destinationId);
+    if (!dest) return;
+    return !!dest.view?.normal?.en
+        || !!dest.view?.full?.en
+        || !!dest.view?.small?.en
+        || !!dest.view?.full_small?.en;
+}
+
+function hasEnglishInformation() {
+    const info = getItem("information", informationId);
+    if (!info) return;
+    return !!info.view?.normal?.en
+        || !!info.view?.full?.en
+        || !!info.view?.small?.en;
+}
+
+function hasInformationDestination() {
+    const dest = getItem("destination", destinationId);
+    if(!dest) return;
+    return !!dest.view?.normal?.info
+        || !!dest.view?.full?.info
+        || !!dest.view?.small?.info
+        || !!dest.view?.full_small?.info;
 }
 
 function hasEnglishCarNumber() {

@@ -1,16 +1,16 @@
 {
-    "name": "E131系600番台",
+    "name": "225系・227系・323系",
 
     "hasType": true,
     "hasDestination": true,
     "hasInformation": true,
     "hasInformation2": false,
-    "hasNext": true,
-    "hasCarNumber": false,
+    "hasNext": false,
+    "hasCarNumber": true,
     "hasCarNumberFull": false,
-    "hasCarNumberSmall": false,
-    "carNumber": null,
-    "informationPosition": "normal",
+    "hasCarNumberSmall": true,
+    "carNumber": "right",
+    "informationPosition": "next",
 
     "destinationDistinction": true,
     "nextModeDistinction": true,
@@ -19,21 +19,21 @@
     "information2Distinction": false,
     "carNumberDistinction": false,
 
-    "typeSwitching": false,
+    "typeSwitching": true,
 
     "sceneInterval": 3000,
     "languageSwitching": false,
     "carNumberLanguageSwitching": false,
-    "destinationLanguageSwitching": false,
-    "informationLanguageSwitching": false,
-    "ledWidth": 128,
+    "destinationLanguageSwitching": true,
+    "informationLanguageSwitching": true,
+    "ledWidth": 160,
     "ledHeight": 32,
-    "pixelSize": 7,
-    "ledSize": 6,
-    "ledGap": 1,
+    "pixelSize": 6,
+    "ledSize": 3.8,
+    "ledGap": 2.2,
 
     "enAhead": false,
 
     "next_normal": false,
-    "nextPosition": 16
+    "nextPosition": 18
 }

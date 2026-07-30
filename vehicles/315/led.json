@@ -3,7 +3,7 @@
         {
             "id": "type",
             "name": "種別",
-            "items":[
+            "items": [
                 {
                     "id": "null_type",
                     "view": {

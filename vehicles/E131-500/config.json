@@ -19,6 +19,8 @@
     "information2Distinction": false,
     "carNumberDistinction": false,
 
+    "typeSwitching": false,
+
     "sceneInterval": 3000,
     "languageSwitching": true,
     "carNumberLanguageSwitching": false,
@@ -29,6 +31,8 @@
     "pixelSize": 7,
     "ledSize": 6,
     "ledGap": 1,
+
+    "enAhead": false,
 
     "next_normal": false,
     "nextPosition": 16
