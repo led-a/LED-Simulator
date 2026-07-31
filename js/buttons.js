@@ -95,9 +95,13 @@ function createTypeButtons() {
                     item.view?.full?.ja?.name ??
                     item.view?.full?.en?.name ??
                     item.name ??
-            "no-name";
+                    "no-name";
 
                 btn.textContent = label;
+
+                if (label.length > 8) {
+                    btn.style.fontSize = "10px";
+                }
 
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
@@ -129,6 +133,10 @@ function createTypeButtons() {
                 item.name ??
                 "no-name";
             btn.textContent = label;
+
+            if (label.length > 8) {
+                btn.style.fontSize = "10px";
+            }
 
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
@@ -395,6 +403,10 @@ function createDestinationButtons() {
 
                 btn.textContent = label;
 
+                if (label.length > 8) {
+                    btn.style.fontSize = "10px";
+                }
+
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     destinationId = dest.id;
@@ -428,6 +440,10 @@ function createDestinationButtons() {
                 dest.name ??
                 "no-name";
             btn.textContent = label;
+
+            if (label.length > 8) {
+                btn.style.fontSize = "10px";
+            }
 
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
@@ -543,6 +559,10 @@ function createNextModeButtons() {
 
                 btn.textContent = label;
 
+                if (label.length > 8) {
+                    btn.style.fontSize = "10px";
+                }
+
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     displayMode = "next";
@@ -574,6 +594,10 @@ function createNextModeButtons() {
                 item.name ??
                 "no-name";
             btn.textContent = label;
+
+            if (label.length > 8) {
+                btn.style.fontSize = "10px";
+            }
 
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
@@ -697,6 +721,10 @@ function createInformationButtons() {
 
                 btn.textContent = label;
 
+                if (label.length > 8) {
+                    btn.style.fontSize = "10px";
+                }
+
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     informationId = info.id;
@@ -729,6 +757,10 @@ function createInformationButtons() {
                 info.name ??
                 "no-name";
                 btn.textContent = label;
+
+            if (label.length > 8) {
+                btn.style.fontSize = "10px";
+            }
 
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
@@ -847,6 +879,10 @@ function createInformation2Buttons() {
                     info.name ??
                     "no-name";
 
+                if (label.length > 8) {
+                    btn.style.fontSize = "10px";
+                }
+
                 btn.textContent = label;
 
                 btn.addEventListener("click", () => {
@@ -880,7 +916,12 @@ function createInformation2Buttons() {
                 info.view?.small?.en?.name ??
                 info.name ??
                 "no-name";
-                btn.textContent = label;
+                
+            btn.textContent = label;
+
+            if (label.length > 8) {
+                btn.style.fontSize = "10px";
+            }
 
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
