@@ -36,7 +36,7 @@
     },
     {
         "id": "225・227・323",
-        "name": "225系・227系・323系",
+        "name": "225系・227系・323系・521系",
         "config": "vehicles/225・227・323/config.json",
         "led": "vehicles/225・227・323/led.json",
         "preview": "vehicles/225・227・323/preview.png"
