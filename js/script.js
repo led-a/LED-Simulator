@@ -187,6 +187,22 @@ function updateScene() {
         }
     }
 
+    if (hasInformationDestination()) {
+        if (nextId != null) {
+            sceneList.push({
+                lang: "info",
+                information: "destination",
+                next: true
+            });
+        } else {
+            sceneList.push({
+                lang: "info",
+                information: "destination",
+                next: false
+            });
+        }
+    }
+
     if (informationId != null) {
         if (config.informationPosition === "normal") {
             if (nextId != null) {
@@ -234,22 +250,6 @@ function updateScene() {
                     });
                 }
             }
-        }
-    }
-
-    if (hasInformationDestination()) {
-        if (nextId != null) {
-            sceneList.push({
-                lang: "info",
-                information: "destination",
-                next: true
-            });
-        } else {
-            sceneList.push({
-                lang: "info",
-                information: "destination",
-                next: false
-            });
         }
     }
 
