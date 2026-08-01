@@ -16,13 +16,13 @@ function createTypeButtons() {
     }
 
     normalBtn.textContent = "種別なし";
-
-    normalBtn.addEventListener ("click", () => {
+    normalBtn.addEventListener("click", () => {
         setSelected(container, normalBtn);
         typeId = null;
         const typeLabel = document.getElementById("type");
         typeLabel.textContent = "種別:なし"
-        render();
+        frame = 0;
+        startRenderLoop();
     });
 
     container.appendChild(normalBtn);
@@ -54,7 +54,8 @@ function createTypeButtons() {
                         const typeLabel = document.getElementById("type");
                         const typeName = getName("type", typeId)
                         typeLabel.textContent = "種別:" + typeName
-                        render();
+                        frame = 0;
+                        startRenderLoop();
                     });
 
                     container.appendChild(btn);
@@ -109,7 +110,8 @@ function createTypeButtons() {
                     const typeLabel = document.getElementById("type");
                     const typeName = getName("type", typeId)
                     typeLabel.textContent = "種別:" + typeName
-                    render();
+                    frame = 0;
+                    startRenderLoop();
                 });
 
             groupContainer.appendChild(btn);
@@ -144,7 +146,8 @@ function createTypeButtons() {
                 const typeLabel = document.getElementById("type");
                 const typeName = getName("type", typeId)
                 typeLabel.textContent = "種別:" + typeName
-                render();
+                frame = 0;
+                startRenderLoop();
             });
 
             container.appendChild(btn);
@@ -176,7 +179,8 @@ function createCarNumberButtons() {
         carNumberId = null;
         const carNumberLabel = document.getElementById("carNumber");
         carNumberLabel.textContent = "号車:なし"
-        render();
+        frame = 0;
+        startRenderLoop();
     });
 
     container.appendChild(normalBtn);
@@ -208,7 +212,8 @@ function createCarNumberButtons() {
                         const carNumberLabel = document.getElementById("carNumber");
                         const carNumberName = getName("carNumber", carNumberId)
                         carNumberLabel.textContent = "号車:" + carNumberName
-                        render();
+                        frame = 0;
+                        startRenderLoop();
                     });
 
                     container.appendChild(btn);
@@ -259,7 +264,8 @@ function createCarNumberButtons() {
                     const carNumberLabel = document.getElementById("carNumber");
                     const carNumberName = getName("carNumber", carNumberId)
                     carNumberLabel.textContent = "号車:" + carNumberName
-                    render();
+                    frame = 0;
+                    startRenderLoop();
                 });
 
             groupContainer.appendChild(btn);
@@ -290,7 +296,8 @@ function createCarNumberButtons() {
                 const carNumberLabel = document.getElementById("carNumber");
                 const carNumberName = getName("carNumber", carNumberId)
                 carNumberLabel.textContent = "号車:" + carNumberName
-                render();
+                frame = 0;
+                startRenderLoop();
             });
 
             container.appendChild(btn);
@@ -322,7 +329,8 @@ function createDestinationButtons() {
         destinationId = null;
         const destinationLabel = document.getElementById("destination");
         destinationLabel.textContent = "行先:なし"
-        render();
+        frame = 0;
+        startRenderLoop();
     });
 
     container.appendChild(normalBtn);
@@ -356,7 +364,8 @@ function createDestinationButtons() {
                         const destinationLabel = document.getElementById("destination");
                         const destinationName = getName("destination", destinationId)
                         destinationLabel.textContent = "行先:" + destinationName
-                        render();
+                        frame = 0;
+                        startRenderLoop();
                     });
 
                     container.appendChild(btn);
@@ -413,7 +422,8 @@ function createDestinationButtons() {
                     const destinationLabel = document.getElementById("destination");
                     const destinationName = getName("destination", destinationId)
                     destinationLabel.textContent = "行先:" + destinationName
-                    render();
+                    frame = 0;
+                    startRenderLoop();
                 });
 
             groupContainer.appendChild(btn);
@@ -445,13 +455,14 @@ function createDestinationButtons() {
                 btn.style.fontSize = "10px";
             }
 
-            btn.addEventListener ("click", () => {
+            btn.addEventListener ("click", () => { 
                 setSelected(container, btn);
                 destinationId = dest.id;
                 const destinationLabel = document.getElementById("destination");
                 const destinationName = getName("destination", destinationId)
                 destinationLabel.textContent = "行先:" + destinationName
-                render();
+                frame = 0;
+                startRenderLoop();
             });
 
             container.appendChild(btn);
@@ -481,12 +492,12 @@ function createNextModeButtons() {
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         displayMode = "normal";
-        scene = 0;
         langIndex = 0;
         nextId = null;
         const nextModeLabel = document.getElementById("nextMode");
         nextModeLabel.textContent = "次駅:なし"
-        render();
+        frame = 0;
+        startRenderLoop();
     });
 
     container.appendChild(normalBtn);
@@ -516,7 +527,8 @@ function createNextModeButtons() {
                         const nextModeLabel = document.getElementById("nextMode");
                         const nextModeName = getName("next", nextId)
                         nextModeLabel.textContent = "次駅:" + nextModeName
-                        render();
+                        frame = 0;
+                        startRenderLoop();
                     });
 
                     container.appendChild(btn);
@@ -566,13 +578,13 @@ function createNextModeButtons() {
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     displayMode = "next";
-                    scene = 0;
                     langIndex = 0;
                     nextId = item.id;
                     const nextModeLabel = document.getElementById("nextMode");
                     const nextModeName = getName("next", nextId)
                     nextModeLabel.textContent = "次駅:" + nextModeName
-                    render();
+                    frame = 0;
+                    startRenderLoop();
                 });
 
             groupContainer.appendChild(btn);
@@ -602,13 +614,13 @@ function createNextModeButtons() {
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
                 displayMode = "next";
-                scene = 0;
                 langIndex = 0;
                 nextId = item.id;
                 const nextModeLabel = document.getElementById("nextMode");
                 const nextModeName = getName("next", nextId)
                 nextModeLabel.textContent = "次駅:" + nextModeName
-                render();
+                frame = 0;
+                startRenderLoop();
             });
 
             container.appendChild(btn);
@@ -640,7 +652,8 @@ function createInformationButtons() {
         informationId = null;
         const informationLabel = document.getElementById("information");
         informationLabel.textContent = "案内:なし"
-        render();
+        frame = 0;
+        startRenderLoop();
     });
 
     container.appendChild(normalBtn);
@@ -674,7 +687,8 @@ function createInformationButtons() {
                         const informationLabel = document.getElementById("information");
                         const informationName = getName("information", informationId)
                         informationLabel.textContent = "案内:" + informationName
-                        render();
+                        frame = 0;
+                        startRenderLoop();
                     });
 
                     container.appendChild(btn);
@@ -731,7 +745,8 @@ function createInformationButtons() {
                     const informationLabel = document.getElementById("information");
                     const informationName = getName("information", informationId)
                     informationLabel.textContent = "案内:" + informationName
-                    render();
+                    frame = 0;
+                    startRenderLoop();
                 });
 
             groupContainer.appendChild(btn);
@@ -762,13 +777,14 @@ function createInformationButtons() {
                 btn.style.fontSize = "10px";
             }
 
-            btn.addEventListener ("click", () => {
+            btn.addEventListener ("click", () => { 
                 setSelected(container, btn);
                 informationId = info.id;
                 const informationLabel = document.getElementById("information");
                 const informationName = getName("information", informationId)
                 informationLabel.textContent = "案内:" + informationName
-                render();
+                frame = 0;
+                startRenderLoop();
             });
 
             container.appendChild(btn);
@@ -800,7 +816,8 @@ function createInformation2Buttons() {
         information2Id = null;
         const information2Label = document.getElementById("information2");
         information2Label.textContent = "案内2:なし"
-        render();
+        frame = 0;
+        startRenderLoop();
     });
 
     container.appendChild(normalBtn);
@@ -834,7 +851,8 @@ function createInformation2Buttons() {
                         const information2Label = document.getElementById("information2");
                         const information2Name = getName("information2", information2Id)
                         information2Label.textContent = "案内2:" + information2Name
-                        render();
+                        frame = 0;
+                        startRenderLoop();
                     });
 
                     container.appendChild(btn);
@@ -891,7 +909,8 @@ function createInformation2Buttons() {
                     const information2Label = document.getElementById("information2");
                     const information2Name = getName("information2", information2Id)
                     information2Label.textContent = "案内2:" + information2Name
-                    render();
+                    frame = 0;
+                    startRenderLoop();
                 });
 
             groupContainer.appendChild(btn);
@@ -929,7 +948,8 @@ function createInformation2Buttons() {
                 const information2Label = document.getElementById("information2");
                 const information2Name = getName("information2", information2Id)
                 information2Label.textContent = "案内2:" + information2Name
-                render();
+                frame = 0;
+                startRenderLoop();
             });
 
             container.appendChild(btn);

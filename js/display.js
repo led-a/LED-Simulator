@@ -34,6 +34,10 @@ function drawCarNumber(carNumber, matrix) {
 function drawType(type, matrix) {
     let usedNormal = true;
     let carNumberWidth;
+    let typeLang = lang;
+    if (typeMode === "information") {
+        typeLang = "information";
+    }
 
     const view = isTypeFullScreen(type)
         ? "full"
@@ -43,22 +47,24 @@ function drawType(type, matrix) {
     
     if (config.languageSwitching) {
         data =
-            type.view?.[view]?.[lang]
+            type.view?.[view]?.[typeLang]
             ?? type.view?.[view]?.ja
-            ?? type.view?.normal?.[lang]
+            ?? type.view?.normal?.[typeLang]
             ?? type.view?.normal?.ja;
     } else {
         if (nextId != null) {
             data =
-                type.view?.[view]?.[lang]
+                type.view?.[view]?.[typeLang]
                 ?? type.view?.[view]?.ja
-                ?? type.view?.normal?.[lang]
+                ?? type.view?.normal?.[typeLang]
                 ?? type.view?.normal?.ja;
         } else {
             data =
                 type.view?.[view]?.ja_en
+                ?? type.view?.[view]?.[typeLang]
                 ?? type.view?.[view]?.ja
                 ?? type.view?.normal?.ja_en
+                ?? type.view?.normal?.[typeLang]
                 ?? type.view?.normal?.ja
         }
     }
@@ -412,7 +418,6 @@ function getDestinationWidth(type, dest, used) {
     if (typeView === "full") {
         destData = 0
     }
-    console.log(typeData, destData)
 
     return (
         typeData + destData
@@ -606,4 +611,11 @@ function hasEnglishCarNumber() {
     if (!carNumber) return;
     return !!carNumber.view?.normal?.en
         || !!carNumber.view?.full?.en;
+}
+
+function hasTypeInformation() {
+    const type = getItem("type", typeId);
+    if (!type) return;
+    return !!type.view?.normal?.information
+        || !!type.view?.full?.information;
 }

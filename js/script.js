@@ -88,28 +88,33 @@ function setupVehicleUI() {
 
 let renderTimer = null;
 
-function startRenderLoop() {
+function nextScene() {
 
-    if (renderTimer !== null) {
-        clearInterval(renderTimer);
-    }
-    
-    renderTimer = setInterval(() => {
+    buildSceneList();
+    buildTypeSceneList();
 
-        updateScene();
+    scene = frame % sceneList.length;
+    typeScene = frame % typeSceneList.length;
 
-        scene++;
+    applyScene();
+    applyTypeScene();
 
-        if (scene >= sceneList.length) {
-            scene = 0;
-        }
+    render();
 
-        render();
+    frame++;
 
-    },config.sceneInterval);
+    renderTimer = setTimeout(nextScene, config.sceneInterval);
 }
 
-function updateScene() {
+function startRenderLoop() {
+    if (renderTimer !== null) {
+        clearTimeout(renderTimer);
+    }
+
+    nextScene();
+}
+
+function buildSceneList() {
 
     sceneList = [];
 
@@ -314,14 +319,31 @@ function updateScene() {
             });
         }
     }
-    // scene番号がはみ出したら戻す
-    if (scene >= sceneList.length) {
-        scene = 0;
-    }
 
+}
+
+function applyScene() {
     lang = sceneList[scene].lang;
     informationMode = sceneList[scene].information;
     showNext = sceneList[scene].next;
+}
+
+let typeTimer = null;
+
+function buildTypeSceneList() {
+    typeSceneList = [];
+    typeSceneList.push({
+        typeInfo: null
+    });
+    if (hasTypeInformation()) {
+        typeSceneList.push({
+            typeInfo: "information"
+        });
+    }
+}
+
+function applyTypeScene() {
+    typeMode = typeSceneList[typeScene].typeInfo;
 }
 
 function initSimulator() {
@@ -329,6 +351,11 @@ function initSimulator() {
     if (renderTimer !== null) {
         clearInterval(renderTimer);
         renderTimer = null;
+    }
+
+    if (typeTimer !== null) {
+        clearInterval(typeTimer);
+        typeTimer = null;
     }
 
     clearMatrix();

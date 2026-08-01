@@ -9,10 +9,14 @@ let carNumberId = null;
 
 let displayMode = "normal";
 let informationMode = "destination";
+let typeMode = null;
 let lang = "ja";
 let showNext = false;
 let scene = 0;
 let sceneList = [];
+let typeScene = 0;
+let typeSceneList = [];
+let frame = 0;
 
 let ledsize = 6;
 let ledgap = 1;
