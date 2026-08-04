@@ -21,7 +21,7 @@ function resizeLed() {
     if (!config) return;
     const main = document.querySelector("main");
 
-    const maxWidth = main.clientWidth - 80;
+    const maxWidth = main.clientWidth - 40;
     const canvasWidth = sizeLed.width;
     const scale = Math.min(1, maxWidth / canvasWidth);
 
