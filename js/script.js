@@ -371,10 +371,25 @@ function initSimulator() {
     document.getElementById("informationButtons").innerHTML = "";
     document.getElementById("information2Buttons").innerHTML = "";
     document.getElementById("nextModeButtons").innerHTML = "";
+    document.getElementById("carNumberButtons").innerHTML = "";
+    const typeLabel = document.getElementById("type");
+    typeLabel.textContent = "種別:なし"
+    const destinationLabel = document.getElementById("destination");
+    destinationLabel.textContent = "行先:なし"
+    const informationLabel = document.getElementById("information");
+    informationLabel.textContent = "案内:なし"
+    const information2Label = document.getElementById("information2");
+    information2Label.textContent = "案内2:なし"
+    const nextLabel = document.getElementById("nextMode");
+    nextLabel.textContent = "次駅:なし"
+    const carNumberLabel = document.getElementById("carNumber");
+    carNumberLabel.textContent = "号車:なし"
 
     typeId = null;
     destinationId = null;
     informationId = null;
+    information2Id = null;
+    carNumberId = null;
     nextId = null;
     sceneList = [];
     lang = "ja";
@@ -443,4 +458,14 @@ document.addEventListener("mousemove", (e) => {
 
 document.addEventListener("mouseup", () => {
     dragging = false;
+});
+
+document.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("touchstart", () => {
+        btn.classList.add("tap");
+    });
+
+    btn.addEventListener("touchend", () => {
+        btn.classList.remove("tap");
+    });
 });
