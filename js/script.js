@@ -6,6 +6,10 @@ async function startVehicle() {
     ledgap = config.ledGap;
     pitch = ledsize + ledgap;
     radius = ledsize / 2;
+    sizeLed.width = config.ledWidth * pitch;
+    sizeLed.height = config.ledHeight * pitch;
+    cacheCanvas.width = sizeLed.width;
+    cacheCanvas.height = sizeLed.height;
 
     resizeLed();
 
@@ -14,18 +18,15 @@ async function startVehicle() {
     startRenderLoop();
 }
 function resizeLed() {
-    const led = document.getElementById("led");
+    if (!config) return;
     const main = document.querySelector("main");
 
-    led.width = config.ledWidth * pitch;
-    led.height = config.ledHeight * pitch;
-
     const maxWidth = main.clientWidth - 80;
-    const canvasWidth = led.width;
+    const canvasWidth = sizeLed.width;
     const scale = Math.min(1, maxWidth / canvasWidth);
 
-    led.style.width = led.width * scale + "px";
-    led.style.height = led.height * scale + "px";
+    sizeLed.style.width = sizeLed.width * scale + "px";
+    sizeLed.style.height = sizeLed.height * scale + "px";
 }
 async function loadConfig() {
     const response = await fetch(selectedVehicle.config);
@@ -385,7 +386,26 @@ function initSimulator() {
     languageSwitching = null;
 }
 
-window.addEventListener("resize", resizeLed);
+window.addEventListener("resize", () => {
+    requestResizeRender();
+});
+
+let resizeRequest = null;
+
+function requestResizeRender() {
+    if (resizeRequest) return;
+
+    resizeRequest = requestAnimationFrame(() => {
+        resizeLed();
+        const now = performance.now();
+        if (now - lastRender > 16) {
+            ctx.clearRect(0,0,sizeLed.width,sizeLed.height);
+            ctx.drawImage(cacheCanvas,0,0);
+            lastRender = now;
+        }
+        resizeRequest = null;
+    });
+}
 
 const sidebar = document.getElementById("sidebar");
 const resizer = document.getElementById("resizer");
@@ -398,13 +418,9 @@ resizer.addEventListener("mousedown", (e) => {
     dragging = true;
     startX = e.clientX;
     startWidth = sidebar.offsetWidth;
-    console.log(
-        "mousedown",
-        e.clientX,
-        resizer.getBoundingClientRect().left,
-        resizer.getBoundingClientRect().right
-    );
 });
+
+let lastRender = 0;
 
 document.addEventListener("mousemove", (e) => {
     if (!dragging) return;
@@ -417,6 +433,12 @@ document.addEventListener("mousemove", (e) => {
     sidebar.style.width = width + "px";
 
     resizeLed();
+    const now = performance.now();
+    if (now - lastRender > 16) {
+        ctx.clearRect(0,0,sizeLed.width,sizeLed.height);
+        ctx.drawImage(cacheCanvas,0,0);
+        lastRender = now;
+    }
 });
 
 document.addEventListener("mouseup", () => {

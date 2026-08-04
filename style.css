@@ -58,25 +58,27 @@ button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    background: #333;
-    color: white;
+    background: whitesmoke;
+    color: black;
     border: none;
-    border-radius: 6px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-    transition: 0.1s;
+    border-radius: 8px;
+    box-shadow: -3px 3px 8px rgba(0,0,0,0.25);
     cursor: pointer;
+    font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
+    letter-spacing: -0.03em;
+    font-size: 16px;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 button:hover {
-    background: #555;
+    box-shadow: -4px 4px 10px rgba(0,0,0,0.3);
 }
 
 button:active {
-    transform: scale(0.97);
-}
-
-.selected {
-    animation: selectFlash 0.15s ease-in-out;
+    transform: translate(-2px, 2px);
+    box-shadow: -1px 1px 2px rgba(0,0,0,0.15);
 }
 
 @keyframes selectFlash {
@@ -111,24 +113,26 @@ button:active {
 }
 
 .groupHeader {
-    font-weight: bold;
-    background: #e5e5e5;
-    border: 1px solid #b0b0b0;
-    border-radius: 4px;
-    padding: 6px 10px;
+    padding: 11.5px;
     margin-top: 8px;
     margin-bottom: 4px;
+    font-weight: bold;
+    background: rgb(227, 225, 225);
+    color: black;
+    border-radius: 4px;
     cursor: pointer;
     user-select: none;
-    font-family: Arial, "Noto Sans JP", sans-serif;
+    font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
+    font-size: 18px;
+    transition: 0.05s;
 }
 
 .groupHeader:hover {
-    background: #d8d8d8;
+    background: #e9e8e8;
 }
 
 .groupHeader:active {
-    transform: scale(0.98);
+    transform: scale(0.96);
 }
 
 .groupedButtons {

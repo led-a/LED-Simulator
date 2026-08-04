@@ -98,7 +98,10 @@ function render() {
             }
         }
     }
-    drawMatrix(matrix);
+    drawMatrix(matrix, cacheCtx);
+
+    ctx.clearRect(0,0,sizeLed.width,sizeLed.height);
+    ctx.drawImage(cacheCanvas,0,0);
 }
 
 function createEmptyMatrix() {
@@ -111,17 +114,17 @@ function createEmptyMatrix() {
     );
 }
 
-function drawMatrix(matrix) {
+function drawMatrix(matrix, targetCtx = ctx) {
 
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, led.width, led.height);
+    targetCtx.fillStyle = "black";
+    targetCtx.fillRect(0, 0, sizeLed.width, sizeLed.height);
 
-    for (let y = 0; y < led.height; y++) {
-        for (let x = 0; x < led.width; x++) {
+    for (let y = 0; y < sizeLed.height; y++) {
+        for (let x = 0; x < sizeLed.width; x++) {
 
             const p = matrix[y][x];
 
-            drawLED(x, y, {
+            drawLED(targetCtx, x, y, {
                 r: p?.r ?? 0,
                 g: p?.g ?? 0,
                 b: p?.b ?? 0
@@ -130,19 +133,19 @@ function drawMatrix(matrix) {
     }
 }
 
-function drawLED(x, y, color) {
+function drawLED(targetCtx, x, y, color) {
 
-    ctx.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
+    targetCtx.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
 
-    ctx.beginPath();
-    ctx.arc(
+    targetCtx.beginPath();
+    targetCtx.arc(
         x * pitch + radius,
         y * pitch + radius,
         radius,
         0,
         Math.PI * 2
     );
-    ctx.fill();
+    targetCtx.fill();
 }
 
 function drawImage(displayData, startX, startY, matrix) {

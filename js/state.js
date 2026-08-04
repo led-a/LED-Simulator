@@ -22,6 +22,7 @@ let ledsize = 6;
 let ledgap = 1;
 let pitch = ledsize + ledgap;
 let radius = ledsize / 2;
+let sizeLed = document.getElementById("led");
 
 let langIndex = 0;
 const langs = ["ja", "en"];
