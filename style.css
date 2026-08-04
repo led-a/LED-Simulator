@@ -11,11 +11,24 @@ body {
 }
 
 aside {
-    width: 240px;
+    width: 20%;
+    min-width: 180px;
+    max-width: 600px;
     flex-shrink: 0;
     background: #f4f4f4;
     padding: 12px;
+    box-sizing: border-box;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+#resizer {
+    width: 6px;
+    cursor: col-resize;
+    background: #666;
+}
+
+#resizer:hover {
+    background: #999;
 }
 
 main {

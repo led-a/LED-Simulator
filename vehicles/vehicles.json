@@ -1,0 +1,23 @@
+[
+    {
+        "id": "E131-200",
+        "name": "E131系200番台",
+        "config": "vehicles/E131-200/config.json",
+        "led": "vehicles/E131-200/led.json",
+        "preview": "vehicles/E131-200/preview.png"
+    },
+    {
+        "id": "225・227",
+        "name": "225系・227系等",
+        "config": "vehicles/225・227/config.json",
+        "led": "vehicles/225・227/led.json",
+        "preview": "vehicles/225・227/preview.png"
+    },
+    {
+        "id": "315",
+        "name": "315系",
+        "config": "vehicles/315/config.json",
+        "led": "vehicles/315/led.json",
+        "preview": "vehicles/315/preview.png"
+    }
+]
