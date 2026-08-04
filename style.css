@@ -67,6 +67,7 @@ button {
     font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
     letter-spacing: -0.03em;
     font-size: 16px;
+    touch-action: manipulation;
     transition:
         transform 0.15s ease,
         box-shadow 0.15s ease;
