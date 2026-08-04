@@ -71,6 +71,7 @@ button {
     transition:
         transform 0.15s ease,
         box-shadow 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
 button:hover {
