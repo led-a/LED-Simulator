@@ -16,7 +16,20 @@ function createVehicleButtons() {
 
     vehicles.forEach(vehicle => {
         const btn = document.createElement("button");
-        btn.textContent = vehicle.name;
+        const iconContainer = document.createElement("div");
+        iconContainer.className = "vehicleIcons";
+
+        vehicle.icons.forEach(icon => {
+            const img = document.createElement("img");
+            img.src = icon;
+            img.className = "vehicleIcon";
+            iconContainer.appendChild(img);
+        });
+
+        const span = document.createElement("span");
+        span.textContent = vehicle.name;
+
+        btn.append(iconContainer, span);
 
         btn.addEventListener("click", async () => {
 

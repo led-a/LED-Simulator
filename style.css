@@ -56,6 +56,10 @@ main {
 
 button {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     padding: 10px;
     margin-top: 10px;
     background: whitesmoke;
@@ -67,10 +71,11 @@ button {
     font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
     letter-spacing: -0.03em;
     font-size: 16px;
+    font-weight: 100;
     touch-action: manipulation;
     transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -96,8 +101,25 @@ button.tap {
 
 #vehicleSelect {
     display:grid;
-    grid-template-columns: repeat(6,1fr);
-    gap:8px;
+    grid-template-columns: repeat(4,1fr);
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.vehicleIcons {
+    display: flex;
+    gap: 4px;
+}
+
+.vehicleIcon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.vehicleName {
+    white-space: nowrap;
 }
 
 .buttonGroup {
@@ -116,7 +138,6 @@ button.tap {
 .buttonGroup button.selected {
     background: #0078d7;
     color: white;
-    font-weight: 700;
 }
 
 .groupHeader {
