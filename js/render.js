@@ -105,8 +105,8 @@ function render() {
 }
 
 function createEmptyMatrix() {
-    return Array.from({ length: led.height }, () =>
-        Array.from({ length: led.width }, () => ({
+    return Array.from({ length: config.ledHeight }, () =>
+        Array.from({ length: config.ledWidth }, () => ({
             r: 0,
             g: 0,
             b: 0
@@ -119,8 +119,8 @@ function drawMatrix(matrix, targetCtx = ctx) {
     targetCtx.fillStyle = "black";
     targetCtx.fillRect(0, 0, sizeLed.width, sizeLed.height);
 
-    for (let y = 0; y < sizeLed.height; y++) {
-        for (let x = 0; x < sizeLed.width; x++) {
+    for (let y = 0; y < config.ledHeight; y++) {
+        for (let x = 0; x < config.ledWidth; x++) {
 
             const p = matrix[y][x];
 
@@ -134,7 +134,6 @@ function drawMatrix(matrix, targetCtx = ctx) {
 }
 
 function drawLED(targetCtx, x, y, color) {
-
     targetCtx.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
 
     targetCtx.beginPath();

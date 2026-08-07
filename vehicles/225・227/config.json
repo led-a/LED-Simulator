@@ -28,8 +28,8 @@
     "informationLanguageSwitching": true,
     "ledWidth": 160,
     "ledHeight": 32,
-    "pixelSize": 6,
-    "ledSize": 3.8,
+    "pixelSize": 7,
+    "ledSize": 4.8,
     "ledGap": 2.2,
 
     "enAhead": false,

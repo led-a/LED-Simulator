@@ -5,7 +5,6 @@ let config = null;
 async function loadVehicles() {
     const response = await fetch("vehicles/vehicles.json");
     vehicles = await response.json();
-
 }
 
 function createVehicleButtons() {

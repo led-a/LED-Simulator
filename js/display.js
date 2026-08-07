@@ -364,15 +364,17 @@ function getDestinationWidth(type, dest, used) {
 
     const typeLang = getLangForPart();
 
+    let data;
+
     if (config.hasCarNumber) {
         if (config.carNumber === "left") {
             if(type != null) {
-                let data =
+                data =
                     type.view?.[typeView]?.[typeLang]?.width
                     ?? type.view?.[typeView]?.ja?.width
                     ?? 0
             } else {
-                let data = typeData
+                data = typeData
             }
             const carNumber = getItem("carNumber", carNumberId)
             typeData =
