@@ -26,6 +26,7 @@ function render() {
     // 行先 / 次駅
     const fullType = isTypeFullScreen(type);
     const fullDestination = isDestinationFullScreen(dest);
+    const fullInformation = isInformationFullScreen(info);
     if (!fullType) {
         if(showNext){
             if(informationMode === "destination"){

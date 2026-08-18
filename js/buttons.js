@@ -100,7 +100,7 @@ function createTypeButtons() {
 
                 btn.textContent = label;
 
-                if (label.length > 8) {
+                if (label.length > 6) {
                     btn.style.fontSize = "10px";
                 }
 
@@ -136,7 +136,7 @@ function createTypeButtons() {
                 "no-name";
             btn.textContent = label;
 
-            if (label.length > 8) {
+            if (label.length > 6) {
                 btn.style.fontSize = "10px";
             }
 
@@ -412,7 +412,7 @@ function createDestinationButtons() {
 
                 btn.textContent = label;
 
-                if (label.length > 8) {
+                if (label.length > 6) {
                     btn.style.fontSize = "10px";
                 }
 
@@ -451,7 +451,7 @@ function createDestinationButtons() {
                 "no-name";
             btn.textContent = label;
 
-            if (label.length > 8) {
+            if (label.length > 6) {
                 btn.style.fontSize = "10px";
             }
 
@@ -571,7 +571,7 @@ function createNextModeButtons() {
 
                 btn.textContent = label;
 
-                if (label.length > 8) {
+                if (label.length > 6) {
                     btn.style.fontSize = "10px";
                 }
 
@@ -607,7 +607,7 @@ function createNextModeButtons() {
                 "no-name";
             btn.textContent = label;
 
-            if (label.length > 8) {
+            if (label.length > 6) {
                 btn.style.fontSize = "10px";
             }
 
@@ -735,7 +735,7 @@ function createInformationButtons() {
 
                 btn.textContent = label;
 
-                if (label.length > 8) {
+                if (label.length > 6) {
                     btn.style.fontSize = "10px";
                 }
 
@@ -773,7 +773,7 @@ function createInformationButtons() {
                 "no-name";
                 btn.textContent = label;
 
-            if (label.length > 8) {
+            if (label.length > 6) {
                 btn.style.fontSize = "10px";
             }
 
@@ -897,7 +897,7 @@ function createInformation2Buttons() {
                     info.name ??
                     "no-name";
 
-                if (label.length > 8) {
+                if (label.length > 6) {
                     btn.style.fontSize = "10px";
                 }
 
@@ -938,7 +938,7 @@ function createInformation2Buttons() {
                 
             btn.textContent = label;
 
-            if (label.length > 8) {
+            if (label.length > 6) {
                 btn.style.fontSize = "10px";
             }
 

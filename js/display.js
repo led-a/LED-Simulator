@@ -187,7 +187,11 @@ function drawInformation(info, matrix) {
     let yOffset;
     const nextPosition = config.nextPosition;
     if (config.informationPosition === "next") {
-        yOffset = nextPosition;
+        if (!isInformationFullScreen) {
+            yOffset = nextPosition;
+        } else {
+            yOffset = 0;
+        }
     } else {
         yOffset = 0;
     }
@@ -529,7 +533,9 @@ function isInformationFullScreen(info) {
     }
 
     if(typeId===null){
-        return true;
+        if(hasFull) {
+            return true;
+        }
     }
 
     return false;

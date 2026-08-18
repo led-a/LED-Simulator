@@ -100,16 +100,20 @@ button.tap {
 }
 
 #vehicleSelect {
-    display:grid;
-    grid-template-columns: repeat(4,1fr);
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    justify-content: center;
+}
+
+#vehicleSelect button {
+    display: flex;
+    align-items: center;
 }
 
 .vehicleIcons {
     display: flex;
     gap: 4px;
+    flex-shrink: 0;
 }
 
 .vehicleIcon {
@@ -119,6 +123,7 @@ button.tap {
 }
 
 .vehicleName {
+    margin-left: 8px;
     white-space: nowrap;
 }
 
@@ -240,5 +245,12 @@ button.tap {
         display:grid;
         grid-template-columns: repeat(1,1fr);
         gap:8px;
+    }
+
+    #vehicleSelect button {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: left;
     }
 }
