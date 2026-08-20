@@ -983,3 +983,41 @@ function getName(items, itemId) {
         ""
     );
 }
+
+const observer = new MutationObserver(mutations => {
+    for (const mutation of mutations) {
+        if (mutation.attributeName === "hidden") {
+            const element = mutation.target;
+
+            if (!element.hidden) {
+                resizeButtonText();
+                break;
+            }
+        }
+    }
+});
+
+observer.observe(document.body, {
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["hidden"]
+});
+
+function resizeButtonText() {
+    const buttons = document.querySelectorAll("button");
+
+    buttons.forEach(button => {
+        if (button.getBoundingClientRect().width === 0) return;
+        const text = button.textContent.trim();
+
+        const buttonWidth = button.getBoundingClientRect().width;
+        const maxTextLength = Math.floor((buttonWidth - 12) / 12);
+
+        if (text.length >= maxTextLength) {
+            const fontSize = 16 * maxTextLength / text.length;
+            button.style.fontSize = Math.max(10, fontSize) + "px";
+        } else {
+            button.style.fontSize = "16px";
+        }
+    });
+}

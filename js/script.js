@@ -88,6 +88,7 @@ function setupVehicleUI() {
     }
 
     setVehicleSelectButton();
+    resizeButtonText();
 
 }
 
@@ -443,11 +444,12 @@ document.addEventListener("mousemove", (e) => {
     const dx = e.clientX - startX;
     let width = startWidth + dx;
 
-    width = Math.max(180, Math.min(width, 600));
+    width = Math.max(260, Math.min(width, 1700));
 
     sidebar.style.width = width + "px";
 
     resizeLed();
+    resizeButtonText();
     const now = performance.now();
     if (now - lastRender > 16) {
         ctx.clearRect(0,0,sizeLed.width,sizeLed.height);

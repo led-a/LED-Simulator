@@ -187,7 +187,8 @@ function drawInformation(info, matrix) {
     let yOffset;
     const nextPosition = config.nextPosition;
     if (config.informationPosition === "next") {
-        if (!isInformationFullScreen) {
+        const info = getItem("information", informationId);
+        if (!isInformationFullScreen(info)) {
             yOffset = nextPosition;
         } else {
             yOffset = 0;
