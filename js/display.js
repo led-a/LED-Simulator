@@ -22,11 +22,15 @@ function drawCarNumber(carNumber, matrix) {
 
     if (config.hasCarNumberFull) {
         destinationWidth = 0;
-    } else {
+    }
+    if (config.hasCarNumberSmall) {
         destinationWidth =
             config.carNumber === "right"
                 ? getDestinationWidth(type, dest, usedNormal)
                 : 0;
+    }
+    if (config.hasCarNumberNormal) {
+        destinationWidth = getTypeWidth(type, usedNormal);
     }
     drawImage(data, destinationWidth, 0, matrix);
 }

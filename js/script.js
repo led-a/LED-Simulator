@@ -123,6 +123,7 @@ function startRenderLoop() {
 function buildSceneList() {
 
     sceneList = [];
+    const type = getItem("type", typeId);
 
     if(nextId != null) {
         sceneList.push({
@@ -280,33 +281,67 @@ function buildSceneList() {
         }
     }
 
-    if (config.hasCarNumberFull) {
-        if (nextId != null) {
-            sceneList.push({
-                lang: "ja",
-                information: "carNumber",
-                next: true
-            });
-        } else {
-            sceneList.push({
-                lang: "ja",
-                information: "carNumber",
-                next: false
-            });
-        }
-        if (hasEnglishCarNumber()) {
+    if (carNumberId != null) {
+        if (config.hasCarNumberFull) {
             if (nextId != null) {
                 sceneList.push({
-                    lang: "en",
+                    lang: "ja",
                     information: "carNumber",
                     next: true
                 });
             } else {
                 sceneList.push({
-                    lang: "en",
+                    lang: "ja",
                     information: "carNumber",
                     next: false
                 });
+            }
+            if (hasEnglishCarNumber()) {
+                if (nextId != null) {
+                    sceneList.push({
+                        lang: "en",
+                        information: "carNumber",
+                        next: true
+                    });
+                } else {
+                    sceneList.push({
+                        lang: "en",
+                        information: "carNumber",
+                        next: false
+                    });
+                }
+            }
+        }
+        if (!isTypeFullScreen(type)) {
+            if (config.hasCarNumberNormal) {
+                if (nextId != null) {
+                    sceneList.push({
+                        lang: "ja",
+                        information: "destination_carNumber",
+                        next: true
+                    });
+                } else {
+                    sceneList.push({
+                        lang: "ja",
+                        information: "destination_carNumber",
+                        next: false
+                    });
+                }
+                if (hasEnglishCarNumber()) {
+                    if (nextId != null) {
+                        sceneList.push({
+                            lang: "en",
+                            information: "destination_carNumber",
+                            next: true
+                        });
+                    } else {
+                        sceneList.push({
+                            lang: "en",
+                            information: "destination_carNumber",
+                            next: false
+                        });
+                    }
+                }
             }
         }
     }

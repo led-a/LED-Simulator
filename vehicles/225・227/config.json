@@ -9,6 +9,7 @@
     "hasCarNumber": true,
     "hasCarNumberFull": false,
     "hasCarNumberSmall": true,
+    "hasCarNumberNormal": false,
     "carNumber": "right",
     "informationPosition": "next",
 

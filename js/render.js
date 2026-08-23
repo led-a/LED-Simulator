@@ -58,6 +58,11 @@ function render() {
                     drawInformation(info, matrix);
                 }
             }
+            if(informationMode === "destination_carNumber") {
+                if (carNumberId != null) {
+                    drawCarNumber(carNumber, matrix);
+                }
+            }
             if(next){
                 if(informationMode === "destination"){
                     drawNext(next,matrix)      
@@ -95,6 +100,11 @@ function render() {
             if(informationMode === "carNumber") {
                 if (carNumberId != null) {
                     drawCarNumber(carNumber,matrix);
+                }
+            }
+            if(informationMode === "destination_carNumber") {
+                if (carNumberId != null) {
+                    drawCarNumber(carNumber, matrix);
                 }
             }
         }

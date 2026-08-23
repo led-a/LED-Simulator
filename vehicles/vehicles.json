@@ -36,5 +36,14 @@
             "vehicles/315/icons/icon1.png",
             "vehicles/315/icons/icon2.png"
         ]
+    },
+    {
+        "id": "2020",
+        "name": "2020系",
+        "config": "vehicles/2020/config.json",
+        "led": "vehicles/2020/led.json",
+        "icons": [
+            "vehicles/2020/icons/icon1.png"
+        ]
     }
 ]
