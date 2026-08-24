@@ -45,6 +45,11 @@ function render() {
                     }
                 }
             }
+            if(informationMode === "information2") {
+                if (information2Id != null) {
+                    drawInformation2(info2,matrix);
+                }
+            }
             if(informationMode === "carNumber") {
                 if (carNumberId != null) {
                     drawCarNumber(carNumber, matrix);

@@ -34,6 +34,7 @@
     "ledGap": 2.5,
 
     "enAhead": false,
+    "informationAhead": false,
 
     "next_normal": true,
     "nextPosition": 16

@@ -124,6 +124,18 @@ function buildSceneList() {
 
     sceneList = [];
     const type = getItem("type", typeId);
+    
+    if (informationId != null) {
+        if (config.informationPosition === "next") {
+            if (config.informationAhead) {
+                sceneList.push({
+                    lang: "ja",
+                    information: "information_next",
+                    next: false
+                });
+            }
+        }
+    }
 
     if(nextId != null) {
         sceneList.push({
@@ -132,12 +144,35 @@ function buildSceneList() {
             next: true,
         });
     } else {
-        sceneList.push({
-            lang: "ja",
-            information: "destination",
-            next: false,
-        });
+        if (!config.informationAhead) {
+            sceneList.push({
+                lang: "ja",
+                information: "destination",
+                next: false,
+            });
+        } else {
+            if (informationId === null) {
+                sceneList.push({
+                    lang: "ja",
+                    information: "destination",
+                    next: false,
+                });
+            }
+        }
     }
+
+    if (informationId != null) {
+        if (config.informationAhead) {
+            if (hasEnglishInformation()) {
+                sceneList.push({
+                    lang: "en",
+                    information: "information_next",
+                    next: false
+                });
+            }
+        }
+    }
+
     if (config.languageSwitching) {
         if (hasEnglishType()) {
             if (nextId != null) {
@@ -248,18 +283,20 @@ function buildSceneList() {
             }
         }
         if (config.informationPosition === "next") {
-            sceneList.push({
-                lang: "ja",
-                information: "information_next",
-                next: false
-            });
-            if (config.informationLanguageSwitching) {
-                if (hasEnglishInformation()) {
-                    sceneList.push({
-                        lang: "en",
-                        information: "information_next",
-                        next: false
-                    });
+            if (!config.informationAhead) {
+                sceneList.push({
+                    lang: "ja",
+                    information: "information_next",
+                    next: false
+                });
+                if (config.informationLanguageSwitching) {
+                    if (hasEnglishInformation()) {
+                        sceneList.push({
+                            lang: "en",
+                            information: "information_next",
+                            next: false
+                        });
+                    }
                 }
             }
         }

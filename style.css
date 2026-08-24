@@ -111,7 +111,8 @@ button.tap {
 }
 
 .vehicleIcons {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
     gap: 4px;
     flex-shrink: 0;
 }

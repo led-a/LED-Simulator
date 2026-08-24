@@ -809,13 +809,13 @@ function createInformation2Buttons() {
         container.classList.add("normalButtons");
     }
 
-    normalBtn.textContent = "案内2なし";
+    normalBtn.textContent = "路線名なし";
 
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         information2Id = null;
         const information2Label = document.getElementById("information2");
-        information2Label.textContent = "案内2:なし"
+        information2Label.textContent = "路線名:なし"
         frame = 0;
         startRenderLoop();
     });
@@ -850,7 +850,7 @@ function createInformation2Buttons() {
                         information2Id = info.id;
                         const information2Label = document.getElementById("information2");
                         const information2Name = getName("information2", information2Id)
-                        information2Label.textContent = "案内2:" + information2Name
+                        information2Label.textContent = "路線名:" + information2Name
                         frame = 0;
                         startRenderLoop();
                     });
@@ -908,7 +908,7 @@ function createInformation2Buttons() {
                     information2Id = info.id;
                     const information2Label = document.getElementById("information2");
                     const information2Name = getName("information2", information2Id)
-                    information2Label.textContent = "案内2:" + information2Name
+                    information2Label.textContent = "路線名:" + information2Name
                     frame = 0;
                     startRenderLoop();
                 });
@@ -947,7 +947,7 @@ function createInformation2Buttons() {
                 information2Id = info.id;
                 const information2Label = document.getElementById("information2");
                 const information2Name = getName("information2", information2Id)
-                information2Label.textContent = "案内2:" + information2Name
+                information2Label.textContent = "路線名:" + information2Name
                 frame = 0;
                 startRenderLoop();
             });

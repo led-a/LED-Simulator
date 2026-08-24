@@ -1,16 +1,16 @@
 {
-    "name": "225系・227系など",
+    "name": "E131系200番台",
 
     "hasType": true,
     "hasDestination": true,
     "hasInformation": true,
-    "hasInformation2": false,
-    "hasNext": false,
-    "hasCarNumber": true,
+    "hasInformation2": true,
+    "hasNext": true,
+    "hasCarNumber": false,
     "hasCarNumberFull": false,
-    "hasCarNumberSmall": true,
+    "hasCarNumberSmall": false,
     "hasCarNumberNormal": false,
-    "carNumber": "right",
+    "carNumber": null,
     "informationPosition": "next",
 
     "destinationDistinction": true,
@@ -20,22 +20,22 @@
     "information2Distinction": false,
     "carNumberDistinction": false,
 
-    "typeSwitching": true,
+    "typeSwitching": false,
 
     "sceneInterval": 3000,
     "languageSwitching": false,
     "carNumberLanguageSwitching": false,
-    "destinationLanguageSwitching": true,
-    "informationLanguageSwitching": true,
-    "ledWidth": 160,
+    "destinationLanguageSwitching": false,
+    "informationLanguageSwitching": false,
+    "ledWidth": 128,
     "ledHeight": 32,
     "pixelSize": 7,
-    "ledSize": 4.8,
-    "ledGap": 2.2,
+    "ledSize": 4.5,
+    "ledGap": 2.5,
 
     "enAhead": false,
-    "informationAhead": false,
+    "informationAhead": true,
 
     "next_normal": false,
-    "nextPosition": 18
+    "nextPosition": 16
 }
