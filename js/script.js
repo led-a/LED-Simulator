@@ -145,11 +145,28 @@ function buildSceneList() {
         });
     } else {
         if (!config.informationAhead) {
-            sceneList.push({
-                lang: "ja",
-                information: "destination",
-                next: false,
-            });
+            if (destinationId != null) {
+                if (config.destinationPosition === "normal") {
+                    sceneList.push({
+                        lang: "ja",
+                        information: "destination",
+                        next: false,
+                    });
+                }
+                if (config.destinationPosition === "next") {
+                    sceneList.push({
+                        lang: "ja",
+                        information: "destination_next",
+                        next: false,
+                    });
+                }
+            } else {
+                sceneList.push({
+                    lang: "ja",
+                    information: "destination",
+                    next: false,
+                });
+            }
         } else {
             if (informationId === null) {
                 sceneList.push({
@@ -197,11 +214,28 @@ function buildSceneList() {
                     next: true
                 });
             } else {
-                sceneList.push({
-                    lang: "en",
-                    information: "destination",
-                    next: false
-                });
+                if (destinationId != null) {
+                    if (config.destinationPosition === "normal") {
+                        sceneList.push({
+                            lang: "en",
+                            information: "destination",
+                            next: false,
+                        });
+                    }
+                    if (config.destinationPosition === "next") {
+                        sceneList.push({
+                            lang: "en",
+                            information: "destination_next",
+                            next: false,
+                        });
+                    }
+                } else {
+                    sceneList.push({
+                        lang: "en",
+                        information: "destination",
+                        next: false,
+                    });
+                }
             }
         }
     } else {
@@ -354,13 +388,13 @@ function buildSceneList() {
                 if (nextId != null) {
                     sceneList.push({
                         lang: "ja",
-                        information: "destination_carNumber",
+                        information: "carNumber_destination",
                         next: true
                     });
                 } else {
                     sceneList.push({
                         lang: "ja",
-                        information: "destination_carNumber",
+                        information: "carNumber_destination",
                         next: false
                     });
                 }
@@ -368,13 +402,13 @@ function buildSceneList() {
                     if (nextId != null) {
                         sceneList.push({
                             lang: "en",
-                            information: "destination_carNumber",
+                            information: "carNumber_destination",
                             next: true
                         });
                     } else {
                         sceneList.push({
                             lang: "en",
-                            information: "destination_carNumber",
+                            information: "carNumber_destination",
                             next: false
                         });
                     }

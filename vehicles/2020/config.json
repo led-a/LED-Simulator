@@ -12,6 +12,7 @@
     "hasCarNumberNormal": true,
     "carNumber": null,
     "informationPosition": "normal",
+    "destinationPosition": "normal",
 
     "destinationDistinction": true,
     "nextModeDistinction": true,

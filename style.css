@@ -108,6 +108,8 @@ button.tap {
 #vehicleSelect button {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    text-align: left;
 }
 
 .vehicleIcons {
@@ -246,13 +248,6 @@ button.tap {
         display:grid;
         grid-template-columns: repeat(1,1fr);
         gap:8px;
-    }
-
-    #vehicleSelect button {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        text-align: left;
     }
 
     .vehicleIcons {

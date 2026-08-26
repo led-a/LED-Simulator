@@ -86,6 +86,45 @@ function drawType(type, matrix) {
     drawImage(data, carNumberWidth, 0, matrix);
 }
 
+function drawTypeSmall(type, matrix) {
+
+    let usedNormal = true;
+    let carNumberWidth;
+    let typeLang = lang;
+    if (typeMode === "information") {
+        typeLang = "information";
+    }
+
+    const view = isTypeFullScreen(type)
+        ? "full"
+        : "normal";
+
+    let data =
+        type.view?.[view]?.[lang]
+        ?? type.view?.[view]?.ja;
+        if (view === "normal") {
+            usedNormal = true;
+        }
+
+    if (!data) {
+        data =
+            type.view?.normal?.[lang]
+            ?? type.view?.normal?.ja;
+        usedNormal = true;
+    }
+
+    if (!data) return;
+
+    const carNumber = getItem("carNumber", carNumberId)
+    if (usedNormal) {
+        carNumberWidth = getCarNumberWidth(carNumber, usedNormal);
+    } else {
+        carNumberWidth = 0;
+    }
+
+    drawImage(data, carNumberWidth, 0, matrix);
+}
+
 function drawDestination(dest, matrix) {
 
     let usedNormal = false;
@@ -111,15 +150,25 @@ function drawDestination(dest, matrix) {
 
     if (!data) return;
 
-    const type = getItem("type", typeId)
+    const type = getItem("type", typeId);
+    const carNumber = getItem("carNumber", carNumberId);
+    let yOffset;
     
     if (usedNormal) {
-        typewidth = getTypeWidth(type, usedNormal);
+        if (config.destinationPosition === "normal") {
+            typewidth = getTypeWidth(type, usedNormal);
+        }
+        if (config.destinationPosition === "next") {
+            typewidth = getCarNumberWidth(carNumber, usedNormal);
+        }
     } else {
         typewidth = 0;
     }
+    if (config.destinationPosition) {
+        yOffset = config.nextPosition;
+    }
 
-    drawImage(data, typewidth, 0, matrix);
+    drawImage(data, typewidth, yOffset, matrix);
 }
 
 function drawDestinationSmall(dest, matrix) {

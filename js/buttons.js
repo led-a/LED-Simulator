@@ -435,7 +435,6 @@ function createDestinationButtons() {
         const container = document.getElementById("destinationButtons");
 
         const category = getCategory("destination");
-        console.log(category);
 
         category?.items.forEach(dest => {
 

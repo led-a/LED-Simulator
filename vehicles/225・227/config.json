@@ -12,6 +12,7 @@
     "hasCarNumberNormal": false,
     "carNumber": "right",
     "informationPosition": "next",
+    "destinationPosition": "normal",
 
     "destinationDistinction": true,
     "nextModeDistinction": true,

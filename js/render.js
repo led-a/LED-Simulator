@@ -21,7 +21,18 @@ function render() {
     if (config.hasCarNumberSmall) {
         drawCarNumber(carNumber, matrix);
     }
-    if (type) drawType(type, matrix);
+    if (type) {
+        if (config.destinationPosition === "normal") {
+            drawType(type, matrix);
+        }
+        if (config.destinationPosition === "next") {
+            if (isTypeFullScreen(type)) {
+                drawType(type, matrix);
+            } else {
+                drawTypeSmall(type, matrix);
+            }
+        }
+    }
 
     // 行先 / 次駅
     const fullType = isTypeFullScreen(type);
@@ -63,9 +74,14 @@ function render() {
                     drawInformation(info, matrix);
                 }
             }
-            if(informationMode === "destination_carNumber") {
+            if(informationMode === "carNumber_destination") {
                 if (carNumberId != null) {
                     drawCarNumber(carNumber, matrix);
+                }
+            }
+            if(informationMode === "destination_next") {
+                if (destinationId != null) {
+                    drawDestination(dest,matrix);
                 }
             }
             if(next){
@@ -107,9 +123,14 @@ function render() {
                     drawCarNumber(carNumber,matrix);
                 }
             }
-            if(informationMode === "destination_carNumber") {
+            if(informationMode === "carNumber_destination") {
                 if (carNumberId != null) {
                     drawCarNumber(carNumber, matrix);
+                }
+            }
+            if(informationMode === "destination_next") {
+                if (destinationId != null) {
+                    drawDestination(dest,matrix);
                 }
             }
         }

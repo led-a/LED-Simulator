@@ -18,6 +18,16 @@
         ]
     },
     {
+        "id": "E26",
+        "name": "E26系",
+        "config": "vehicles/E26/config.json",
+        "led": "vehicles/E26/led.json",
+        "icons": [
+            "vehicles/E26/icons/icon1.png",
+            "vehicles/E26/icons/icon2.png"
+        ]
+    },
+    {
         "id": "225・227",
         "name": "225系・227系など",
         "config": "vehicles/225・227/config.json",
