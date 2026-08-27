@@ -164,8 +164,10 @@ function drawDestination(dest, matrix) {
     } else {
         typewidth = 0;
     }
-    if (config.destinationPosition) {
+    if (config.destinationPosition === "next") {
         yOffset = config.nextPosition;
+    } else {
+        yOffset = 0;
     }
 
     drawImage(data, typewidth, yOffset, matrix);

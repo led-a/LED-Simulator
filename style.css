@@ -202,7 +202,7 @@ button.tap {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    max-height: 180px;
+    max-height: 800px;
     overflow-y: auto;
 }
 
