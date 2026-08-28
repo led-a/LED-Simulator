@@ -245,6 +245,7 @@ button.tap {
 
 .numberInput button {
     width: 32px;
+    height: 32px;
     margin: 0;
     padding: 6px;
     border-radius: 0;
