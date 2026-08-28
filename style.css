@@ -139,7 +139,7 @@ button.tap {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    max-height: 180px;
+    max-height: 200px;
     overflow-y: auto;
 }
 
@@ -212,6 +212,71 @@ button.tap {
     font-weight: 700;
 }
 
+.timeSetting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.timeSetting[hidden] {
+    display: none;
+}
+
+.numberInput {
+    display: flex;
+    align-items: center;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+    font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
+}
+
+.numberInput input {
+    width: 55px;
+    padding: 6px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 16px;
+    font-family: "Times New Roman", "BIZ UDMincho", serif;
+}
+
+.numberInput button {
+    width: 32px;
+    margin: 0;
+    padding: 6px;
+    border-radius: 0;
+    box-shadow: none;
+    background: #eee;
+    transform: none;
+    transition: none;
+    box-shadow: none;
+}
+
+.numberInput button:hover {
+    background: #ddd;
+    box-shadow: none;
+}
+
+.numberInput button:active {
+    background: #ccc;
+    transform: none;
+    box-shadow: none;
+}
+
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -242,6 +307,10 @@ button.tap {
 
     button {
         font-size: 18px;
+    }
+
+    .buttonGroup {
+        max-height: 240px;
     }
 
     #vehicleSelect {

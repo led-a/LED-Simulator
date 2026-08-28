@@ -109,7 +109,36 @@ function nextScene() {
 
     frame++;
 
-    renderTimer = setTimeout(nextScene, config.sceneInterval);
+    renderTimer = setTimeout(nextScene, getSceneInterval());
+}
+
+function getSceneInterval() {
+    if (sceneList.length === 0) return 1000;
+    let sceneInterval = config.sceneInterval;
+    const jaTime = Number(document.querySelector("#jaTime input").value);
+    const enTime = Number(document.querySelector("#enTime input").value);
+    const infoTime = Number(document.querySelector("#infoTime input").value);
+    const carNumberTime = Number(document.querySelector("#carNumberTime input").value);
+    if (config.setSwitchingTime) {
+        const currentScene = sceneList[scene];
+        if (currentScene.information === "carNumber" || currentScene.information === "carNumber_destination") {
+            sceneInterval = carNumberTime * 1000;
+        }
+        if (currentScene.information === "information") {
+            sceneInterval = infoTime * 1000;
+        }
+        if (currentScene.information === "destination") {
+            if (currentScene.lang === "ja") {
+                sceneInterval = jaTime * 1000;
+            }
+            if (currentScene.lang === "en") {
+                sceneInterval = enTime * 1000;
+            }
+        }
+    } else {
+        sceneInterval = config.sceneInterval;
+    }
+    return sceneInterval;
 }
 
 function startRenderLoop() {
@@ -576,4 +605,44 @@ document.querySelectorAll("button").forEach(btn => {
     btn.addEventListener("touchend", () => {
         btn.classList.remove("tap");
     });
+});
+
+document.querySelectorAll(".numberInput").forEach(container => {
+    const input = container.querySelector("input");
+    const minus = container.querySelector(".minus");
+    const plus = container.querySelector(".plus");
+
+    let startTimer = null;
+    let repeatTimer = null;
+
+    function startChanging(change) {
+        // 押した瞬間に1回だけ変更
+        change();
+
+        // 0.5秒後に連続変更を開始
+        startTimer = setTimeout(() => {
+            repeatTimer = setInterval(() => {
+                change();
+            }, 60);
+        }, 500);
+    }
+
+    function stopChanging() {
+        clearTimeout(startTimer);
+        clearInterval(repeatTimer);
+
+        startTimer = null;
+        repeatTimer = null;
+    }
+
+    plus.addEventListener("pointerdown", () => {
+        startChanging(() => input.stepUp());
+    });
+
+    minus.addEventListener("pointerdown", () => {
+        startChanging(() => input.stepDown());
+    });
+
+    document.addEventListener("pointerup", stopChanging);
+    document.addEventListener("pointercancel", stopChanging);
 });

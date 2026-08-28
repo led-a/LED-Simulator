@@ -22,6 +22,9 @@ function createTypeButtons() {
         const typeLabel = document.getElementById("type");
         typeLabel.textContent = "種別:なし"
         frame = 0;
+        if (config.setSwitchingTime) {
+            setTimeSetting();
+        }
         startRenderLoop();
     });
 
@@ -55,6 +58,9 @@ function createTypeButtons() {
                         const typeName = getName("type", typeId)
                         typeLabel.textContent = "種別:" + typeName
                         frame = 0;
+                        if (config.setSwitchingTime) {
+                            setTimeSetting();
+                        }
                         startRenderLoop();
                     });
 
@@ -111,6 +117,9 @@ function createTypeButtons() {
                     const typeName = getName("type", typeId)
                     typeLabel.textContent = "種別:" + typeName
                     frame = 0;
+                    if (config.setSwitchingTime) {
+                        setTimeSetting();
+                    }
                     startRenderLoop();
                 });
 
@@ -147,6 +156,9 @@ function createTypeButtons() {
                 const typeName = getName("type", typeId)
                 typeLabel.textContent = "種別:" + typeName
                 frame = 0;
+                if (config.setSwitchingTime) {
+                    setTimeSetting();
+                }
                 startRenderLoop();
             });
 
@@ -180,6 +192,9 @@ function createCarNumberButtons() {
         const carNumberLabel = document.getElementById("carNumber");
         carNumberLabel.textContent = "号車:なし"
         frame = 0;
+        if (config.setSwitchingTime) {
+            setTimeSetting();
+        }
         startRenderLoop();
     });
 
@@ -213,6 +228,9 @@ function createCarNumberButtons() {
                         const carNumberName = getName("carNumber", carNumberId)
                         carNumberLabel.textContent = "号車:" + carNumberName
                         frame = 0;
+                        if (config.setSwitchingTime) {
+                            setTimeSetting();
+                        }
                         startRenderLoop();
                     });
 
@@ -265,6 +283,9 @@ function createCarNumberButtons() {
                     const carNumberName = getName("carNumber", carNumberId)
                     carNumberLabel.textContent = "号車:" + carNumberName
                     frame = 0;
+                    if (config.setSwitchingTime) {
+                        setTimeSetting();
+                    }
                     startRenderLoop();
                 });
 
@@ -297,6 +318,9 @@ function createCarNumberButtons() {
                 const carNumberName = getName("carNumber", carNumberId)
                 carNumberLabel.textContent = "号車:" + carNumberName
                 frame = 0;
+                if (config.setSwitchingTime) {
+                    setTimeSetting();
+                }
                 startRenderLoop();
             });
 
@@ -330,6 +354,9 @@ function createDestinationButtons() {
         const destinationLabel = document.getElementById("destination");
         destinationLabel.textContent = "行先:なし"
         frame = 0;
+        if (config.setSwitchingTime) {
+            setTimeSetting();
+        }
         startRenderLoop();
     });
 
@@ -365,6 +392,9 @@ function createDestinationButtons() {
                         const destinationName = getName("destination", destinationId)
                         destinationLabel.textContent = "行先:" + destinationName
                         frame = 0;
+                        if (config.setSwitchingTime) {
+                            setTimeSetting();
+                        }
                         startRenderLoop();
                     });
 
@@ -423,6 +453,9 @@ function createDestinationButtons() {
                     const destinationName = getName("destination", destinationId)
                     destinationLabel.textContent = "行先:" + destinationName
                     frame = 0;
+                    if (config.setSwitchingTime) {
+                        setTimeSetting();
+                    }
                     startRenderLoop();
                 });
 
@@ -461,6 +494,9 @@ function createDestinationButtons() {
                 const destinationName = getName("destination", destinationId)
                 destinationLabel.textContent = "行先:" + destinationName
                 frame = 0;
+                if (config.setSwitchingTime) {
+                    setTimeSetting();
+                }
                 startRenderLoop();
             });
 
@@ -496,6 +532,9 @@ function createNextModeButtons() {
         const nextModeLabel = document.getElementById("nextMode");
         nextModeLabel.textContent = "次駅:なし"
         frame = 0;
+        if (config.setSwitchingTime) {
+            setTimeSetting();
+        }
         startRenderLoop();
     });
 
@@ -527,6 +566,9 @@ function createNextModeButtons() {
                         const nextModeName = getName("next", nextId)
                         nextModeLabel.textContent = "次駅:" + nextModeName
                         frame = 0;
+                        if (config.setSwitchingTime) {
+                            setTimeSetting();
+                        }
                         startRenderLoop();
                     });
 
@@ -583,6 +625,9 @@ function createNextModeButtons() {
                     const nextModeName = getName("next", nextId)
                     nextModeLabel.textContent = "次駅:" + nextModeName
                     frame = 0;
+                    if (config.setSwitchingTime) {
+                        setTimeSetting();
+                    }
                     startRenderLoop();
                 });
 
@@ -619,6 +664,9 @@ function createNextModeButtons() {
                 const nextModeName = getName("next", nextId)
                 nextModeLabel.textContent = "次駅:" + nextModeName
                 frame = 0;
+                if (config.setSwitchingTime) {
+                    setTimeSetting();
+                }
                 startRenderLoop();
             });
 
@@ -652,6 +700,9 @@ function createInformationButtons() {
         const informationLabel = document.getElementById("information");
         informationLabel.textContent = "案内:なし"
         frame = 0;
+        if (config.setSwitchingTime) {
+            setTimeSetting();
+        }
         startRenderLoop();
     });
 
@@ -687,6 +738,9 @@ function createInformationButtons() {
                         const informationName = getName("information", informationId)
                         informationLabel.textContent = "案内:" + informationName
                         frame = 0;
+                        if (config.setSwitchingTime) {
+                            setTimeSetting();
+                        }
                         startRenderLoop();
                     });
 
@@ -745,6 +799,9 @@ function createInformationButtons() {
                     const informationName = getName("information", informationId)
                     informationLabel.textContent = "案内:" + informationName
                     frame = 0;
+                    if (config.setSwitchingTime) {
+                        setTimeSetting();
+                    }
                     startRenderLoop();
                 });
 
@@ -783,6 +840,9 @@ function createInformationButtons() {
                 const informationName = getName("information", informationId)
                 informationLabel.textContent = "案内:" + informationName
                 frame = 0;
+                if (config.setSwitchingTime) {
+                    setTimeSetting();
+                }
                 startRenderLoop();
             });
 
@@ -816,6 +876,9 @@ function createInformation2Buttons() {
         const information2Label = document.getElementById("information2");
         information2Label.textContent = "路線名:なし"
         frame = 0;
+        if (config.setSwitchingTime) {
+            setTimeSetting();
+        }
         startRenderLoop();
     });
 
@@ -851,6 +914,9 @@ function createInformation2Buttons() {
                         const information2Name = getName("information2", information2Id)
                         information2Label.textContent = "路線名:" + information2Name
                         frame = 0;
+                        if (config.setSwitchingTime) {
+                            setTimeSetting();
+                        }
                         startRenderLoop();
                     });
 
@@ -909,6 +975,9 @@ function createInformation2Buttons() {
                     const information2Name = getName("information2", information2Id)
                     information2Label.textContent = "路線名:" + information2Name
                     frame = 0;
+                    if (config.setSwitchingTime) {
+                        setTimeSetting();
+                    }
                     startRenderLoop();
                 });
 
@@ -948,6 +1017,9 @@ function createInformation2Buttons() {
                 const information2Name = getName("information2", information2Id)
                 information2Label.textContent = "路線名:" + information2Name
                 frame = 0;
+                if (config.setSwitchingTime) {
+                    setTimeSetting();
+                }
                 startRenderLoop();
             });
 
@@ -1018,5 +1090,35 @@ function resizeButtonText() {
         } else {
             button.style.fontSize = "16px";
         }
+    });
+}
+
+function setTimeSetting() {
+    if (typeId === null && destinationId === null) {
+        document.getElementById("jaTime").hidden = true;
+        document.getElementById("enTime").hidden = true;
+    } else {
+        document.getElementById("jaTime").hidden = false;
+        document.getElementById("enTime").hidden = false;
+    }
+    if (informationId === null) {
+        document.getElementById("infoTime").hidden = true;
+    } else {
+        document.getElementById("infoTime").hidden = false;
+    }
+    if (carNumberId === null) {
+        document.getElementById("carNumberTime").hidden = true;
+    } else {
+        document.getElementById("carNumberTime").hidden = false;
+    }
+    console.log({
+        typeId,
+        destinationId,
+        informationId,
+        carNumberId,
+        jaHidden: jaTime.hidden,
+        enHidden: enTime.hidden,
+        infoHidden: infoTime.hidden,
+        carHidden: carNumberTime.hidden
     });
 }
