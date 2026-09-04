@@ -1,15 +1,15 @@
 {
-    "name": "東急2020系",
+    "name": "京成3000形・北総7500形など",
 
     "hasType": true,
     "hasDestination": true,
     "hasInformation": true,
     "hasInformation2": false,
-    "hasNext": true,
-    "hasCarNumber": true,
+    "hasNext": false,
+    "hasCarNumber": false,
     "hasCarNumberFull": false,
     "hasCarNumberSmall": false,
-    "hasCarNumberNormal": true,
+    "hasCarNumberNormal": false,
     "carNumber": null,
     "informationPosition": "normal",
     "destinationPosition": "normal",
@@ -24,11 +24,11 @@
     "typeSwitching": false,
 
     "sceneInterval": 3000,
-    "languageSwitching": true,
+    "languageSwitching": false,
     "carNumberLanguageSwitching": false,
-    "destinationLanguageSwitching": true,
+    "destinationLanguageSwitching": false,
     "informationLanguageSwitching": false,
-    "ledWidth": 128,
+    "ledWidth": 144,
     "ledHeight": 32,
     "pixelSize": 7,
     "ledSize": 4.5,
@@ -37,7 +37,7 @@
     "enAhead": false,
     "informationAhead": false,
 
-    "setSwitchingTime": true,
+    "setSwitchingTime": false,
 
     "next_normal": false,
     "nextPosition": 16
