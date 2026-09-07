@@ -18,6 +18,15 @@
         ]
     },
     {
+        "id": "EV-E301",
+        "name": "EV-E301系",
+        "config": "vehicles/EV-E301/config.json",
+        "led": "vehicles/EV-E301/led.json",
+        "icons": [
+            "vehicles/EV-E301/icons/icon1.png"
+        ]
+    },
+    {
         "id": "E26",
         "name": "E26系",
         "config": "vehicles/E26/config.json",
@@ -54,6 +63,15 @@
         "icons": [
             "vehicles/315/icons/icon1.png",
             "vehicles/315/icons/icon2.png"
+        ]
+    },
+    {
+        "id": "2700",
+        "name": "2700系",
+        "config": "vehicles/2700/config.json",
+        "led": "vehicles/2700/led.json",
+        "icons": [
+            "vehicles/2700/icons/icon1.png"
         ]
     },
     {
