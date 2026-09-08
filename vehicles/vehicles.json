@@ -93,5 +93,14 @@
             "vehicles/3000/icons/icon2.png",
             "vehicles/3000/icons/icon3.png"
         ]
+    },
+    {
+        "id": "AB900",
+        "name": "AB900系",
+        "config": "vehicles/AB900/config.json",
+        "led": "vehicles/AB900/led.json",
+        "icons": [
+            "vehicles/AB900/icons/icon1.png"
+        ]
     }
 ]
