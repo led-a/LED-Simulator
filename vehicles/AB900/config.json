@@ -30,9 +30,9 @@
     "informationLanguageSwitching": false,
     "ledWidth": 128,
     "ledHeight": 32,
-    "pixelSize": 7,
-    "ledSize": 4.5,
-    "ledGap": 2.5,
+    "pixelSize": 8.5,
+    "ledSize": 6.5,
+    "ledGap": 2,
 
     "enAhead": false,
     "informationAhead": false,
@@ -40,5 +40,7 @@
     "setSwitchingTime": false,
 
     "next_normal": false,
-    "nextPosition": 16
+    "nextPosition": 16,
+
+    "hasReferenceSite": true
 }

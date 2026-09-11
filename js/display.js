@@ -213,9 +213,13 @@ function drawInformation(info, matrix) {
     let usedNormal = false;
     let typewidth;
 
-    const view = isInformationFullScreen(info)
+    let view = isInformationFullScreen(info)
         ? "full"
         : "normal";
+    const dest = getItem("destination", destinationId);
+    if (isDestinationFullScreen(dest)) {
+        view = "full";
+    }
 
     let data =
         info.view?.[view]?.[lang]

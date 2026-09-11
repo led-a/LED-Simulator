@@ -42,6 +42,9 @@ async function loadLed() {
     response = await fetch(selectedVehicle.led);
     jsonData = await response.json();
 
+    response = await fetch(selectedVehicle.site);
+    siteData = await response.json();
+
     if (!jsonData?.categories) {
         console.error("JSONが壊れてる");
         return;
@@ -499,8 +502,10 @@ function initSimulator() {
         typeTimer = null;
     }
 
-    clearMatrix();
-    drawMatrix(createEmptyMatrix());
+    if (config) {
+        clearMatrix();
+        drawMatrix(createEmptyMatrix());
+    }
 
     document.getElementById("typeButtons").innerHTML = "";
     document.getElementById("destinationButtons").innerHTML = "";
@@ -646,3 +651,37 @@ document.querySelectorAll(".numberInput").forEach(container => {
     document.addEventListener("pointerup", stopChanging);
     document.addEventListener("pointercancel", stopChanging);
 });
+
+const tittle = document.getElementById("tittle");
+tittle.addEventListener("click", () => {
+    initSimulator();
+    clearReferenceSite();
+    document.getElementById("referenceSite").hidden = true;
+    document.getElementById("jaTime").hidden = true;
+    document.getElementById("enTime").hidden = true;
+    document.getElementById("infoTime").hidden = true;
+    document.getElementById("carNumberTime").hidden = true;
+    document.getElementById("simulator").hidden = true;
+    document.getElementById("vehicleSelector").hidden = false;
+})
+
+function setReferenceSite() {
+    document.getElementById("referenceSite").hidden = false;
+    const referenceSiteLink = document.getElementById("referenceSiteLink");
+
+    siteData.forEach(element => {
+        const a = document.createElement("a");
+
+        a.href = element.link;
+        a.textContent = element.name;
+        a.target = "_blank";
+
+        referenceSiteLink.appendChild(a);
+    });
+}
+
+function clearReferenceSite() {
+    const referenceSiteLink = document.getElementById("referenceSiteLink");
+
+    referenceSiteLink.innerHTML = "";
+}

@@ -1,3 +1,12 @@
+#tittle {
+    cursor: pointer;
+    width: 400px;
+}
+
+#tittle:hover {
+    background: #ededed;
+}
+
 body {
     margin: 0;
     height: 100%;
@@ -8,17 +17,25 @@ body {
 
 .container {
     display: flex;
+    flex-direction: column;
 }
 
 aside {
-    width: 300px;
+    order: 2;
+    width: 100%;
     min-width: 180px;
-    max-width: 600px;
+    max-width: none;
     flex-shrink: 0;
     background: #f4f4f4;
     padding: 12px;
     box-sizing: border-box;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+#buttonGroup {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
 
 #resizer {
@@ -32,6 +49,8 @@ aside {
 }
 
 main {
+    order: 1;
+    width: 100%;
     flex: 1;
     background: rgb(60, 59, 59);
     display: flex;
@@ -140,6 +159,7 @@ button.tap {
     flex-wrap: wrap;
     gap: 8px;
     max-height: 200px;
+    min-height: 200px;
     overflow-y: auto;
 }
 
@@ -278,20 +298,35 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
+#referenceSite {
+    display: grid;
+}
 
+#referenceSiteLink{
+    display: grid;
+}
+
+#referenceSite a::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: black;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+#referenceSite[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
     aside {
-        order: 2;
-        width: 100%;
         box-sizing: border-box;
     }
 
     main {
-        order: 1;
-        width: 100%;
         box-sizing: border-box;
         overflow-x: auto;
         justify-content: flex-start;

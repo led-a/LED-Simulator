@@ -1040,6 +1040,12 @@ function setVehicleSelectButton() {
     const container = document.getElementById("vehicleSelectButton");
     container.addEventListener("click", () => {
         initSimulator();
+        clearReferenceSite()
+        document.getElementById("referenceSite").hidden = true;
+        document.getElementById("jaTime").hidden = true;
+        document.getElementById("enTime").hidden = true;
+        document.getElementById("infoTime").hidden = true;
+        document.getElementById("carNumberTime").hidden = true;
         document.getElementById("simulator").hidden = true;
         document.getElementById("vehicleSelector").hidden = false;
     })

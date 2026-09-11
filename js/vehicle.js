@@ -38,7 +38,11 @@ function createVehicleButtons() {
             await loadConfig();
             await startVehicle();
             initVehicles();
-            
+            if (config.hasReferenceSite) {
+                setReferenceSite();
+            } else {
+                document.getElementById("referenceSite").hidden = true;
+            }
         });
         container.appendChild(btn);
     });

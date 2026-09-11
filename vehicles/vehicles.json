@@ -6,7 +6,8 @@
         "led": "vehicles/E131-200/led.json",
         "icons": [
             "vehicles/E131-200/icons/icon1.png"
-        ]
+        ],
+        "site": "vehicles/E131-200/site.json"
     },
     {
         "id": "mari_E233",
@@ -15,7 +16,8 @@
         "led": "vehicles/mari_E233/led.json",
         "icons": [
             "vehicles/mari_E233/icons/icon1.png"
-        ]
+        ],
+        "site": "vehicles/mari_E233/site.json"
     },
     {
         "id": "EV-E301",
@@ -24,7 +26,8 @@
         "led": "vehicles/EV-E301/led.json",
         "icons": [
             "vehicles/EV-E301/icons/icon1.png"
-        ]
+        ],
+        "site": "vehicles/EV-E301/site.json"
     },
     {
         "id": "E26",
@@ -34,7 +37,18 @@
         "icons": [
             "vehicles/E26/icons/icon1.png",
             "vehicles/E26/icons/icon2.png"
-        ]
+        ],
+        "site": "vehicles/E26/site.json"
+    },
+    {
+        "id": "HB-E210",
+        "name": "HB-E210系",
+        "config": "vehicles/HB-E210/config.json",
+        "led": "vehicles/HB-E210/led.json",
+        "icons": [
+            "vehicles/HB-E210/icons/icon1.png"
+        ],
+        "site": "vehicles/HB-E210/site.json"
     },
     {
         "id": "225・227",
@@ -53,7 +67,8 @@
             "vehicles/225・227/icons/icon9.png",
             "vehicles/225・227/icons/icon10.png",
             "vehicles/225・227/icons/icon11.png"
-        ]
+        ],
+        "site": "vehicles/225・227/site.json"
     },
     {
         "id": "315",
@@ -63,7 +78,8 @@
         "icons": [
             "vehicles/315/icons/icon1.png",
             "vehicles/315/icons/icon2.png"
-        ]
+        ],
+        "site": "vehicles/315/site.json"
     },
     {
         "id": "2700",
@@ -72,7 +88,8 @@
         "led": "vehicles/2700/led.json",
         "icons": [
             "vehicles/2700/icons/icon1.png"
-        ]
+        ],
+        "site": "vehicles/2700/site.json"
     },
     {
         "id": "2020",
@@ -81,7 +98,8 @@
         "led": "vehicles/2020/led.json",
         "icons": [
             "vehicles/2020/icons/icon1.png"
-        ]
+        ],
+        "site": "vehicles/2020/site.json"
     },
     {
         "id": "3000",
@@ -92,7 +110,8 @@
             "vehicles/3000/icons/icon1.png",
             "vehicles/3000/icons/icon2.png",
             "vehicles/3000/icons/icon3.png"
-        ]
+        ],
+        "site": "vehicles/3000/site.json"
     },
     {
         "id": "AB900",
@@ -101,6 +120,7 @@
         "led": "vehicles/AB900/led.json",
         "icons": [
             "vehicles/AB900/icons/icon1.png"
-        ]
+        ],
+        "site": "vehicles/AB900/site.json"
     }
 ]

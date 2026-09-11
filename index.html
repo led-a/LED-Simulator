@@ -13,7 +13,7 @@
 
     <body>
 
-    	<header>
+    	<header id="tittle">
 
         	<h1>LED方向幕シミュレーター</h1>
 
@@ -79,36 +79,44 @@
 						</div>
 					</div>
 					
-					<div id="typeGroup">
-						<label id="type">種別:なし</label>
-						<div id="typeButtons" class="buttonGroup"></div>
-					</div>
+					<div id="buttonGroup">
+						<div id="typeGroup">
+							<label id="type">種別:なし</label>
+							<div id="typeButtons" class="buttonGroup"></div>
+						</div>
 
-					<div id="destinationGroup">
-						<label id="destination">行先:なし</label>
-						<div id="destinationButtons" class="buttonGroup"></div>
-					</div>
+						<div id="destinationGroup">
+							<label id="destination">行先:なし</label>
+							<div id="destinationButtons" class="buttonGroup"></div>
+						</div>
 
-					<div id="informationGroup">
-						<label id="information">案内:なし</label>
-						<div id="informationButtons" class="buttonGroup"></div>
-					</div>
+						<div id="informationGroup">
+							<label id="information">案内:なし</label>
+							<div id="informationButtons" class="buttonGroup"></div>
+						</div>
 
-					<div id="information2Group">
-						<label id="information2">路線名:なし</label>
-						<div id="information2Buttons" class="buttonGroup"></div>
-					</div>
+						<div id="information2Group">
+							<label id="information2">路線名:なし</label>
+							<div id="information2Buttons" class="buttonGroup"></div>
+						</div>
 
-					<div id="nextModeGroup">
-						<label id="nextMode">次駅:なし</label>
-						<div id="nextModeButtons" class="buttonGroup"></div>
-					</div>
+						<div id="nextModeGroup">
+							<label id="nextMode">次駅:なし</label>
+							<div id="nextModeButtons" class="buttonGroup"></div>
+						</div>
 
-					<div id="carNumberGroup">
-						<label id="carNumber">号車:なし</label>
-						<div id="carNumberButtons" class="buttonGroup"></div>
+						<div id="carNumberGroup">
+							<label id="carNumber">号車:なし</label>
+							<div id="carNumberButtons" class="buttonGroup"></div>
+						</div>
 					</div>
-
+					
+					<div id="referenceSite" hidden>
+						<h2>参考サイト</h2>
+						<label>一部の再現ドットは、以下のサイトに掲載されている再現画像を参考にドット打ちさせていただきました。</label>
+						<div id="referenceSiteLink"></div>
+					</div>
+					
 					<button id="vehicleSelectButton">車両選択に戻る</button>
 			
 				</aside>

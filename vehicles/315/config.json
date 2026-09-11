@@ -31,8 +31,8 @@
     "ledWidth": 176,
     "ledHeight": 32,
     "pixelSize": 7,
-    "ledSize": 4.5,
-    "ledGap": 2.5,
+    "ledSize": 5.5,
+    "ledGap": 1.5,
 
     "enAhead": false,
     "informationAhead": false,
@@ -40,5 +40,7 @@
     "setSwitchingTime": false,
 
     "next_normal": true,
-    "nextPosition": 16
+    "nextPosition": 16,
+
+    "hasReferenceSite": false
 }
