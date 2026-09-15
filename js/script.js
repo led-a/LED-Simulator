@@ -685,3 +685,7 @@ function clearReferenceSite() {
 
     referenceSiteLink.innerHTML = "";
 }
+
+tittle.addEventListener("pointerup", () => {
+    tittle.style.backgroundColor = "white";
+})
