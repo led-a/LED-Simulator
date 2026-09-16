@@ -366,4 +366,8 @@ input[type="number"]::-webkit-outer-spin-button {
         gap: 4px;
         flex-shrink: 0;
     }
+
+    .selectGroup {
+        max-height: none!important;
+    }
 }
