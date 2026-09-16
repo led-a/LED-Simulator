@@ -1,5 +1,5 @@
 {
-    "name": "青い森703系",
+    "name": "IGR7000系・青い森701系",
 
     "hasType": true,
     "hasDestination": true,
@@ -30,9 +30,9 @@
     "informationLanguageSwitching": false,
     "ledWidth": 128,
     "ledHeight": 32,
-    "pixelSize": 8.5,
+    "pixelSize": 8.8,
     "ledSize": 6.5,
-    "ledGap": 2,
+    "ledGap": 2.3,
 
     "enAhead": false,
     "informationAhead": false,
@@ -44,5 +44,5 @@
 
     "hasReferenceSite": true,
 
-    "ledShape": "circle"
+    "ledShape": "rectangle"
 }

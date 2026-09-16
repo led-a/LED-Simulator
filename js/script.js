@@ -5,9 +5,15 @@ async function startVehicle() {
     ledsize = config.ledSize;
     ledgap = config.ledGap;
     pitch = ledsize + ledgap;
+    pitchY = ledsize * 0.9 + ledgap;
     radius = ledsize / 2;
     sizeLed.width = config.ledWidth * pitch;
-    sizeLed.height = config.ledHeight * pitch;
+    if (config.ledShape === "circle") {
+        sizeLed.height = config.ledHeight * pitch;
+    }
+    if (config.ledShape === "rectangle") {
+        sizeLed.height = config.ledHeight * pitchY;
+    }
     cacheCanvas.width = sizeLed.width;
     cacheCanvas.height = sizeLed.height;
 

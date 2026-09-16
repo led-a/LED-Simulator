@@ -40,5 +40,9 @@
     "setSwitchingTime": true,
 
     "next_normal": false,
-    "nextPosition": 16
+    "nextPosition": 16,
+
+    "hasReferenceSite": false,
+
+    "ledShape": "circle"
 }

@@ -160,17 +160,26 @@ function drawMatrix(matrix, targetCtx = ctx) {
         for (let x = 0; x < config.ledWidth; x++) {
 
             const p = matrix[y][x];
-
-            drawLED(targetCtx, x, y, {
-                r: p?.r ?? 0,
-                g: p?.g ?? 0,
-                b: p?.b ?? 0
-            });
+            
+            if (config.ledShape === "circle") {
+                drawLEDCircle(targetCtx, x, y, {
+                    r: p?.r ?? 0,
+                    g: p?.g ?? 0,
+                    b: p?.b ?? 0
+                });
+            }
+            if (config.ledShape === "rectangle") {
+                drawLEDRectangle(targetCtx, x, y, {
+                    r: p?.r ?? 0,
+                    g: p?.g ?? 0,
+                    b: p?.b ?? 0
+                });
+            }
         }
     }
 }
 
-function drawLED(targetCtx, x, y, color) {
+function drawLEDCircle(targetCtx, x, y, color) {
     targetCtx.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
 
     targetCtx.beginPath();
@@ -182,6 +191,18 @@ function drawLED(targetCtx, x, y, color) {
         Math.PI * 2
     );
     targetCtx.fill();
+}
+
+function drawLEDRectangle(targetCtx, x, y, color) {
+    targetCtx.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
+
+    targetCtx.beginPath();
+    targetCtx.fillRect(
+        x * pitch,
+        y * pitchY,
+        ledsize,
+        ledsize * 0.9
+    );
 }
 
 function drawImage(displayData, startX, startY, matrix) {

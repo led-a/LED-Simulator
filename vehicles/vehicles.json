@@ -124,6 +124,17 @@
         "site": "vehicles/AB900/site.json"
     },
     {
+        "id": "IGR7000",
+        "name": "IGR7000系・青い森701系",
+        "config": "vehicles/IGR7000/config.json",
+        "led": "vehicles/IGR7000/led.json",
+        "icons": [
+            "vehicles/IGR7000/icons/icon1.png",
+            "vehicles/IGR7000/icons/icon2.png"
+        ],
+        "site": "vehicles/IGR7000/site.json"
+    },
+    {
         "id": "703",
         "name": "青い森703系",
         "config": "vehicles/703/config.json",

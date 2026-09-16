@@ -42,5 +42,7 @@
     "next_normal": false,
     "nextPosition": 18,
 
-    "hasReferenceSite": true
+    "hasReferenceSite": true,
+
+    "ledShape": "circle"
 }
