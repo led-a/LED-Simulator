@@ -1,7 +1,7 @@
 #tittle {
     cursor: pointer;
     width: 400px;
-    font-family: "Hachi Maru Pop", serif;
+    font-family: "Hachi Maru Pop", sans-serif;
 }
 
 #tittle:hover {
