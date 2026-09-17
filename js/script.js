@@ -1,27 +1,33 @@
 async function startVehicle() {
 
-    await loadLed();
+    showLoading();
+    
+    try { 
+        await loadLed();
 
-    ledsize = config.ledSize;
-    ledgap = config.ledGap;
-    pitch = ledsize + ledgap;
-    pitchY = ledsize * 0.9 + ledgap;
-    radius = ledsize / 2;
-    sizeLed.width = config.ledWidth * pitch;
-    if (config.ledShape === "circle") {
-        sizeLed.height = config.ledHeight * pitch;
+        ledsize = config.ledSize;
+        ledgap = config.ledGap;
+        pitch = ledsize + ledgap;
+        pitchY = ledsize * 0.9 + ledgap;
+        radius = ledsize / 2;
+        sizeLed.width = config.ledWidth * pitch;
+        if (config.ledShape === "circle") {
+            sizeLed.height = config.ledHeight * pitch;
+        }
+        if (config.ledShape === "rectangle") {
+            sizeLed.height = config.ledHeight * pitchY;
+        }
+        cacheCanvas.width = sizeLed.width;
+        cacheCanvas.height = sizeLed.height;
+    
+        resizeLed();
+    
+        setupVehicleUI();
+    
+        startRenderLoop();
+    } finally {
+        hideLoading();
     }
-    if (config.ledShape === "rectangle") {
-        sizeLed.height = config.ledHeight * pitchY;
-    }
-    cacheCanvas.width = sizeLed.width;
-    cacheCanvas.height = sizeLed.height;
-
-    resizeLed();
-
-    setupVehicleUI();
-
-    startRenderLoop();
 }
 function resizeLed() {
     if (!config) return;
@@ -695,3 +701,11 @@ function clearReferenceSite() {
 tittle.addEventListener("pointerup", () => {
     tittle.style.backgroundColor = "white";
 })
+
+function showLoading() {
+    document.getElementById("loading").hidden = false;
+}
+
+function hideLoading() {
+    document.getElementById("loading").hidden = true;
+}

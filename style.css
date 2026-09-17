@@ -323,6 +323,21 @@ input[type="number"]::-webkit-outer-spin-button {
     display: none !important;
 }
 
+#loading {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 24px;
+    z-index: 9999;
+}
+
+#loading[hidden] {
+    display: none;
+}
+
 @media (max-width: 768px) {
     #tittle {
         width: 100vw!important;
