@@ -330,7 +330,7 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.8);
-    font-size: 24px;
+    font-size: 32px;
     z-index: 9999;
 }
 
