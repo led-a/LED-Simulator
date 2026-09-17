@@ -3,6 +3,7 @@
     cursor: pointer;
     width: 400px;
     font-family: "Hachi Maru Pop", cursive!important;
+    font-weight: 500;
 }
 
 #tittle:hover {
@@ -324,6 +325,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 @media (max-width: 768px) {
+    #tittle {
+        width: 100vw;
+    }
+
     aside {
         box-sizing: border-box;
     }
