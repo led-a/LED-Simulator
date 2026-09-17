@@ -156,6 +156,11 @@ button.tap {
     font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
 }
 
+#vehicle {
+    font-size: 24px;
+    font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
+}
+
 .buttonGroup {
     border: 2px solid #9a9a9a;
     border-radius: 8px;
@@ -449,5 +454,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
     .selectGroup {
         max-height: none!important;
+    }
+
+    #displayLabel {
+        font-size: medium!important;
     }
 }
