@@ -1,5 +1,4 @@
 #tittle {
-    width: 100%;
     cursor: pointer;
     width: 400px;
     font-family: "Hachi Maru Pop", cursive!important;
@@ -326,7 +325,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 @media (max-width: 768px) {
     #tittle {
-        width: 100vw;
+        width: 100vw!important;
     }
 
     aside {
