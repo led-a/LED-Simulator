@@ -2,7 +2,7 @@
     width: 100%;
     cursor: pointer;
     width: 400px;
-    font-family: "Hachi Maru Pop", cursive;
+    font-family: "Hachi Maru Pop", cursive!important;
 }
 
 #tittle:hover {
