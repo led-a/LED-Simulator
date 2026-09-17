@@ -9,7 +9,7 @@
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@500;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 
     </head>
@@ -88,32 +88,32 @@
 					
 					<div id="buttonGroup">
 						<div id="typeGroup">
-							<label id="type">種別:なし</label>
+							<label id="type" class="displayLabel">種別:なし</label>
 							<div id="typeButtons" class="buttonGroup"></div>
 						</div>
 
 						<div id="destinationGroup">
-							<label id="destination">行先:なし</label>
+							<label id="destination" class="displayLabel">行先:なし</label>
 							<div id="destinationButtons" class="buttonGroup"></div>
 						</div>
 
 						<div id="informationGroup">
-							<label id="information">案内:なし</label>
+							<label id="information" class="displayLabel">案内:なし</label>
 							<div id="informationButtons" class="buttonGroup"></div>
 						</div>
 
 						<div id="information2Group">
-							<label id="information2">路線名:なし</label>
+							<label id="information2" class="displayLabel">路線名:なし</label>
 							<div id="information2Buttons" class="buttonGroup"></div>
 						</div>
 
 						<div id="nextModeGroup">
-							<label id="nextMode">次駅:なし</label>
+							<label id="nextMode" class="displayLabel">次駅:なし</label>
 							<div id="nextModeButtons" class="buttonGroup"></div>
 						</div>
 
 						<div id="carNumberGroup">
-							<label id="carNumber">号車:なし</label>
+							<label id="carNumber" class="displayLabel">号車:なし</label>
 							<div id="carNumberButtons" class="buttonGroup"></div>
 						</div>
 					</div>
@@ -124,6 +124,20 @@
 						<div id="referenceSiteLink"></div>
 					</div>
 					
+					<div id="esp32Setting">
+						<h2>Wi-Fi設定</h2>
+						<label>
+							ESP32 IPアドレス
+							<input type="text" id="esp32Ip" value="192.168.4.1">
+						</label>
+
+						<button id="transferButton">
+							ESP32へWi-Fi転送
+						</button>
+
+						<p id="transferStatus"></p>
+					</div>
+
 					<button id="vehicleSelectButton">車両選択に戻る</button>
 			
 				</aside>
@@ -156,6 +170,7 @@
 	<script src="js/render.js"></script>
 	<script src="js/vehicle.js"></script>
     <script src="js/script.js"></script>
+	<script src="js/transfer.js"></script>
 
     </body>
 

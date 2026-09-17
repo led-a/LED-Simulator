@@ -7,6 +7,17 @@ function render() {
         return;
     }
 
+    const matrix = createDisplayMatrix();
+
+    currentMatrix = matrix;
+
+    drawMatrix(matrix, cacheCtx);
+
+    ctx.clearRect(0,0,sizeLed.width,sizeLed.height);
+    ctx.drawImage(cacheCanvas,0,0);
+}
+
+function createDisplayMatrix () {
     const matrix = createEmptyMatrix();
 
     const type = getItem("type", typeId);
@@ -135,10 +146,7 @@ function render() {
             }
         }
     }
-    drawMatrix(matrix, cacheCtx);
-
-    ctx.clearRect(0,0,sizeLed.width,sizeLed.height);
-    ctx.drawImage(cacheCanvas,0,0);
+    return matrix;
 }
 
 function createEmptyMatrix() {

@@ -1,7 +1,7 @@
 #tittle {
     cursor: pointer;
-    width: 400px;
-    font-family: "Hachi Maru Pop", cursive!important;
+    width: 430px;
+    font-family: "M PLUS 1", sans-serif!important;
     font-weight: 700;
 }
 
@@ -151,6 +151,11 @@ button.tap {
     white-space: nowrap;
 }
 
+.displayLabel {
+    font-size: 24px;
+    font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
+}
+
 .buttonGroup {
     border: 2px solid #9a9a9a;
     border-radius: 8px;
@@ -224,7 +229,7 @@ button.tap {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    max-height: 800px;
+    max-height: none;
     overflow-y: auto;
 }
 
@@ -344,6 +349,37 @@ input[type="number"]::-webkit-outer-spin-button {
 
     animation: loadingDots 1.2s steps(4, end) infinite;
 
+}
+
+#referenceSite {
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    background-color: #fcfcfc;
+    border: 1px solid #000000;
+    border-radius: 8px;
+}
+
+#esp32Setting {
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    background-color: #fcfcfc;
+    border: 1px solid #000000;
+    border-radius: 8px;
+}
+
+#esp32Ip {
+    width: 200px;
+    padding: 6px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    outline: none;
+    text-align: center;
+    font-size: 16px;
+    font-family: "Times New Roman", "BIZ UDMincho", serif;
 }
 
 @keyframes loadingDots {

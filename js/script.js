@@ -525,6 +525,12 @@ function initSimulator() {
     document.getElementById("information2Buttons").innerHTML = "";
     document.getElementById("nextModeButtons").innerHTML = "";
     document.getElementById("carNumberButtons").innerHTML = "";
+    if (transferController) {
+        transferController.abort();
+        transferController = null;
+    }
+    document.getElementById("transferStatus").textContent = "";
+    document.getElementById("transferButton").disabled = false;
     const typeLabel = document.getElementById("type");
     typeLabel.textContent = "種別:なし"
     const destinationLabel = document.getElementById("destination");
