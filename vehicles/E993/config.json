@@ -1,14 +1,14 @@
 {
-    "name": "E131系200番台",
+    "name": "E993系",
 
     "explanation": "a",
 
     "hasType": true,
-    "hasDestination": true,
-    "hasInformation": true,
+    "hasDestination": false,
+    "hasInformation": false,
     "hasInformation2": false,
     "hasLine": false,
-    "hasNext": true,
+    "hasNext": false,
     "hasCarNumber": false,
     "hasCarNumberFull": false,
     "hasCarNumberSmall": false,
@@ -46,7 +46,7 @@
     "next_normal": false,
     "nextPosition": 16,
 
-    "hasReferenceSite": false,
+    "hasReferenceSite": true,
 
     "ledShape": "circle"
 }

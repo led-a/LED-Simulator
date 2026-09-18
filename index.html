@@ -103,8 +103,13 @@
 						</div>
 
 						<div id="information2Group">
-							<label id="information2" class="displayLabel">路線名:なし</label>
+							<label id="information2" class="displayLabel">案内2:なし</label>
 							<div id="information2Buttons" class="buttonGroup"></div>
+						</div>
+
+						<div id="lineGroup">
+							<label id="line" class="displayLabel">路線名:なし</label>
+							<div id="lineButtons" class="buttonGroup"></div>
 						</div>
 
 						<div id="nextModeGroup">
@@ -117,25 +122,16 @@
 							<div id="carNumberButtons" class="buttonGroup"></div>
 						</div>
 					</div>
+
+					<div id="explanation">
+						<h2>車両説明</h2>
+						<div id="explanationLabel"></div>
+					</div>
 					
 					<div id="referenceSite" hidden>
 						<h2>参考サイト</h2>
 						<label>一部の再現ドットは、以下のサイトに掲載されている再現画像を参考にドット打ちさせていただきました。</label>
 						<div id="referenceSiteLink"></div>
-					</div>
-					
-					<div id="esp32Setting">
-						<h2>Wi-Fi設定</h2>
-						<label>
-							ESP32 IPアドレス
-							<input type="text" id="esp32Ip" value="192.168.4.1">
-						</label>
-
-						<button id="transferButton">
-							ESP32へWi-Fi転送
-						</button>
-
-						<p id="transferStatus"></p>
 					</div>
 
 					<button id="vehicleSelectButton">車両選択に戻る</button>
@@ -170,7 +166,6 @@
 	<script src="js/render.js"></script>
 	<script src="js/vehicle.js"></script>
     <script src="js/script.js"></script>
-	<script src="js/transfer.js"></script>
 
     </body>
 

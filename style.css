@@ -156,11 +156,6 @@ button.tap {
     font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
 }
 
-#vehicle {
-    font-size: 24px;
-    font-family: "BIZ UDMincho", "Yu Mincho", "游明朝", serif;
-}
-
 .buttonGroup {
     border: 2px solid #9a9a9a;
     border-radius: 8px;
@@ -356,6 +351,17 @@ input[type="number"]::-webkit-outer-spin-button {
 
 }
 
+#explanation {
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    background-color: #fcfcfc;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    max-height: none;
+}
+
 #referenceSite {
     margin-top: 20px;
     padding-left: 10px;
@@ -364,27 +370,6 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: #fcfcfc;
     border: 1px solid #000000;
     border-radius: 8px;
-}
-
-#esp32Setting {
-    margin-top: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    background-color: #fcfcfc;
-    border: 1px solid #000000;
-    border-radius: 8px;
-}
-
-#esp32Ip {
-    width: 200px;
-    padding: 6px;
-    border: 1px solid #000000;
-    border-radius: 8px;
-    outline: none;
-    text-align: center;
-    font-size: 16px;
-    font-family: "Times New Roman", "BIZ UDMincho", serif;
 }
 
 @keyframes loadingDots {
@@ -456,7 +441,7 @@ input[type="number"]::-webkit-outer-spin-button {
         max-height: none!important;
     }
 
-    #displayLabel {
+    .displayLabel {
         font-size: medium!important;
     }
 }

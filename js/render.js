@@ -25,6 +25,7 @@ function createDisplayMatrix () {
     const next = getItem("next", nextId);
     const info = getItem("information", informationId);
     const info2 = getItem("information2", information2Id);
+    const line = getItem("line", lineId);
     const carNumber = getItem("carNumber", carNumberId);
     const fullCarNumber = isCarNumberFullScreen(carNumber);
     let nextY = 0;
@@ -69,7 +70,12 @@ function createDisplayMatrix () {
             }
             if(informationMode === "information2") {
                 if (information2Id != null) {
-                    drawInformation2(info2,matrix);
+                    drawInformation2(info2, matrix);
+                }
+            }
+            if(informationMode === "line") {
+                if (lineId != null) {
+                    drawLine(line,matrix);
                 }
             }
             if(informationMode === "carNumber") {
@@ -118,7 +124,12 @@ function createDisplayMatrix () {
             }
             if(informationMode === "information2") {
                 if (information2Id != null) {
-                    drawInformation2(info2,matrix);
+                    drawInformation2(info2, matrix);
+                }
+            }
+            if(informationMode === "line") {
+                if (lineId != null) {
+                    drawLine(line,matrix);
                 }
             }
             if(informationMode === "information_next") {

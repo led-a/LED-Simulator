@@ -856,8 +856,8 @@ function createInformation2Buttons() {
     const container = document.getElementById("information2Buttons");
     container.innerHTML = "";
 
-    const informationCategory = getCategory("information2");
-    if (!informationCategory) return;
+    const information2Category = getCategory("information2");
+    if (!information2Category) return;
 
     const normalBtn = document.createElement("button");
     container.classList.remove("groupedButtons", "normalButtons");
@@ -868,13 +868,13 @@ function createInformation2Buttons() {
         container.classList.add("normalButtons");
     }
 
-    normalBtn.textContent = "路線名なし";
+    normalBtn.textContent = "案内2なし";
 
     normalBtn.addEventListener ("click", () => {
         setSelected(container, normalBtn);
         information2Id = null;
         const information2Label = document.getElementById("information2");
-        information2Label.textContent = "路線名:なし"
+        information2Label.textContent = "案内2:なし"
         frame = 0;
         if (config.setSwitchingTime) {
             setTimeSetting();
@@ -886,7 +886,7 @@ function createInformation2Buttons() {
 
     if (config.information2Distinction) {
 
-        informationCategory.groups.forEach(group => {
+        information2Category.groups.forEach(group => {
 
             // ===== 無表示グループ =====
             if (group.name === "無表示") {
@@ -912,7 +912,183 @@ function createInformation2Buttons() {
                         information2Id = info.id;
                         const information2Label = document.getElementById("information2");
                         const information2Name = getName("information2", information2Id)
-                        information2Label.textContent = "路線名:" + information2Name
+                        information2Label.textContent = "案内2:" + information2Name
+                        frame = 0;
+                        if (config.setSwitchingTime) {
+                            setTimeSetting();
+                        }
+                        startRenderLoop();
+                    });
+
+                    container.appendChild(btn);
+                });
+
+                return;
+            }
+
+            // ===== 路線グループ =====
+
+            const header = document.createElement("div");
+            header.className = "groupHeader";
+            header.textContent = "▸ " + group.name;
+
+            const groupContainer = document.createElement("div");
+            groupContainer.className = "groupButtons";
+            groupContainer.hidden = true;
+
+            header.addEventListener("click", () => {
+
+                groupContainer.hidden = !groupContainer.hidden;
+
+                header.textContent =
+                    (groupContainer.hidden ? "▸ " : "▾ ") + group.name;
+
+            });
+
+            container.appendChild(header);
+            container.appendChild(groupContainer);
+
+            group.items.forEach(info => {
+
+                const btn = document.createElement("button");
+
+                const label =
+                    info.view?.full?.ja?.name ??
+                    info.view?.full?.en?.name ??
+                    info.view?.normal?.ja?.name ??
+                    info.view?.normal?.en?.name ??
+                    info.view?.small?.ja?.name ??
+                    info.view?.small?.en?.name ??
+                    info.name ??
+                    "no-name";
+
+                btn.textContent = label;
+
+                if (label.length > 6) {
+                    btn.style.fontSize = "10px";
+                }
+
+                btn.addEventListener("click", () => {
+                    setSelected(container, btn);
+                    information2Id = info.id;
+                    const information2Label = document.getElementById("information2");
+                    const information2Name = getName("information2", information2Id)
+                    information2Label.textContent = "案内2:" + information2Name
+                    frame = 0;
+                    if (config.setSwitchingTime) {
+                        setTimeSetting();
+                    }
+                    startRenderLoop();
+                });
+
+            groupContainer.appendChild(btn);
+
+            });
+
+        });
+    } else {
+        const container = document.getElementById("information2Buttons");
+
+        const category = getCategory("information2");
+
+        category?.items.forEach(info => {
+
+            const btn = document.createElement("button");
+            const label =
+                info.view?.full?.ja?.name ??
+                info.view?.full?.en?.name ??
+                info.view?.normal?.ja?.name ??
+                info.view?.normal?.en?.name ??
+                info.view?.small?.ja?.name ??
+                info.view?.small?.en?.name ??
+                info.name ??
+                "no-name";
+                btn.textContent = label;
+
+            if (label.length > 6) {
+                btn.style.fontSize = "10px";
+            }
+
+            btn.addEventListener ("click", () => { 
+                setSelected(container, btn);
+                information2Id = info.id;
+                const information2Label = document.getElementById("information2");
+                const information2Name = getName("information2", information2Id)
+                information2Label.textContent = "案内2:" + information2Name
+                frame = 0;
+                if (config.setSwitchingTime) {
+                    setTimeSetting();
+                }
+                startRenderLoop();
+            });
+
+            container.appendChild(btn);
+        });
+    }
+}
+
+function createLineButtons() {
+
+    const container = document.getElementById("lineButtons");
+    container.innerHTML = "";
+
+    const informationCategory = getCategory("line");
+    if (!informationCategory) return;
+
+    const normalBtn = document.createElement("button");
+    container.classList.remove("groupedButtons", "normalButtons");
+
+    if (config.lineDistinction) {
+        container.classList.add("groupedButtons");
+    } else {
+        container.classList.add("normalButtons");
+    }
+
+    normalBtn.textContent = "路線名なし";
+
+    normalBtn.addEventListener ("click", () => {
+        setSelected(container, normalBtn);
+        lineId = null;
+        const lineLabel = document.getElementById("line");
+        lineLabel.textContent = "路線名:なし"
+        frame = 0;
+        if (config.setSwitchingTime) {
+            setTimeSetting();
+        }
+        startRenderLoop();
+    });
+
+    container.appendChild(normalBtn);
+
+    if (config.lineDistinction) {
+
+        informationCategory.groups.forEach(group => {
+
+            // ===== 無表示グループ =====
+            if (group.name === "無表示") {
+
+                group.items.forEach(info => {
+
+                    const btn = document.createElement("button");
+
+                    const label =
+                        info.view?.full?.ja?.name ??
+                        info.view?.full?.en?.name ??
+                        info.view?.normal?.ja?.name ??
+                        info.view?.normal?.en?.name ??
+                        info.view?.small?.ja?.name ??
+                        info.view?.small?.en?.name ??
+                        info.name ??
+                        "no-name";
+
+                    btn.textContent = label;
+
+                    btn.addEventListener("click", () => {
+                        setSelected(container, btn);
+                        lineId = info.id;
+                        const lineLabel = document.getElementById("line");
+                        const lineName = getName("line", lineId)
+                        lineLabel.textContent = "路線名:" + lineName
                         frame = 0;
                         if (config.setSwitchingTime) {
                             setTimeSetting();
@@ -970,10 +1146,10 @@ function createInformation2Buttons() {
 
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
-                    information2Id = info.id;
-                    const information2Label = document.getElementById("information2");
-                    const information2Name = getName("information2", information2Id)
-                    information2Label.textContent = "路線名:" + information2Name
+                    lineId = info.id;
+                    const lineLabel = document.getElementById("line");
+                    const lineName = getName("line", lineId)
+                    lineLabel.textContent = "路線名:" + lineName
                     frame = 0;
                     if (config.setSwitchingTime) {
                         setTimeSetting();
@@ -987,9 +1163,9 @@ function createInformation2Buttons() {
 
         });
     } else {
-        const container = document.getElementById("information2Buttons");
+        const container = document.getElementById("lineButtons");
 
-        const category = getCategory("information2");
+        const category = getCategory("line");
 
         category?.items.forEach(info => {
 
@@ -1012,10 +1188,10 @@ function createInformation2Buttons() {
 
             btn.addEventListener ("click", () => {
                 setSelected(container, btn);
-                information2Id = info.id;
-                const information2Label = document.getElementById("information2");
-                const information2Name = getName("information2", information2Id)
-                information2Label.textContent = "路線名:" + information2Name
+                lineId = info.id;
+                const lineLabel = document.getElementById("line");
+                const lineName = getName("line", lineId)
+                lineLabel.textContent = "路線名:" + lineName
                 frame = 0;
                 if (config.setSwitchingTime) {
                     setTimeSetting();
@@ -1040,8 +1216,10 @@ function setVehicleSelectButton() {
     const container = document.getElementById("vehicleSelectButton");
     container.addEventListener("click", () => {
         initSimulator();
-        clearReferenceSite()
+        clearReferenceSite();
+        clearExplanation();
         document.getElementById("referenceSite").hidden = true;
+        document.getElementById("explanation").hidden = true;
         document.getElementById("jaTime").hidden = true;
         document.getElementById("enTime").hidden = true;
         document.getElementById("infoTime").hidden = true;
@@ -1104,8 +1282,18 @@ function setTimeSetting() {
         document.getElementById("jaTime").hidden = true;
         document.getElementById("enTime").hidden = true;
     } else {
-        document.getElementById("jaTime").hidden = false;
-        document.getElementById("enTime").hidden = false;
+        if (typeId != null) {
+            if (config.languageSwitching) {
+                document.getElementById("jaTime").hidden = false;
+                document.getElementById("enTime").hidden = false;
+            }
+        }
+        if (destinationId != null) {
+            if(config.destinationLanguageSwitching) {
+                document.getElementById("jaTime").hidden = false;
+                document.getElementById("enTime").hidden = false;
+            }
+        }
     }
     if (informationId === null) {
         document.getElementById("infoTime").hidden = true;
@@ -1117,14 +1305,4 @@ function setTimeSetting() {
     } else {
         document.getElementById("carNumberTime").hidden = false;
     }
-    console.log({
-        typeId,
-        destinationId,
-        informationId,
-        carNumberId,
-        jaHidden: jaTime.hidden,
-        enHidden: enTime.hidden,
-        infoHidden: infoTime.hidden,
-        carHidden: carNumberTime.hidden
-    });
 }

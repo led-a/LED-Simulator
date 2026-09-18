@@ -5,6 +5,7 @@ let destinationId = null;
 let nextId = null;
 let informationId = null;
 let information2Id = null;
+let lineId = null;
 let carNumberId = null;
 
 let displayMode = "normal";

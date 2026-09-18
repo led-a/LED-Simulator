@@ -38,6 +38,13 @@ function createVehicleButtons() {
             await loadConfig();
             await startVehicle();
             initVehicles();
+            setExplanation();
+            if (config.setSwitchingTime) {
+                document.querySelector("#jaTime input").value = config.jaTime;
+                document.querySelector("#enTime input").value = config.enTime;
+                document.querySelector("#infoTime input").value = config.infoTime;
+                document.querySelector("#carNumberTime input").value = config.carNumberTime;
+            }
             if (config.hasReferenceSite) {
                 setReferenceSite();
             } else {

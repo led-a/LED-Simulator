@@ -89,6 +89,12 @@ function setupVehicleUI() {
     } else {
         document.getElementById("information2Group").hidden = true;
     }
+    if (config.hasLine) {
+        document.getElementById("lineGroup").hidden = false;
+        createLineButtons();
+    } else {
+        document.getElementById("lineGroup").hidden = true;
+    }
     if (config.hasNext) {
         document.getElementById("nextModeGroup").hidden = false;
         createNextModeButtons();
@@ -396,6 +402,22 @@ function buildSceneList() {
         }
     }
 
+    if (lineId != null) {
+        if (nextId != null) {
+            sceneList.push({
+                lang: "ja",
+                information: "line",
+                next: true
+            });
+        } else {
+            sceneList.push({
+                lang: "ja",
+                information: "line",
+                next: false
+            });
+        }
+    }
+
     if (carNumberId != null) {
         if (config.hasCarNumberFull) {
             if (nextId != null) {
@@ -523,14 +545,9 @@ function initSimulator() {
     document.getElementById("destinationButtons").innerHTML = "";
     document.getElementById("informationButtons").innerHTML = "";
     document.getElementById("information2Buttons").innerHTML = "";
+    document.getElementById("lineButtons").innerHTML = "";
     document.getElementById("nextModeButtons").innerHTML = "";
     document.getElementById("carNumberButtons").innerHTML = "";
-    if (transferController) {
-        transferController.abort();
-        transferController = null;
-    }
-    document.getElementById("transferStatus").textContent = "";
-    document.getElementById("transferButton").disabled = false;
     const typeLabel = document.getElementById("type");
     typeLabel.textContent = "種別:なし"
     const destinationLabel = document.getElementById("destination");
@@ -539,6 +556,8 @@ function initSimulator() {
     informationLabel.textContent = "案内:なし"
     const information2Label = document.getElementById("information2");
     information2Label.textContent = "案内2:なし"
+    const lineLabel = document.getElementById("line");
+    lineLabel.textContent = "路線名:なし"
     const nextLabel = document.getElementById("nextMode");
     nextLabel.textContent = "次駅:なし"
     const carNumberLabel = document.getElementById("carNumber");
@@ -548,6 +567,7 @@ function initSimulator() {
     destinationId = null;
     informationId = null;
     information2Id = null;
+    lineId = null;
     carNumberId = null;
     nextId = null;
     sceneList = [];
@@ -674,7 +694,9 @@ const tittle = document.getElementById("tittle");
 tittle.addEventListener("click", () => {
     initSimulator();
     clearReferenceSite();
+    clearExplanation();
     document.getElementById("referenceSite").hidden = true;
+    document.getElementById("explanation").hidden = true;
     document.getElementById("jaTime").hidden = true;
     document.getElementById("enTime").hidden = true;
     document.getElementById("infoTime").hidden = true;
@@ -682,6 +704,20 @@ tittle.addEventListener("click", () => {
     document.getElementById("simulator").hidden = true;
     document.getElementById("vehicleSelector").hidden = false;
 })
+
+function setExplanation() {
+    document.getElementById("explanation").hidden = false;
+    const explanationLabel = document.getElementById("explanationLabel");
+    const label = document.createElement("label");
+    label.textContent = config.explanation;
+    explanationLabel.appendChild(label)
+}
+
+function clearExplanation() {
+    const explanationLabel = document.getElementById("explanationLabel");
+
+    explanationLabel.innerHTML = "";
+}
 
 function setReferenceSite() {
     document.getElementById("referenceSite").hidden = false;
