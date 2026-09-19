@@ -1315,7 +1315,15 @@ function setTimeSetting() {
 }
 
 startScrollBtn.addEventListener("click", () => {
-    startRenderLoop();
-    clickStartScrollBtn = true;
-    startScroll();
+    if (!typeId) {
+        return;
+    }
+    const type = getItem ("type", typeId);
+    if (!isTypeFullScreen(type)) {
+        startRenderLoop();
+        clickStartScrollBtn = true;
+        startScroll();
+    } else {
+        return; 
+    }
 });

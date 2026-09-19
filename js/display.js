@@ -850,10 +850,15 @@ function createScrollMatrix() {
 }
  
 function drawScroll() {
+    if (!typeId) {
+        return;
+    }
+    const type = getItem("type", typeId)
     if (
         !scrollCheck.checked ||
         clickStartScrollBtn === false ||
-        scrollId === null
+        scrollId === null ||
+        isTypeFullScreen(type) === true
     ) {
         clearInterval(scrollTimer);
         scrollTimer = null;
