@@ -1218,6 +1218,8 @@ function setVehicleSelectButton() {
         initSimulator();
         clearReferenceSite();
         clearExplanation();
+        document.getElementById("scrollText").hidden = true;
+        document.getElementById("startScrollBtn").hidden = true;
         document.getElementById("referenceSite").hidden = true;
         document.getElementById("explanation").hidden = true;
         document.getElementById("jaTime").hidden = true;
@@ -1226,6 +1228,11 @@ function setVehicleSelectButton() {
         document.getElementById("carNumberTime").hidden = true;
         document.getElementById("simulator").hidden = true;
         document.getElementById("vehicleSelector").hidden = false;
+        document.getElementById("scrollCheck").checked = false;
+        scrollId = null;
+        scrollTimer = null;
+        clickStartScrollBtn = false;
+        stopScroll();
     })
 }
 
@@ -1306,3 +1313,9 @@ function setTimeSetting() {
         document.getElementById("carNumberTime").hidden = false;
     }
 }
+
+startScrollBtn.addEventListener("click", () => {
+    startRenderLoop();
+    clickStartScrollBtn = true;
+    startScroll();
+});

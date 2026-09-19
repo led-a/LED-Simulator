@@ -330,6 +330,10 @@ input[type="number"]::-webkit-outer-spin-button {
     border-radius: 4px;
 }
 
+#startScrollBtn[hidden] {
+    display: none;
+}
+
 #referenceSite {
     display: grid;
 }
@@ -403,6 +407,10 @@ input[type="number"]::-webkit-outer-spin-button {
     border-radius: 8px;
 }
 
+#scrollCanvas {
+    display: none;
+}
+
 @keyframes loadingDots {
 
     0%   { content: ""; }
@@ -415,6 +423,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
     100% { content: ""; }
     
+}
+
+@font-face {
+    font-family: "KH Kagurazaka 16";
+    src: url("fonts/KH-Dot-Kagurazaka-16.ttf") format("truetype");
 }
 
 @media (max-width: 768px) {
