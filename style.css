@@ -377,7 +377,7 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: #fcfcfc;
     border: 1px solid #000000;
     border-radius: 8px;
-    max-height: none;
+    max-height: 500px;
 }
 
 #referenceSite {
