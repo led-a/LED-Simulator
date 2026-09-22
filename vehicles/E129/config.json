@@ -1,16 +1,16 @@
 {
-    "name": "青い森703系",
+    "name": "E129系",
 
     "explanation": "a",
 
     "hasType": true,
     "hasDestination": true,
-    "hasInformation": false,
-    "hasInformation2": false,
+    "hasInformation": true,
+    "hasInformation2": true,
     "hasLine": false,
-    "hasNext": false,
-    "hasScroll": false,
-    "scrollLabel": null,
+    "hasNext": true,
+    "hasScroll": true,
+    "scrollLabel": "停車駅：新津、終点　新潟です。",
     "hasCarNumber": false,
     "hasCarNumberFull": false,
     "hasCarNumberSmall": false,
@@ -23,8 +23,8 @@
 
     "hasInformationCombined": true,
 
-    "destinationDistinction": false,
-    "nextModeDistinction": false,
+    "destinationDistinction": true,
+    "nextModeDistinction": true,
     "typeDistinction": false,
     "informationDistinction": false,
     "information2Distinction": false,
@@ -52,7 +52,7 @@
     "next_normal": false,
     "nextPosition": 16,
 
-    "hasReferenceSite": true,
+    "hasReferenceSite": false,
 
     "ledShape": "circle"
 }

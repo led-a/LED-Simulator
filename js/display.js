@@ -354,10 +354,14 @@ function drawInformationSmall(info, matrix) {
         ? "full_small"
         : "small";
     if (informationMode === "information_small1") {
-        view = "small1"
+        view = isInformationFullScreen(info)
+            ? "full_small1"
+            : "small1";
     }
     if (informationMode === "information_small2") {
-        view = "small2"
+        view = isInformationFullScreen(info)
+            ? "full_small2"
+            : "small2";
     }
 
     let data =
@@ -384,14 +388,67 @@ function drawInformationSmall(info, matrix) {
     drawImage(data, typewidth, 0, matrix);
 }
 
+function drawInformation2Small(info2, matrix) {
+
+    let usedSmall = false;
+    let typewidth;
+
+    let view = isInformationFullScreen(info2)
+        ? "full_small"
+        : "small";
+    if (informationMode === "information2_small1") {
+        view = isInformationFullScreen(info2)
+            ? "full_small1"
+            : "small1";
+    }
+    if (informationMode === "information2_small2") {
+        view = isInformationFullScreen(info2)
+            ? "full_small2"
+            : "small2";
+    }
+
+    let data =
+        info2.view?.[view]?.[lang]
+        ?? info2.view?.[view]?.ja;
+        if (view === "small" || view === "small1" || view === "small2") {
+            usedSmall = true;
+        }
+
+    if (!data) {
+        data =
+            info2.view?.small?.[lang]
+            ?? info2.view?.small?.ja;
+        usedSmall = true;
+    }
+
+    if (!data) return;
+    const type = getItem("type", typeId)
+    if (usedSmall) {
+        typewidth = getTypeWidth(type, usedSmall);
+    } else {
+        typewidth = 0;
+    }
+    let yOffset;
+    const nextPosition = config.nextPosition;
+    if (informationMode === "information_information2") {
+        yOffset = nextPosition;
+    } else {
+        yOffset = 0;
+    }
+    drawImage(data, typewidth, yOffset, matrix);
+}
+
 function drawNext(next, matrix) {
 
     let usedNormal = false;
     let typewidth;
 
-    const view = isNextFullScreen(next)
+    let view = isNextFullScreen(next)
         ? "full"
         : "normal"
+    if (config.hasNextFullScreen) {
+        view = "full"
+    }
 
     let data =
         next?.view?.[view]?.[lang]
@@ -643,7 +700,7 @@ function isInformationFullScreen(info) {
     if(!info) return false;
 
     const hasNormal = !!info.view.normal;
-    const hasFull = !!info.view.full;
+    const hasFull = !!info.view.full || !!info.view.full_small || !!info.view.full_small1 || !!info.view.full_small2;
 
     if(hasFull && !hasNormal){
         return true;
@@ -857,18 +914,35 @@ function createScrollMatrix() {
 }
  
 function drawScroll() {
-    if (!typeId) {
+    if (!typeId && !destinationId) {
         stopScroll();
         return;
     }
 
-    const type = getItem("type", typeId);
+    let type;
+    let isTypeFull;
+    areaLeft = 48;
+    if (typeId != null) {
+        type = getItem("type", typeId);
+        isTypeFull = isTypeFullScreen(type);
+    } else {
+        isTypeFull = false;
+        if (config.hasScrollFullScreen) {
+            areaLeft = -1;
+        } else {
+            areaLeft = 48
+        }
+    }
+
+    if (config.hasNextFullScreen) {
+        areaLeft = -1;
+    }
 
     if (
         !scrollCheck.checked ||
         clickStartScrollBtn === false ||
         scrollId === null ||
-        isTypeFullScreen(type) === true
+        isTypeFull === true
     ) {
         stopScroll();
         return;
@@ -935,13 +1009,31 @@ function startScroll() {
         return;
     }
 
-    if (!typeId) {
+    if (!typeId && !destinationId) {
         return;
     }
 
-    const type = getItem("type", typeId);
+    let type;
+    let isTypeFull;
+    areaLeft = 48;
+    areaRight = config.ledWidth;
+    if (typeId != null) {
+        type = getItem("type", typeId);
+        isTypeFull = isTypeFullScreen(type);
+    } else {
+        isTypeFull = false;
+        if (config.hasScrollFullScreen) {
+            areaLeft = -1;
+        } else {
+            areaLeft = 48
+        }
+    }
 
-    if (!type || isTypeFullScreen(type)) {
+    if (config.hasNextFullScreen) {
+        areaLeft = -1;
+    }
+
+    if (isTypeFull === true) {
         return;
     }
 

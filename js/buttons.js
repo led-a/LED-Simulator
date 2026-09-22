@@ -647,6 +647,8 @@ function createNextModeButtons() {
             const label =
                 item.view?.normal?.ja?.name ??
                 item.view?.normal?.en?.name ??
+                item.view?.full?.ja?.name ??
+                item.view?.full?.en?.name ??
                 item.name ??
                 "no-name";
             btn.textContent = label;
@@ -783,6 +785,14 @@ function createInformationButtons() {
                     info.view?.normal?.en?.name ??
                     info.view?.small?.ja?.name ??
                     info.view?.small?.en?.name ??
+                    info.view?.small1?.ja?.name ??
+                    info.view?.small1?.en?.name ??
+                    info.view?.small2?.ja?.name ??
+                    info.view?.small2?.en?.name ??
+                    info.view?.full_small1?.ja?.name ??
+                    info.view?.full_small1?.en?.name ??
+                    info.view?.full_small2?.ja?.name ??
+                    info.view?.full_small2?.en?.name ??
                     info.name ??
                     "no-name";
 
@@ -825,6 +835,14 @@ function createInformationButtons() {
                 info.view?.normal?.en?.name ??
                 info.view?.small?.ja?.name ??
                 info.view?.small?.en?.name ??
+                info.view?.small1?.ja?.name ??
+                info.view?.small1?.en?.name ??
+                info.view?.small2?.ja?.name ??
+                info.view?.small2?.en?.name ??
+                info.view?.full_small1?.ja?.name ??
+                info.view?.full_small1?.en?.name ??
+                info.view?.full_small2?.ja?.name ??
+                info.view?.full_small2?.en?.name ??
                 info.name ??
                 "no-name";
                 btn.textContent = label;
@@ -1215,6 +1233,7 @@ function setSelected(container, button) {
 function setVehicleSelectButton() {
     const container = document.getElementById("vehicleSelectButton");
     container.addEventListener("click", () => {
+        document.body.classList.remove("simulatorMode");
         initSimulator();
         clearReferenceSite();
         clearExplanation();
@@ -1242,6 +1261,11 @@ function getName(items, itemId) {
         item.view?.normal?.ja?.name ??
         item.view?.small?.ja?.name ??
         item.view?.full?.ja?.name ??
+        item.view?.small1?.ja?.name ??
+        item.view?.small2?.ja?.name ??
+        item.view?.full_small?.ja?.name ??
+        item.view?.full_small1?.ja?.name ??
+        item.view?.full_small2?.ja?.name ??
         ""
     );
 }
@@ -1315,7 +1339,7 @@ function setTimeSetting() {
 }
 
 startScrollBtn.addEventListener("click", () => {
-    if (!typeId) {
+    if (!typeId && !destinationId) {
         return;
     }
     const type = getItem ("type", typeId);

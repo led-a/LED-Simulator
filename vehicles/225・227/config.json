@@ -6,7 +6,7 @@
     "hasType": true,
     "hasDestination": true,
     "hasInformation": true,
-    "hasInformation2": false,
+    "hasInformation2": true,
     "hasLine": false,
     "hasNext": false,
     "hasScroll": false,
@@ -18,6 +18,10 @@
     "carNumber": "right",
     "informationPosition": "next",
     "destinationPosition": "normal",
+    "hasNextFullScreen": false,
+    "hasScrollFullScreen": false,
+
+    "hasInformationCombined": true,
 
     "destinationDistinction": true,
     "nextModeDistinction": true,
