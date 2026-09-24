@@ -1,16 +1,16 @@
 {
-    "name": "E131系200番台",
+    "name": "E131系800番台",
 
     "explanation": "a",
 
     "hasType": true,
     "hasDestination": true,
-    "hasInformation": false,
+    "hasInformation": true,
     "hasInformation2": false,
     "hasLine": false,
     "hasNext": true,
-    "hasScroll": true,
-    "scrollLabel": "停車駅：南松本、終点　松本です。",
+    "hasScroll": false,
+    "scrollLabel": null,
     "hasCarNumber": false,
     "hasCarNumberFull": false,
     "hasCarNumberSmall": false,
@@ -20,7 +20,7 @@
     "destinationPosition": "normal",
     "hasNextFullScreen": false,
     "hasScrollFullScreen": false,
-    "information_ja_en": false,
+    "information_ja_en": true,
 
     "hasInformationCombined": false,
 

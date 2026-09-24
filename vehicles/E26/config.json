@@ -20,8 +20,9 @@
     "destinationPosition": "next",
     "hasNextFullScreen": false,
     "hasScrollFullScreen": false,
+    "information_ja_en": false,
 
-    "hasInformationCombined": true,
+    "hasInformationCombined": false,
 
     "destinationDistinction": false,
     "nextModeDistinction": false,

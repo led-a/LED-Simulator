@@ -1,16 +1,5 @@
 [
     {
-        "id": "E129",
-        "name": "E129系",
-        "config": "vehicles/E129/config.json",
-        "led": "vehicles/E129/led.json",
-        "icons": [
-            "vehicles/E129/icons/icon1.png"
-        ],
-        "site": "vehicles/E129/site.json",
-        "font": "fonts/font_E233.json"
-    },
-    {
         "id": "E131-200",
         "name": "E131系200番台",
         "config": "vehicles/E131-200/config.json",
@@ -20,6 +9,16 @@
         ],
         "site": "vehicles/E131-200/site.json",
         "font": "fonts/font_E131.json"
+    },
+    {
+        "id": "E131-800",
+        "name": "E131系800番台",
+        "config": "vehicles/E131-800/config.json",
+        "led": "vehicles/E131-800/led.json",
+        "icons": [
+            "vehicles/E131-800/icons/icon1.png"
+        ],
+        "site": "vehicles/E131-800/site.json"
     },
     {
         "id": "mari_E233",
@@ -50,6 +49,16 @@
             "vehicles/HB-E210/icons/icon1.png"
         ],
         "site": "vehicles/HB-E210/site.json"
+    },
+    {
+        "id": "HB-E300(1)",
+        "name": "HB-E300系「リゾートあすなろ」",
+        "config": "vehicles/HB-E300(1)/config.json",
+        "led": "vehicles/HB-E300(1)/led.json",
+        "icons": [
+            "vehicles/HB-E300(1)/icons/icon1.png"
+        ],
+        "site": "vehicles/HB-E300(1)/site.json"
     },
     {
         "id": "E26",
