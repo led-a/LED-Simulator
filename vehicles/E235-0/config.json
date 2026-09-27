@@ -1,22 +1,22 @@
 {
-    "name": "JR西日本一体型フルカラーLED",
+    "name": "E235系0番台",
 
     "explanation": "a",
 
     "hasType": true,
     "hasDestination": true,
     "hasInformation": true,
-    "hasInformation2": true,
+    "hasInformation2": false,
     "hasLine": false,
-    "hasNext": false,
+    "hasNext": true,
     "hasScroll": false,
     "scrollLabel": null,
-    "hasCarNumber": true,
+    "hasCarNumber": false,
     "hasCarNumberFull": false,
-    "hasCarNumberSmall": true,
+    "hasCarNumberSmall": false,
     "hasCarNumberNormal": false,
-    "carNumber": "right",
-    "informationPosition": "next",
+    "carNumber": null,
+    "informationPosition": "normal",
     "destinationPosition": "normal",
     "hasNextFullScreen": false,
     "hasScrollFullScreen": false,
@@ -24,26 +24,26 @@
 
     "hasInformationCombined": false,
 
-    "destinationDistinction": true,
-    "nextModeDistinction": true,
-    "typeDistinction": true,
+    "destinationDistinction": false,
+    "nextModeDistinction": false,
+    "typeDistinction": false,
     "informationDistinction": false,
     "information2Distinction": false,
     "lineDistinction": false,
     "carNumberDistinction": false,
 
-    "typeSwitching": true,
+    "typeSwitching": false,
 
     "sceneInterval": 3000,
     "languageSwitching": false,
     "carNumberLanguageSwitching": false,
-    "destinationLanguageSwitching": true,
-    "informationLanguageSwitching": true,
-    "ledWidth": 160,
+    "destinationLanguageSwitching": false,
+    "informationLanguageSwitching": false,
+    "ledWidth": 128,
     "ledHeight": 32,
-    "pixelSize": 7,
-    "ledSize": 4.8,
-    "ledGap": 2.2,
+    "pixelSize": 8.5,
+    "ledSize": 6.5,
+    "ledGap": 2,
 
     "enAhead": false,
     "informationAhead": false,
@@ -53,7 +53,7 @@
     "next_normal": false,
     "nextPosition": 18,
 
-    "hasReferenceSite": true,
+    "hasReferenceSite": false,
 
     "ledShape": "circle"
 }
