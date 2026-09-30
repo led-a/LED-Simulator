@@ -53,14 +53,79 @@ function createTypeButtons() {
 
                     btn.addEventListener("click", () => {
                         setSelected(container, btn);
+
                         typeId = item.id;
+
+                        const typeData = getItem("type", typeId);
+                        const nullType = getItem("type", "null_type");
+
+                        const typeJaWidth = typeData.view?.normal?.ja?.width;
+                        const typeEnWidth = typeData.view?.normal?.en?.width;
+
+                        const nullTypeJaWidth = nullType.view?.normal?.ja?.width;
+                        const nullTypeEnWidth = nullType.view?.normal?.en?.width;
+
+                        typeScroll =
+                            typeJaWidth !== nullTypeJaWidth ||
+                            typeEnWidth !== nullTypeEnWidth;
+
+                        if (typeJaWidth !== nullTypeJaWidth) {
+                            startTypeScroll("ja");
+                        } else {
+                            stopTypeScroll("ja");
+                        }
+
+                        if (typeEnWidth !== nullTypeEnWidth) {
+                            startTypeScroll("en");
+                        } else {
+                            stopTypeScroll("en");
+                        }
+
+                        // すでに行先が選択されている場合、
+                        // 種別の幅が変わったので行先スクロールも再計算
+                        if (destinationId != null) {
+                            const destinationData = getItem("destination", destinationId);
+                            const nullDestination = getItem("destination", "null_destination");
+
+                            const destinationJaWidth =
+                                destinationData.view?.normal?.ja?.width;
+
+                            const destinationEnWidth =
+                                destinationData.view?.normal?.en?.width;
+
+                            const nullDestinationJaWidth =
+                                nullDestination.view?.normal?.ja?.width;
+
+                            const nullDestinationEnWidth =
+                                nullDestination.view?.normal?.en?.width;
+
+                            destinationScroll =
+                                destinationJaWidth !== nullDestinationJaWidth ||
+                                destinationEnWidth !== nullDestinationEnWidth;
+
+                            if (destinationJaWidth !== nullDestinationJaWidth) {
+                                startDestinationScroll("ja");
+                            } else {
+                                stopDestinationScroll("ja");
+                            }
+
+                            if (destinationEnWidth !== nullDestinationEnWidth) {
+                                startDestinationScroll("en");
+                            } else {
+                                stopDestinationScroll("en");
+                            }
+                        }
+
                         const typeLabel = document.getElementById("type");
-                        const typeName = getName("type", typeId)
-                        typeLabel.textContent = "種別:" + typeName
+                        const typeName = getName("type", typeId);
+                        typeLabel.textContent = "種別:" + typeName;
+
                         frame = 0;
+
                         if (config.setSwitchingTime) {
                             setTimeSetting();
                         }
+
                         startRenderLoop();
                     });
 
@@ -112,14 +177,79 @@ function createTypeButtons() {
 
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
+
                     typeId = item.id;
+
+                    const typeData = getItem("type", typeId);
+                    const nullType = getItem("type", "null_type");
+
+                    const typeJaWidth = typeData.view?.normal?.ja?.width;
+                    const typeEnWidth = typeData.view?.normal?.en?.width;
+
+                    const nullTypeJaWidth = nullType.view?.normal?.ja?.width;
+                    const nullTypeEnWidth = nullType.view?.normal?.en?.width;
+
+                    typeScroll =
+                        typeJaWidth !== nullTypeJaWidth ||
+                        typeEnWidth !== nullTypeEnWidth;
+
+                    if (typeJaWidth !== nullTypeJaWidth) {
+                        startTypeScroll("ja");
+                    } else {
+                        stopTypeScroll("ja");
+                    }
+
+                    if (typeEnWidth !== nullTypeEnWidth) {
+                        startTypeScroll("en");
+                    } else {
+                        stopTypeScroll("en");
+                    }
+
+                    // すでに行先が選択されている場合、
+                    // 種別の幅が変わったので行先スクロールも再計算
+                    if (destinationId != null) {
+                        const destinationData = getItem("destination", destinationId);
+                        const nullDestination = getItem("destination", "null_destination");
+
+                        const destinationJaWidth =
+                            destinationData.view?.normal?.ja?.width;
+
+                        const destinationEnWidth =
+                            destinationData.view?.normal?.en?.width;
+
+                        const nullDestinationJaWidth =
+                            nullDestination.view?.normal?.ja?.width;
+
+                        const nullDestinationEnWidth =
+                            nullDestination.view?.normal?.en?.width;
+
+                        destinationScroll =
+                            destinationJaWidth !== nullDestinationJaWidth ||
+                            destinationEnWidth !== nullDestinationEnWidth;
+
+                        if (destinationJaWidth !== nullDestinationJaWidth) {
+                            startDestinationScroll("ja");
+                        } else {
+                            stopDestinationScroll("ja");
+                        }
+
+                        if (destinationEnWidth !== nullDestinationEnWidth) {
+                            startDestinationScroll("en");
+                        } else {
+                            stopDestinationScroll("en");
+                        }
+                    }
+
                     const typeLabel = document.getElementById("type");
-                    const typeName = getName("type", typeId)
-                    typeLabel.textContent = "種別:" + typeName
+                    const typeName = getName("type", typeId);
+                    typeLabel.textContent = "種別:" + typeName;
+
                     frame = 0;
+
                     if (config.setSwitchingTime) {
                         setTimeSetting();
                     }
+
                     startRenderLoop();
                 });
 
@@ -149,16 +279,81 @@ function createTypeButtons() {
                 btn.style.fontSize = "10px";
             }
 
-            btn.addEventListener ("click", () => {
+            btn.addEventListener("click", () => {
                 setSelected(container, btn);
+
                 typeId = item.id;
+
+                const typeData = getItem("type", typeId);
+                const nullType = getItem("type", "null_type");
+
+                const typeJaWidth = typeData.view?.normal?.ja?.width;
+                const typeEnWidth = typeData.view?.normal?.en?.width;
+
+                const nullTypeJaWidth = nullType.view?.normal?.ja?.width;
+                const nullTypeEnWidth = nullType.view?.normal?.en?.width;
+
+                typeScroll =
+                    typeJaWidth !== nullTypeJaWidth ||
+                    typeEnWidth !== nullTypeEnWidth;
+
+                if (typeJaWidth !== nullTypeJaWidth) {
+                    startTypeScroll("ja");
+                } else {
+                    stopTypeScroll("ja");
+                }
+
+                if (typeEnWidth !== nullTypeEnWidth) {
+                    startTypeScroll("en");
+                } else {
+                    stopTypeScroll("en");
+                }
+
+                // すでに行先が選択されている場合、
+                // 種別の幅が変わったので行先スクロールも再計算
+                if (destinationId != null) {
+                    const destinationData = getItem("destination", destinationId);
+                    const nullDestination = getItem("destination", "null_destination");
+
+                    const destinationJaWidth =
+                        destinationData.view?.normal?.ja?.width;
+
+                    const destinationEnWidth =
+                        destinationData.view?.normal?.en?.width;
+
+                    const nullDestinationJaWidth =
+                        nullDestination.view?.normal?.ja?.width;
+
+                    const nullDestinationEnWidth =
+                        nullDestination.view?.normal?.en?.width;
+
+                    destinationScroll =
+                        destinationJaWidth !== nullDestinationJaWidth ||
+                        destinationEnWidth !== nullDestinationEnWidth;
+
+                    if (destinationJaWidth !== nullDestinationJaWidth) {
+                        startDestinationScroll("ja");
+                    } else {
+                        stopDestinationScroll("ja");
+                    }
+
+                    if (destinationEnWidth !== nullDestinationEnWidth) {
+                        startDestinationScroll("en");
+                    } else {
+                        stopDestinationScroll("en");
+                    }
+                }
+
                 const typeLabel = document.getElementById("type");
-                const typeName = getName("type", typeId)
-                typeLabel.textContent = "種別:" + typeName
+                const typeName = getName("type", typeId);
+                typeLabel.textContent = "種別:" + typeName;
+
                 frame = 0;
+
                 if (config.setSwitchingTime) {
                     setTimeSetting();
                 }
+
                 startRenderLoop();
             });
 
@@ -388,13 +583,44 @@ function createDestinationButtons() {
                     btn.addEventListener("click", () => {
                         setSelected(container, btn);
                         destinationId = dest.id;
+
+                        const destinationData = getItem("destination", destinationId);
+                        const nullDestination = getItem("destination", "null_destination");
+
+                        const destinationJaWidth = destinationData.view?.normal?.ja?.width;
+                        const destinationEnWidth = destinationData.view?.normal?.en?.width;
+
+                        const nullDestinationJaWidth =
+                            nullDestination.view?.normal?.ja?.width;
+                        const nullDestinationEnWidth =
+                            nullDestination.view?.normal?.en?.width;
+
+                        destinationScroll =
+                            destinationJaWidth !== nullDestinationJaWidth ||
+                            destinationEnWidth !== nullDestinationEnWidth;
+
+                        if (destinationJaWidth !== nullDestinationJaWidth) {
+                            startDestinationScroll("ja");
+                        } else {
+                            stopDestinationScroll("ja");
+                        }
+
+                        if (destinationEnWidth !== nullDestinationEnWidth) {
+                            startDestinationScroll("en");
+                        } else {
+                            stopDestinationScroll("en");
+                        }
+
                         const destinationLabel = document.getElementById("destination");
-                        const destinationName = getName("destination", destinationId)
-                        destinationLabel.textContent = "行先:" + destinationName
+                        const destinationName = getName("destination", destinationId);
+                        destinationLabel.textContent = "行先:" + destinationName;
+
                         frame = 0;
+
                         if (config.setSwitchingTime) {
                             setTimeSetting();
                         }
+
                         startRenderLoop();
                     });
 
@@ -449,13 +675,44 @@ function createDestinationButtons() {
                 btn.addEventListener("click", () => {
                     setSelected(container, btn);
                     destinationId = dest.id;
+
+                    const destinationData = getItem("destination", destinationId);
+                    const nullDestination = getItem("destination", "null_destination");
+
+                    const destinationJaWidth = destinationData.view?.normal?.ja?.width;
+                    const destinationEnWidth = destinationData.view?.normal?.en?.width;
+
+                    const nullDestinationJaWidth =
+                        nullDestination.view?.normal?.ja?.width;
+                    const nullDestinationEnWidth =
+                        nullDestination.view?.normal?.en?.width;
+
+                    destinationScroll =
+                        destinationJaWidth !== nullDestinationJaWidth ||
+                        destinationEnWidth !== nullDestinationEnWidth;
+
+                    if (destinationJaWidth !== nullDestinationJaWidth) {
+                        startDestinationScroll("ja");
+                    } else {
+                        stopDestinationScroll("ja");
+                    }
+
+                    if (destinationEnWidth !== nullDestinationEnWidth) {
+                        startDestinationScroll("en");
+                    } else {
+                        stopDestinationScroll("en");
+                    }
+
                     const destinationLabel = document.getElementById("destination");
-                    const destinationName = getName("destination", destinationId)
-                    destinationLabel.textContent = "行先:" + destinationName
+                    const destinationName = getName("destination", destinationId);
+                    destinationLabel.textContent = "行先:" + destinationName;
+
                     frame = 0;
+
                     if (config.setSwitchingTime) {
                         setTimeSetting();
                     }
+
                     startRenderLoop();
                 });
 
@@ -487,16 +744,47 @@ function createDestinationButtons() {
                 btn.style.fontSize = "10px";
             }
 
-            btn.addEventListener ("click", () => { 
+            btn.addEventListener("click", () => {
                 setSelected(container, btn);
                 destinationId = dest.id;
+
+                const destinationData = getItem("destination", destinationId);
+                const nullDestination = getItem("destination", "null_destination");
+
+                const destinationJaWidth = destinationData.view?.normal?.ja?.width;
+                const destinationEnWidth = destinationData.view?.normal?.en?.width;
+
+                const nullDestinationJaWidth =
+                    nullDestination.view?.normal?.ja?.width;
+                const nullDestinationEnWidth =
+                    nullDestination.view?.normal?.en?.width;
+
+                destinationScroll =
+                    destinationJaWidth !== nullDestinationJaWidth ||
+                    destinationEnWidth !== nullDestinationEnWidth;
+
+                if (destinationJaWidth !== nullDestinationJaWidth) {
+                    startDestinationScroll("ja");
+                } else {
+                    stopDestinationScroll("ja");
+                }
+
+                if (destinationEnWidth !== nullDestinationEnWidth) {
+                    startDestinationScroll("en");
+                } else {
+                    stopDestinationScroll("en");
+                }
+
                 const destinationLabel = document.getElementById("destination");
-                const destinationName = getName("destination", destinationId)
-                destinationLabel.textContent = "行先:" + destinationName
+                const destinationName = getName("destination", destinationId);
+                destinationLabel.textContent = "行先:" + destinationName;
+
                 frame = 0;
+
                 if (config.setSwitchingTime) {
                     setTimeSetting();
                 }
+
                 startRenderLoop();
             });
 

@@ -47,4 +47,7 @@ let areaRight = 128;
 let areaTop = 16;
 let areaBottom = 32;
 
+let typeScroll = false;
+let destinationScroll = false;
+
 const langs = ["ja", "en"];
