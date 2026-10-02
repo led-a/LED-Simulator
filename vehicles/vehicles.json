@@ -71,6 +71,67 @@
         "site": "vehicles/HB-E300(1)/site.json"
     },
     {
+        "id": "HB-E300_hinabi",
+        "name": "HB-E300系「ひなび」",
+        "config": "vehicles/HB-E300_hinabi/config.json",
+        "led": "vehicles/HB-E300_hinabi/led.json",
+        "icons": [
+            "vehicles/HB-E300_hinabi/icons/icon1.png"
+        ],
+        "site": "vehicles/HB-E300_hinabi/site.json"
+    },
+    {
+        "id": "HB-E300_satono",
+        "name": "HB-E300系「SATONO」",
+        "config": "vehicles/HB-E300_satono/config.json",
+        "led": "vehicles/HB-E300_satono/led.json",
+        "icons": [
+            "vehicles/HB-E300_satono/icons/icon1.png",
+            "vehicles/HB-E300_satono/icons/icon2.png"
+        ],
+        "site": "vehicles/HB-E300_satono/site.json"
+    },
+    {
+        "id": "HB-E300_kairi",
+        "name": "HB-E300系「海里」",
+        "config": "vehicles/HB-E300_kairi/config.json",
+        "led": "vehicles/HB-E300_kairi/led.json",
+        "icons": [
+            "vehicles/HB-E300_kairi/icons/icon1.png"
+        ],
+        "site": "vehicles/HB-E300_kairi/site.json"
+    },
+    {
+        "id": "HB-E300_furusato",
+        "name": "HB-E300系「リゾートビューふるさと」",
+        "config": "vehicles/HB-E300_furusato/config.json",
+        "led": "vehicles/HB-E300_furusato/led.json",
+        "icons": [
+            "vehicles/HB-E300_furusato/icons/icon1.png"
+        ],
+        "site": "vehicles/HB-E300_furusato/site.json"
+    },
+    {
+        "id": "E130-500",
+        "name": "キハE130系500番台",
+        "config": "vehicles/E130-500/config.json",
+        "led": "vehicles/E130-500/led.json",
+        "icons": [
+            "vehicles/E130-500/icons/icon1.png"
+        ],
+        "site": "vehicles/E130-500/site.json"
+    },
+    {
+        "id": "E200",
+        "name": "キハE200系",
+        "config": "vehicles/E200/config.json",
+        "led": "vehicles/E200/led.json",
+        "icons": [
+            "vehicles/E200/icons/icon1.png"
+        ],
+        "site": "vehicles/E200/site.json"
+    },
+    {
         "id": "E26",
         "name": "E26系",
         "config": "vehicles/E26/config.json",
@@ -141,6 +202,16 @@
             "vehicles/2020/icons/icon1.png"
         ],
         "site": "vehicles/2020/site.json"
+    },
+    {
+        "id": "l00",
+        "name": "西武L00系",
+        "config": "vehicles/l00/config.json",
+        "led": "vehicles/l00/led.json",
+        "icons": [
+            "vehicles/l00/icons/icon1.png"
+        ],
+        "site": "vehicles/l00/site.json"
     },
     {
         "id": "3000",
