@@ -1,14 +1,14 @@
 {
-    "name": "E235系0番台",
+    "name": "西武L00系",
 
     "explanation": "a",
 
-    "hasType": true,
+    "hasType": false,
     "hasDestination": true,
-    "hasInformation": true,
+    "hasInformation": false,
     "hasInformation2": false,
     "hasLine": false,
-    "hasNext": true,
+    "hasNext": false,
     "hasScroll": false,
     "scrollLabel": null,
     "hasCarNumber": false,
@@ -37,13 +37,13 @@
     "sceneInterval": 3000,
     "languageSwitching": false,
     "carNumberLanguageSwitching": false,
-    "destinationLanguageSwitching": true,
+    "destinationLanguageSwitching": false,
     "informationLanguageSwitching": false,
-    "ledWidth": 128,
+    "ledWidth": 96,
     "ledHeight": 32,
-    "pixelSize": 8.5,
-    "ledSize": 6.5,
-    "ledGap": 2,
+    "pixelSize": 8.8,
+    "ledSize": 5.5,
+    "ledGap": 3.3,
 
     "enAhead": false,
     "informationAhead": false,
@@ -51,9 +51,9 @@
     "setSwitchingTime": false,
 
     "next_normal": false,
-    "nextPosition": 19,
+    "nextPosition": 16,
 
-    "hasReferenceSite": false,
+    "hasReferenceSite": true,
 
     "ledShape": "circle"
 }

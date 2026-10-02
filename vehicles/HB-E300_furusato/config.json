@@ -1,5 +1,5 @@
 {
-    "name": "E235系0番台",
+    "name": "HB-E300系「ひなび」",
 
     "explanation": "a",
 
@@ -8,7 +8,7 @@
     "hasInformation": true,
     "hasInformation2": false,
     "hasLine": false,
-    "hasNext": true,
+    "hasNext": false,
     "hasScroll": false,
     "scrollLabel": null,
     "hasCarNumber": false,
@@ -37,7 +37,7 @@
     "sceneInterval": 3000,
     "languageSwitching": false,
     "carNumberLanguageSwitching": false,
-    "destinationLanguageSwitching": true,
+    "destinationLanguageSwitching": false,
     "informationLanguageSwitching": false,
     "ledWidth": 128,
     "ledHeight": 32,
@@ -51,9 +51,9 @@
     "setSwitchingTime": false,
 
     "next_normal": false,
-    "nextPosition": 19,
+    "nextPosition": 16,
 
-    "hasReferenceSite": false,
+    "hasReferenceSite": true,
 
     "ledShape": "circle"
 }
