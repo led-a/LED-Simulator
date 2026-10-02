@@ -332,6 +332,16 @@ function buildSceneList() {
                     });
                 }
             }
+        } else {
+            if (!hasEnglishType()) {
+                if (nextId != null) {
+                    sceneList.push({
+                        lang: "en",
+                        information: "destination",
+                        next: true
+                    });
+                }
+            }
         }
     } else {
         if (nextId != null || scrollId != null) {
@@ -354,14 +364,27 @@ function buildSceneList() {
                     });
                 }
             }
-        }
-        if (nextId === null && scrollId === null) {
-            if (!hasEnglishDestination()) {
-                sceneList.push({
-                    lang: "en",
-                    information: "destination",
-                    next: false
-                });
+        } else {
+            if (!hasEnglishType()) {
+                if (nextId === null) {
+                    if (config.hasScroll) {
+                        if (scrollId === null) {
+                            sceneList.push({
+                                lang: "en",
+                                information: "destination",
+                                next: false
+                            });
+                        }
+                    } else {
+                        if (hasEnglishDestination()) {
+                            sceneList.push({
+                                lang: "en",
+                                information: "destination",
+                                next: false
+                            });
+                        }
+                    }
+                }
             }
         }
     }
@@ -388,17 +411,32 @@ function buildSceneList() {
                 if (nextId != null) {
                     if (!config.information_ja_en) {
                         if (information2Id === null) {
-                            sceneList.push({
-                                lang: "ja",
-                                information: "information",
-                                next: true
-                            });
-                            if (config.informationLanguageSwitching) {
+                            if (!config.informationNormalOnNext) {
                                 sceneList.push({
-                                    lang: "en",
+                                    lang: "ja",
                                     information: "information",
                                     next: true
                                 });
+                                if (config.informationLanguageSwitching) {
+                                    sceneList.push({
+                                        lang: "en",
+                                        information: "information",
+                                        next: true
+                                    });
+                                }
+                            } else {
+                                sceneList.push({
+                                    lang: "ja",
+                                    information: "information",
+                                    next: false
+                                });
+                                if (config.informationLanguageSwitching) {
+                                    sceneList.push({
+                                        lang: "en",
+                                        information: "information",
+                                        next: false
+                                    });
+                                }
                             }
                         } else {
                             if (config.hasInformationCombined) {
@@ -415,26 +453,49 @@ function buildSceneList() {
                                     });
                                 }
                             } else {
-                                sceneList.push({
-                                    lang: "ja",
-                                    information: "information",
-                                    next: true
-                                });
-                                if (config.informationLanguageSwitching) {
+                                if (!config.informationNormalOnNext) {
                                     sceneList.push({
-                                        lang: "en",
+                                        lang: "ja",
                                         information: "information",
                                         next: true
                                     });
+                                    if (config.informationLanguageSwitching) {
+                                        sceneList.push({
+                                            lang: "en",
+                                            information: "information",
+                                            next: true
+                                        });
+                                    }
+                                } else {
+                                    sceneList.push({
+                                        lang: "ja",
+                                        information: "information",
+                                        next: false
+                                    });
+                                    if (config.informationLanguageSwitching) {
+                                        sceneList.push({
+                                            lang: "en",
+                                            information: "information",
+                                            next: false
+                                        });
+                                    }
                                 }
                             }
                         }
                     } else {
-                        sceneList.push({
-                            lang: "ja_en",
-                            information: "information",
-                            next: true
-                        });
+                        if (config.informationNormalOnNext) {
+                            sceneList.push({
+                                lang: "ja_en",
+                                information: "information",
+                                next: true
+                            });
+                        } else {
+                            sceneList.push({
+                                lang: "ja_en",
+                                information: "information",
+                                next: false
+                            });
+                        }
                     }
                 } else {
                     if (!config.information_ja_en) {
@@ -524,27 +585,61 @@ function buildSceneList() {
 
     if (information2Id != null) {
         if (!config.information2Ahead) {
-            if (nextId != null) {
-                if (informationId != null) {
-                    if (!config.hasInformationCombined) {
+            if (scrollId === null) {
+                if (nextId != null) {
+                    if (informationId != null) {
+                        if (!config.informationNormalOnNext) {
+                            if (!config.hasInformationCombined) {
+                                sceneList.push({
+                                    lang: "ja",
+                                    information: "information2",
+                                    next: true
+                                });
+                            }
+                        } else {
+                            if (!config.hasInformationCombined) {
+                                sceneList.push({
+                                    lang: "ja",
+                                    information: "information2",
+                                    next: false
+                                });
+                            }
+                        }
+                    } else {
+                        if (!config.informationNormalOnNext) {
+                            sceneList.push({
+                                lang: "ja",
+                                information: "information2",
+                                next: true
+                            });
+                        } else {
+                            sceneList.push({
+                                lang: "ja",
+                                information: "information2",
+                                next: false
+                            });
+                        }
+                    }
+                } else {
+                    if (!config.informationNormalOnNext) {
                         sceneList.push({
                             lang: "ja",
                             information: "information2",
                             next: true
                         });
+                    } else {
+                        sceneList.push({
+                            lang: "ja",
+                            information: "information2",
+                            next: false
+                        });
                     }
-                } else {
-                    sceneList.push({
-                        lang: "ja",
-                        information: "information2",
-                        next: true
-                    });
                 }
             } else {
                 sceneList.push({
                     lang: "ja",
                     information: "information2",
-                    next: false
+                    next: true
                 });
             }
         }
@@ -857,6 +952,13 @@ tittle.addEventListener("click", () => {
     scrollId = null;
     scrollTimer = null;
     clickStartScrollBtn = false;
+    typeDestinationScrollAnimationId = null;
+    typeScroll = false;
+    destinationScroll = false;
+    stopTypeScroll("ja");
+    stopTypeScroll("en");
+    stopDestinationScroll("ja");
+    stopDestinationScroll("en");
     stopScroll();
 })
 

@@ -87,23 +87,26 @@ function drawType(type, matrix) {
         drawImage(data, carNumberWidth, 0, matrix); 
     } else { 
         const typeData = getItem("type", typeId); 
-        const typeJaWidth = typeData.view?.normal?.ja?.width; 
-        const typeEnWidth = typeData.view?.normal?.en?.width; 
-        if (typeJaWidth === getItem("type", "null_type").view.normal.ja.width) {
+        const typeJaWidth = typeData.view?.[view]?.ja?.width; 
+        const typeEnWidth = typeData.view?.[view]?.en?.width; 
+        if (typeJaWidth === getItem("type", "null_type").view?.[view]?.ja?.width) {
             data = type.view?.[view]?.ja; 
             if (!data) { 
                 return; 
             } 
             drawImage(data, carNumberWidth, 0, matrix); 
         } 
-        if (typeEnWidth === getItem("type", "null_type").view.normal.ja.width) {
+        if (typeEnWidth === getItem("type", "null_type").view?.[view]?.ja?.width) {
             data = type.view?.[view]?.en; 
             if (!data) { 
                 return; 
             } 
-            const yOffset = getItem("type", typeId).view?.normal?.ja?.height; 
+            const yOffset = getItem("type", typeId).view?.[view]?.ja?.height; 
             drawImage(data, carNumberWidth, yOffset, matrix); 
         } 
+        if (typeJaWidth === getItem("type", "null_type").view?.[view]?.ja?.width && typeEnWidth === getItem("type", "null_type").view?.[view]?.ja?.width) {
+            typeScroll = false;
+        }
     } 
 }
 
@@ -191,7 +194,7 @@ function drawDestination(dest, matrix) {
         yOffset = 0;
     }
 
-    if (!config.hasTypeScroll) { 
+    if (!config.hasDestinationScroll) { 
         drawImage(data, typewidth, yOffset, matrix); 
     } else { 
         const destinationData = getItem("destination", destinationId); 
@@ -521,18 +524,22 @@ function drawNext(next, matrix) {
 function getTypeWidth(type, used) {
 
     if(!type) {
-        if(used) {
-            if (config.hasCarNumber) {
-                let data = getItem("type", "null_type").view.normal.ja.width
-                const carNumber = getItem("carNumber", carNumberId)
-                return (
-                    data + getCarNumberWidth(carNumber, true)
-                )
+        if (config.hasType) {
+            if(used) {
+                if (config.hasCarNumber) {
+                    let data = getItem("type", "null_type").view.normal.ja.width
+                    const carNumber = getItem("carNumber", carNumberId)
+                    return (
+                        data + getCarNumberWidth(carNumber, true)
+                    )
 
+                } else {
+                    return (
+                        getItem("type", "null_type").view.normal.ja.width
+                    );
+                }
             } else {
-                return (
-                    getItem("type", "null_type").view.normal.ja.width
-                );
+                return 0;
             }
         } else {
             return 0;
@@ -570,9 +577,13 @@ function getDestinationWidth(type, dest, used) {
     let destData;
 
     if(!type) {
-        if(used) {
-            typeData =
-                getItem("type", "null_type").view.normal.ja.width;
+        if (config.hasType) {
+            if(used) {
+                typeData =
+                    getItem("type", "null_type").view.normal.ja.width;
+            } else {
+                typeData = 0
+            }
         } else {
             typeData = 0
         }
@@ -906,11 +917,14 @@ const allScrollStates = [
 let typeDestinationScrollAnimationId = null;
 
 function updateScrollId() {
-    scrollId = allScrollStates.some(state => state.active) ? true : null;
+    typeDestinationScrollId = allScrollStates.some(state => state.active) ? true : null;
 }
 
 function createTypeScrollData(lang) {
-    const state = lang === "ja" ? typeJaScrollState : typeEnScrollState;
+    const state = lang === "ja"
+        ? typeJaScrollState
+        : typeEnScrollState;
+
     const typeData = getItem("type", typeId);
     const view = typeData.view?.normal?.[lang];
     const data = view?.data;
@@ -951,10 +965,9 @@ function createTypeScrollData(lang) {
 }
 
 function createDestinationScrollData(lang) {
-    const state =
-        lang === "ja"
-            ? destinationJaScrollState
-            : destinationEnScrollState;
+    const state = lang === "ja"
+        ? destinationJaScrollState
+        : destinationEnScrollState;
 
     const destData = getItem("destination", destinationId);
     const view = destData.view?.normal?.[lang];
@@ -1003,22 +1016,9 @@ function drawTypeDestinationScroll(state) {
     const areaPixelHeight =
         (state.areaBottom - state.areaTop) * pitch;
 
-    ctx.drawImage(
-        cacheCanvas,
-        areaPixelLeft,
-        areaPixelTop,
-        areaPixelWidth,
-        areaPixelHeight,
-        areaPixelLeft,
-        areaPixelTop,
-        areaPixelWidth,
-        areaPixelHeight
-    );
-
     ctx.save();
 
     ctx.beginPath();
-
     ctx.rect(
         areaPixelLeft,
         areaPixelTop,
@@ -1038,10 +1038,9 @@ function drawTypeDestinationScroll(state) {
 }
 
 function startTypeScroll(lang) {
-    const state =
-        lang === "ja"
-            ? typeJaScrollState
-            : typeEnScrollState;
+    const state = lang === "ja"
+        ? typeJaScrollState
+        : typeEnScrollState;
 
     if (!typeScroll) {
         state.active = false;
@@ -1061,7 +1060,6 @@ function startTypeScroll(lang) {
     state.areaRight = getTypeWidth(type, true);
 
     const typeData = getItem("type", typeId);
-
     const jaHeight =
         typeData.view?.normal?.ja?.height ?? 0;
 
@@ -1097,10 +1095,9 @@ function startTypeScroll(lang) {
 }
 
 function startDestinationScroll(lang) {
-    const state =
-        lang === "ja"
-            ? destinationJaScrollState
-            : destinationEnScrollState;
+    const state = lang === "ja"
+        ? destinationJaScrollState
+        : destinationEnScrollState;
 
     if (!destinationScroll) {
         state.active = false;
@@ -1111,14 +1108,13 @@ function startDestinationScroll(lang) {
     const type = getItem("type", typeId);
     const dest = getItem("destination", destinationId);
 
-    // 行先ボタンを押した時点の種別幅を使用
+    // 行先ボタンを押した時点の種別幅を保存
     state.areaLeft = getTypeWidth(type, true);
 
-    // 行先表示の右端
+    // 行先の右端
     state.areaRight = getDestinationWidth(type, dest, true);
 
     const destData = getItem("destination", destinationId);
-
     const jaHeight =
         destData.view?.normal?.ja?.height ?? 0;
 
@@ -1132,8 +1128,8 @@ function startDestinationScroll(lang) {
             (destData.view?.normal?.en?.height ?? 0);
     }
 
-    // typeIdは入れない
-    // 行先ボタンを押した時だけ現在のareaLeft/areaRightを反映する
+    // 種別IDは入れない
+    // 行先ボタンを押した時の領域を維持する
     const signature =
         `${destinationId}_${lang}_${state.areaLeft}_${state.areaRight}_${state.areaTop}_${state.areaBottom}`;
 
@@ -1167,21 +1163,42 @@ function startTypeDestinationScrollAnimation() {
 function animateTypeDestinationScroll(now) {
     typeDestinationScrollAnimationId = null;
 
-    if (!scrollCheck.checked || clickStartScrollBtn === false) {
-        for (const state of allScrollStates) {
-            state.active = false;
-            state.waiting = false;
-            state.lastTime = null;
-        }
-
-        updateScrollId();
-        return;
-    }
-
     let active = false;
+
+    ctx.drawImage(
+        cacheCanvas,
+        0,
+        0,
+        cacheCanvas.width,
+        cacheCanvas.height,
+        0,
+        0,
+        cacheCanvas.width,
+        cacheCanvas.height
+    );
 
     for (const state of allScrollStates) {
         if (!state.active) {
+            continue;
+        }
+
+        if (
+            (state === typeJaScrollState || state === typeEnScrollState) &&
+            !typeScroll
+        ) {
+            state.active = false;
+            state.waiting = false;
+            state.lastTime = null;
+            continue;
+        }
+
+        if (
+            (state === destinationJaScrollState || state === destinationEnScrollState) &&
+            !destinationScroll
+        ) {
+            state.active = false;
+            state.waiting = false;
+            state.lastTime = null;
             continue;
         }
 
@@ -1200,13 +1217,15 @@ function animateTypeDestinationScroll(now) {
 
         state.x -= scrollSpeed * deltaTime / 1000;
 
-        // 完全に左へ消えた
         if (
             state.x + state.width * pitch <
             state.areaLeft * pitch
         ) {
             state.waiting = true;
+
+            // 完全に消えてから500ms待つ
             state.waitingUntil = now;
+
             continue;
         }
 
@@ -1238,10 +1257,9 @@ function animateTypeDestinationScroll(now) {
 }
 
 function stopTypeScroll(lang) {
-    const state =
-        lang === "ja"
-            ? typeJaScrollState
-            : typeEnScrollState;
+    const state = lang === "ja"
+        ? typeJaScrollState
+        : typeEnScrollState;
 
     state.active = false;
     state.waiting = false;
@@ -1253,10 +1271,9 @@ function stopTypeScroll(lang) {
 }
 
 function stopDestinationScroll(lang) {
-    const state =
-        lang === "ja"
-            ? destinationJaScrollState
-            : destinationEnScrollState;
+    const state = lang === "ja"
+        ? destinationJaScrollState
+        : destinationEnScrollState;
 
     state.active = false;
     state.waiting = false;
@@ -1596,21 +1613,14 @@ function stopScroll() {
         scrollAnimationId = null;
     }
 
-    if (typeDestinationScrollAnimationId !== null) {
-        cancelAnimationFrame(typeDestinationScrollAnimationId);
-        typeDestinationScrollAnimationId = null;
+    if (scrollAnimationId !== null) {
+        cancelAnimationFrame(scrollAnimationId);
+        scrollAnimationId = null;
     }
 
     if (scrollTimer !== null) {
         clearInterval(scrollTimer);
         scrollTimer = null;
-    }
-
-    for (const state of allScrollStates) {
-        state.active = false;
-        state.waiting = false;
-        state.lastTime = null;
-        state.signature = null;
     }
 
     scrollId = null;
