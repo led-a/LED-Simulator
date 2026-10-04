@@ -1812,13 +1812,21 @@ function setTimeSetting() {
             if (config.languageSwitching) {
                 document.getElementById("jaTime").hidden = false;
                 document.getElementById("enTime").hidden = false;
+            } else {
+                document.getElementById("jaTime").hidden = false;
             }
         }
         if (destinationId != null) {
             if(config.destinationLanguageSwitching) {
                 document.getElementById("jaTime").hidden = false;
                 document.getElementById("enTime").hidden = false;
+            } else {
+                document.getElementById("jaTime").hidden = false;
             }
+        }
+        if (nextId != null) {
+            document.getElementById("jaTime").hidden = false;
+            document.getElementById("enTime").hidden = false;
         }
     }
     if (informationId === null) {
