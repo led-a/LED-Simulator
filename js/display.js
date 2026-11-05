@@ -4,10 +4,16 @@ function drawCarNumber(carNumber, matrix) {
 
     let usedNormal = true;
     let destinationWidth;
+    const type = getItem("type", typeId);
 
-    const view = isCarNumberFullScreen(carNumber)
+    let view = isCarNumberFullScreen(carNumber)
         ? "full"
         : "normal";
+    if (config.isE259) {
+        if (!isTypeFullScreen(type)) {
+            view = "small";
+        }
+    }
 
     const data =
         carNumber.view?.[view]?.[lang]
@@ -16,8 +22,6 @@ function drawCarNumber(carNumber, matrix) {
         ?? carNumber.view?.normal?.ja;
 
     if (!data) return;
-
-    const type = getItem("type", typeId);
     const dest = getItem("destination", destinationId);
 
     if (config.hasCarNumberFull) {
@@ -32,51 +36,167 @@ function drawCarNumber(carNumber, matrix) {
     if (config.hasCarNumberNormal) {
         destinationWidth = getTypeWidth(type, usedNormal);
     }
-    drawImage(data, destinationWidth, 0, matrix);
+    let yOffset = 0;
+    if (config.isE259) {
+        if (!isTypeFullScreen(type)) {
+            if (type) {
+                yOffset = type.view?.full_small?.ja?.height;
+            } else {
+                yOffset = getItem("type", "null_type").view?.full_small?.ja?.height;
+            }
+        }
+    }
+    drawImage(data, destinationWidth, yOffset, matrix);
 }
 
 function drawType(type, matrix) {
     let usedNormal = true;
     let carNumberWidth;
     let typeLang = lang;
+    let view = "normal";
     if (typeMode === "information") {
         typeLang = "information";
     }
+    const dest = getItem("destination", destinationId);
+    const typeHasNormal = hasTypeNormal(type);
+    const typeHasNormal2 = hasTypeNormal2(type);
+    const typeHasNormal3 = hasTypeNormal3(type);
+    const destinationHasNormal = hasDestinationNormal(dest);
+    const destinationHasNormal2 = hasDestinationNormal2(dest);
+    const destinationHasNormal3 = hasDestinationNormal3(dest);
 
-    const view = isTypeFullScreen(type)
-        ? "full"
-        : "normal";
+    if (destinationId != null) {
+        if (typeHasNormal && destinationHasNormal) {
+            view = "normal";
+        } else if (typeHasNormal2 && destinationHasNormal2) {
+            view = "normal2";
+        } else if (typeHasNormal3 && destinationHasNormal3) {
+            view = "normal3";
+        }
+    } else {
+        if (typeHasNormal) {
+            view = "normal";
+        } else if (typeHasNormal2) {
+            view = "normal2";
+        } else if (typeHasNormal3) {
+            view = "normal3";
+        }
+    }
+    if (showNext === true) {
+        const hasSmallType = !!type.view?.small;
+        if (hasSmallType) {
+            view = "small";
+        }
+    }
+    if (isTypeFullScreen(type)) {
+        view = "full";
+    }
 
     let data = null;
+    const typeHasJaEn = !!getItem ("type", typeId).view?.normal?.ja_en; 
     
-    if (config.languageSwitching) {
-        data =
-            type.view?.[view]?.[typeLang]
-            ?? type.view?.[view]?.ja
-            ?? type.view?.normal?.[typeLang]
-            ?? type.view?.normal?.ja;
-    } else {
-        if (nextId != null || scrollId != null) {
+    if (config.languageSwitching && !typeHasJaEn) {
+        if (typeHasNormal) {
             data =
                 type.view?.[view]?.[typeLang]
                 ?? type.view?.[view]?.ja
                 ?? type.view?.normal?.[typeLang]
                 ?? type.view?.normal?.ja;
+        } else if (typeHasNormal2) {
+            data =
+                type.view?.[view]?.[typeLang]
+                ?? type.view?.[view]?.ja
+                ?? type.view?.normal2?.[typeLang]
+                ?? type.view?.normal2?.ja;
+        } else if (typeHasNormal3) {
+            data =
+                type.view?.[view]?.[typeLang]
+                ?? type.view?.[view]?.ja
+                ?? type.view?.normal3?.[typeLang]
+                ?? type.view?.normal3?.ja;
         } else {
             data =
-                type.view?.[view]?.ja_en
-                ?? type.view?.[view]?.[typeLang]
+                type.view?.[view]?.[typeLang]
                 ?? type.view?.[view]?.ja
-                ?? type.view?.normal?.ja_en
                 ?? type.view?.normal?.[typeLang]
-                ?? type.view?.normal?.ja
+                ?? type.view?.normal?.ja;
+        }
+    } else {
+        if (nextId != null || scrollId != null) {
+            if (typeHasNormal) {
+                data =
+                    type.view?.[view]?.[typeLang]
+                    ?? type.view?.[view]?.ja
+                    ?? type.view?.normal?.[typeLang]
+                    ?? type.view?.normal?.ja;
+            } else if (typeHasNormal2) {
+                data =
+                    type.view?.[view]?.[typeLang]
+                    ?? type.view?.[view]?.ja
+                    ?? type.view?.normal2?.[typeLang]
+                    ?? type.view?.normal2?.ja;
+            } else if (typeHasNormal3) {
+                data =
+                    type.view?.[view]?.[typeLang]
+                    ?? type.view?.[view]?.ja
+                    ?? type.view?.normal3?.[typeLang]
+                    ?? type.view?.normal3?.ja;
+            } else {
+                data =
+                    type.view?.[view]?.[typeLang]
+                    ?? type.view?.[view]?.ja
+                    ?? type.view?.normal?.[typeLang]
+                    ?? type.view?.normal?.ja;
+            }
+        } else {
+            if (typeHasNormal) {
+                data =
+                    type.view?.[view]?.ja_en
+                    ?? type.view?.[view]?.[typeLang]
+                    ?? type.view?.[view]?.ja
+                    ?? type.view?.normal?.ja_en
+                    ?? type.view?.normal?.[typeLang]
+                    ?? type.view?.normal?.ja;
+            } else if (typeHasNormal2) {
+                data =
+                    type.view?.[view]?.ja_en
+                    ?? type.view?.[view]?.[typeLang]
+                    ?? type.view?.[view]?.ja
+                    ?? type.view?.normal2?.ja_en
+                    ?? type.view?.normal2?.[typeLang]
+                    ?? type.view?.normal2?.ja;
+            } else if (typeHasNormal3) {
+                data =
+                    type.view?.[view]?.ja_en
+                    ?? type.view?.[view]?.[typeLang]
+                    ?? type.view?.[view]?.ja
+                    ?? type.view?.normal3?.ja_en
+                    ?? type.view?.normal3?.[typeLang]
+                    ?? type.view?.normal3?.ja;
+            } else {
+                data =
+                    type.view?.[view]?.ja_en
+                    ?? type.view?.[view]?.[typeLang]
+                    ?? type.view?.[view]?.ja
+                    ?? type.view?.normal?.ja_en
+                    ?? type.view?.normal?.[typeLang]
+                    ?? type.view?.normal?.ja;
+            }
         }
     }
 
     const carNumber = getItem("carNumber", carNumberId)
     
     if (config.hasCarNumberSmall) {
-        carNumberWidth = getCarNumberWidth(carNumber, usedNormal)
+        if (config.carNumber === "left" && (!config.isE259 || (config.isE259 && isTypeFullScreen(type)))) {
+            if (config.isE259 && type.view?.full?.ja?.width === 128) {
+                carNumberWidth = 0;
+            } else {
+                carNumberWidth = getCarNumberWidth(carNumber, usedNormal);
+            }
+        } else {
+            carNumberWidth = 0;
+        }
     } else {
         carNumberWidth = 0;
     }
@@ -119,9 +239,13 @@ function drawTypeSmall(type, matrix) {
         typeLang = "information";
     }
 
-    const view = isTypeFullScreen(type)
+    let view = isTypeFullScreen(type)
         ? "full"
         : "normal";
+    const hasFullSmallType = !!type.view?.full_small;
+    if (hasFullSmallType) {
+        view = "full_small";
+    }
 
     let data =
         type.view?.[view]?.[lang]
@@ -145,6 +269,9 @@ function drawTypeSmall(type, matrix) {
     } else {
         carNumberWidth = 0;
     }
+    if (view === "full_small") {
+        carNumberWidth = 0;
+    }
 
     drawImage(data, carNumberWidth, 0, matrix);
 }
@@ -153,37 +280,87 @@ function drawDestination(dest, matrix) {
 
     let usedNormal = false;
     let typewidth;
+    let view = "normal";
+    const type = getItem("type", typeId);
+    const typeHasNormal = hasTypeNormal(type);
+    const typeHasNormal2 = hasTypeNormal2(type);
+    const typeHasNormal3 = hasTypeNormal3(type);
+    const destinationHasNormal = hasDestinationNormal(dest);
+    const destinationHasNormal2 = hasDestinationNormal2(dest);
+    const destinationHasNormal3 = hasDestinationNormal3(dest);
 
-    const view = isDestinationFullScreen(dest)
-        ? "full"
-        : "normal";
+    if (typeId != null) {
+        if (typeHasNormal && destinationHasNormal) {
+            view = "normal";
+        } else if (typeHasNormal2 && destinationHasNormal2) {
+            view = "normal2";
+        } else if (typeHasNormal3 && destinationHasNormal3) {
+            view = "normal3";
+        }
+    } else {
+        if (destinationHasNormal) {
+            view = "normal";
+        } else if (destinationHasNormal2) {
+            view = "normal2";
+        } else if (destinationHasNormal3) {
+            view = "normal3";
+        }
+    }
+
+    if (isDestinationFullScreen(dest)) {
+        view = "full";
+    }
 
     let data =
         dest.view?.[view]?.[lang]
         ?? dest.view?.[view]?.ja;
-        if (view === "normal") {
+        if (view === "normal" || view === "normal2" || view === "normal3") {
             usedNormal = true;
         }
 
     if (!data) {
         data =
             dest.view?.normal?.[lang]
-            ?? dest.view?.normal?.ja;
+            ?? dest.view?.normal?.ja
+            ?? dest.view?.normal2?.[lang]
+            ?? dest.view?.normal2?.ja
+            ?? dest.view?.normal3?.[lang]
+            ?? dest.view?.normal3?.ja;
         usedNormal = true;
+    }
+    const nullDestination = getItem("destination", "null_destination");
+    if (typeId != null) {
+        if (view !== "normal2" && !destinationHasNormal && destinationHasNormal2 && !destinationHasNormal3 || !destinationHasNormal2 && !typeHasNormal && typeHasNormal2 && !typeHasNormal3) {
+            data = nullDestination.view?.normal2?.ja;
+        }
+        if (view !== "normal3" && !destinationHasNormal && !destinationHasNormal2 && destinationHasNormal3 || !destinationHasNormal3 && !typeHasNormal && !typeHasNormal2 && typeHasNormal3) {
+            data = nullDestination.view?.normal3?.ja;
+        }
     }
 
     if (!data) return;
-
-    const type = getItem("type", typeId);
+    const nullType = getItem("type", "null_type");
     const carNumber = getItem("carNumber", carNumberId);
     let yOffset;
     
     if (usedNormal) {
         if (config.destinationPosition === "normal") {
-            typewidth = getTypeWidth(type, usedNormal);
+            if (!typeScroll) {
+                if (view !== "normal2" && !typeHasNormal && typeHasNormal2 && !typeHasNormal3 || view !== "normal3" && !typeHasNormal && !typeHasNormal2 && typeHasNormal3) {
+                    typewidth = getTypeWidth(nullType, usedNormal, view);
+                } else {
+                    typewidth = getTypeWidth(type, usedNormal, view);
+                }
+            } else {
+                typeScrollId = typeId;
+                typewidth = getTypeWidth(nullType, usedNormal, view);
+            }
         }
         if (config.destinationPosition === "next") {
             typewidth = getCarNumberWidth(carNumber, usedNormal);
+            if (!carNumber && config.isE259) {
+                typewidth = getItem("carNumber", "null_carNumber").view?.small?.ja?.width;
+            }
         }
     } else {
         typewidth = 0;
@@ -223,14 +400,20 @@ function drawDestinationSmall(dest, matrix) {
     let usedSmall = false;
     let typewidth;
 
-    const view = isDestinationFullScreen(dest)
-        ? "full_small"
-        : "small";
+    let view = "small";
+
+    if (informationMode === "destination_information") {
+        view = "info_small";
+    }
+
+    if (isDestinationFullScreen(dest)) {
+        view = "full_small";
+    }
 
     let data =
         dest.view?.[view]?.[lang]
         ?? dest.view?.[view]?.ja;
-        if (view === "small") {
+        if (view === "small" || view === "info_small") {
             usedSmall = true;
         }
 
@@ -246,6 +429,21 @@ function drawDestinationSmall(dest, matrix) {
     const type = getItem("type", typeId)
     if (usedSmall) {
         typewidth = getTypeWidth(type, usedSmall);
+        if (config.hasDestinationInformationCombined) {
+            if (informationId != null) {
+                if (lang === "ja") {
+                    const info = getItem("information", informationId);
+                    typewidth = getTypeWidth(type, usedSmall) + getInformationWidth(info, usedSmall);
+                } else {
+                    if (hasEnglishInformation()) {
+                        const info = getItem("information", informationId);
+                        typewidth = getTypeWidth(type, usedSmall) + getInformationWidth(info, usedSmall);
+                    } else {
+                        typewidth = getTypeWidth(type, usedSmall);
+                    }
+                }
+            }
+        }
     } else {
         typewidth = 0;
     }
@@ -494,6 +692,11 @@ function drawNext(next, matrix) {
     if (config.hasNextFullScreen) {
         view = "full"
     }
+    if (lang === "en") {
+        if (config.hasNextEnFullScreen) {
+            view = "full"
+        }
+    }
 
     let data =
         next?.view?.[view]?.[lang]
@@ -516,27 +719,41 @@ function drawNext(next, matrix) {
     } else {
         typewidth = 0;
     }
-    const nextPosition = config.nextPosition
+    let nextPosition = config.nextPosition
+    if (lang === "en") {
+        if (config.enNextPosition) {
+            nextPosition = config.enNextPosition
+        }
+    }
 
     drawImage(data, typewidth, nextPosition, matrix);
 }
 
-function getTypeWidth(type, used) {
-
+function getTypeWidth(type, used, view) {
     if(!type) {
         if (config.hasType) {
             if(used) {
                 if (config.hasCarNumber) {
-                    let data = getItem("type", "null_type").view.normal.ja.width
+                    let data;
+                    if (view === null) {
+                        data = getItem("type", "null_type").view.normal.ja.width
+                    } else {
+                        data = getItem("type", "null_type").view?.[view]?.ja?.width
+                    }
                     const carNumber = getItem("carNumber", carNumberId)
                     return (
                         data + getCarNumberWidth(carNumber, true)
                     )
-
                 } else {
-                    return (
-                        getItem("type", "null_type").view.normal.ja.width
-                    );
+                    if (view === null) {
+                        return (
+                            getItem("type", "null_type").view.normal.ja.width
+                        );
+                    } else {
+                        return (
+                            getItem("type", "null_type").view?.[view]?.ja?.width
+                        );
+                    }
                 }
             } else {
                 return 0;
@@ -546,16 +763,20 @@ function getTypeWidth(type, used) {
         }
     }
 
-    const view = isTypeFullScreen(type)
-        ? "full"
-        : "normal";
+    let currentView = "normal";
+    if (view) {
+        currentView = view;
+    }
+    if (isTypeFullScreen(type)) {
+        currentView = "full";
+    }
 
     const lang = getLangForPart();
 
     if (config.hasCarNumber) {
         let data =
-            type.view?.[view]?.[lang]?.width
-            ?? type.view?.[view]?.ja?.width
+            type.view?.[currentView]?.[lang]?.width
+            ?? type.view?.[currentView]?.ja?.width
             ?? 0
         const carNumber = getItem("carNumber", carNumberId)
         return (
@@ -565,8 +786,8 @@ function getTypeWidth(type, used) {
     } else {
 
         return (
-            type.view?.[view]?.[lang]?.width
-            ?? type.view?.[view]?.ja?.width
+            type.view?.[currentView]?.[lang]?.width
+            ?? type.view?.[currentView]?.ja?.width
             ?? 0
         );
     }
@@ -673,9 +894,19 @@ function getCarNumberWidth(carNumber, used) {
         }
     }
 
-    const view = isCarNumberFullScreen(carNumber)
+    let view = isCarNumberFullScreen(carNumber)
         ? "full"
         : "normal";
+    let type;
+    type = getItem("type", typeId);
+    if (!type) {
+        type = getItem("type", "null_type");
+    }
+    if (config.isE259) {
+        if (!isTypeFullScreen(type)) {
+            view = "small";
+        }
+    }
 
     const lang = getLangForPart();
 
@@ -690,12 +921,52 @@ function getCarNumberWidth(carNumber, used) {
     }
 }
 
+function getInformationWidth(info, used) {
+
+    if(!info) {
+        if(used) {
+            return (
+                getItem("information", "null_information").view?.normal?.ja?.width
+                ?? getItem("information", "null_information").view?.small?.ja?.width
+            )
+        } else {
+            return 0;
+        }
+    }
+
+    let view = "normal";
+    if (isInformationFullScreen(info)) {
+        view = "full";
+    }
+
+    const lang = getLangForPart();
+    return (
+        info.view?.[view]?.[lang]?.width
+        ?? info.view?.[view]?.ja?.width
+        ?? info.view?.normal?.[lang]?.width
+        ?? info.view?.normal?.ja?.width
+        ?? info.view?.small?.[lang]?.width
+        ?? info.view?.small?.ja?.width
+        ?? 0
+    );
+}
+
 function isTypeFullScreen(type) {
 
     if(!type) return false;
+    console.log (type);
 
-    const hasNormal = !!type.view.normal;
-    const hasFull = !!type.view.full;
+    let hasNormal;
+    let hasFull;
+    if (typeScrollId === null) {
+        hasNormal = !!type.view.normal || !!type.view.normal2 || !!type.view.normal3 || !!type.view.full_small;
+        hasFull = !!type.view.full;
+    } else {
+        const typeScroll = getItem("type", typeScrollId);
+        hasNormal = !!typeScroll.view.normal;
+        hasFull = !!typeScroll.view.full;
+    }
+    mobileLog(hasNormal, hasFull);
 
     if(hasFull && !hasNormal){
         return true;
@@ -732,8 +1003,16 @@ function isDestinationFullScreen(dest) {
 
     if(!dest) return false;
 
-    const hasNormal = !!dest.view.normal;
-    const hasFull = !!dest.view.full;
+    let hasNormal;
+    let hasFull;
+    if (destinationScrollId === null) {
+        hasNormal = !!dest.view.normal || !!dest.view.normal2 || !!dest.view.normal3;
+        hasFull = !!dest.view.full;
+    } else {
+        const destinationScroll = getItem("destination", destinationScrollId);
+        hasNormal = !!destinationScroll.view.normal;
+        hasFull = !!destinationScroll.view.full;
+    }
 
     if(hasFull && !hasNormal){
         return true;
@@ -873,6 +1152,42 @@ function hasTypeInformation() {
     if (!type) return;
     return !!type.view?.normal?.information
         || !!type.view?.full?.information;
+}
+
+function hasTypeNormal() {
+    const type = getItem("type", typeId);
+    if (!type) return;
+    return !!type.view?.normal;
+}
+
+function hasTypeNormal2() {
+    const type = getItem("type", typeId);
+    if (!type) return;
+    return !!type.view?.normal2;
+}
+
+function hasTypeNormal3() {
+    const type = getItem("type", typeId);
+    if (!type) return;
+    return !!type.view?.normal3;
+}
+
+function hasDestinationNormal() {
+    const destination = getItem("destination", destinationId);
+    if (!destination) return;
+    return !!destination.view?.normal;
+}
+
+function hasDestinationNormal2() {
+    const destination = getItem("destination", destinationId);
+    if (!destination) return;
+    return !!destination.view?.normal2;
+}
+
+function hasDestinationNormal3() {
+    const destination = getItem("destination", destinationId);
+    if (!destination) return;
+    return !!destination.view?.normal3;
 }
  
 // ===== 種別・行先スクロール用 =====
@@ -1048,8 +1363,6 @@ function startTypeScroll(lang) {
         return;
     }
 
-    const type = getItem("type", typeId);
-
     if (config.hasCarNumberSmall && config.carNumber === "left") {
         const carNumber = getItem("carNumber", carNumberId);
         state.areaLeft = getCarNumberWidth(carNumber, true);
@@ -1057,7 +1370,10 @@ function startTypeScroll(lang) {
         state.areaLeft = 0;
     }
 
-    state.areaRight = getTypeWidth(type, true);
+    typeScrollId = typeId;
+    const nullType = getItem("type", "null_type");
+
+    state.areaRight = getTypeWidth(nullType, true);
 
     const typeData = getItem("type", typeId);
     const jaHeight =
@@ -1088,11 +1404,14 @@ function startTypeScroll(lang) {
         state.waitingUntil = 0;
         state.active = true;
     }
+    typeScrollId = null;
 
     updateScrollId();
     drawTypeDestinationScroll(state);
     startTypeDestinationScrollAnimation();
 }
+
+let typeDestinationId = null;
 
 function startDestinationScroll(lang) {
     const state = lang === "ja"
@@ -1106,13 +1425,26 @@ function startDestinationScroll(lang) {
     }
 
     const type = getItem("type", typeId);
-    const dest = getItem("destination", destinationId);
 
     // 行先ボタンを押した時点の種別幅を保存
-    state.areaLeft = getTypeWidth(type, true);
+    destinationScrollId = destinationId;
+    const nullType = getItem("type", "null_type");
+    if (typeScroll === true) {
+        typeScrollId = typeId;
+        state.areaLeft = getTypeWidth(nullType, true);
+    } else {
+        if(type) {
+            state.areaLeft = getTypeWidth(type, true);
+        } else {
+            state.areaLeft = getTypeWidth(nullType, true);
+        }
+    }
 
     // 行先の右端
-    state.areaRight = getDestinationWidth(type, dest, true);
+    
+    const nullDestination = getItem("destination", "null_destination");
+
+    state.areaRight = getDestinationWidth(nullType, nullDestination, true);
 
     const destData = getItem("destination", destinationId);
     const jaHeight =
@@ -1312,9 +1644,7 @@ let previousScrollDots = [];
 let scrollPixelX = 0;
 let scrollAnimationId = null;
 let lastScrollTime = null;
-
-// スクロール速度（1秒あたりのピクセル数）
-scrollSpeed = 450;
+let scrollSpeed = 450;
 
 function createScrollMatrix() {
     scrollTextMatrix = [];
@@ -1369,12 +1699,13 @@ function createScrollMatrix() {
                     r: 255,
                     g: 242,
                     b: 0
-                });
+                }, false);
             }
         }
     }
 }
  
+
 function drawScroll() {
     if (!typeId && !destinationId) {
         stopScroll();
@@ -1384,19 +1715,20 @@ function drawScroll() {
     let type;
     let isTypeFull;
     areaLeft = 48;
+
     if (typeId != null) {
         type = getItem("type", typeId);
         isTypeFull = isTypeFullScreen(type);
     } else {
         isTypeFull = false;
-        if (config.hasScrollFullScreen) {
-            areaLeft = -1;
-        } else {
-            areaLeft = 48
-        }
+        areaLeft = config.hasScrollFullScreen ? -1 : 48;
+    }
+    
+    if(selectedVehicle.id === "TRC") {
+        areaLeft = 30;
     }
 
-    if (config.hasNextFullScreen) {
+    if (config.hasNextFullScreen && !destinationCycleActive) {
         areaLeft = -1;
     }
 
@@ -1415,56 +1747,86 @@ function drawScroll() {
     const areaPixelWidth = (areaRight - areaLeft) * pitch;
     const areaPixelHeight = (areaBottom - areaTop) * pitch;
 
-    /*
-     * スクロール領域だけ通常表示に戻す
-     */
+    // スクロール領域を通常表示に戻す
     ctx.drawImage(
         cacheCanvas,
-
         areaPixelLeft,
         areaPixelTop,
         areaPixelWidth,
         areaPixelHeight,
-
         areaPixelLeft,
         areaPixelTop,
         areaPixelWidth,
         areaPixelHeight
     );
 
-    /*
-     * スクロール領域から
-     * はみ出さないようにする
-     */
+    // スクロール領域からはみ出さないようにする
     ctx.save();
-
     ctx.beginPath();
-
     ctx.rect(
         areaPixelLeft,
         areaPixelTop,
         areaPixelWidth,
         areaPixelHeight
     );
-
     ctx.clip();
 
-    /*
-     * 完成済みの文字画像を表示
-     *
-     * scrollPixelX は実際のピクセル位置
-     */
-    ctx.drawImage(
-        scrollTextCanvas,
-        scrollPixelX,
-        areaPixelTop
-    );
+    // スクロール文字を描画
+    const baseColor = {
+        r: 255,
+        g: 242,
+        b: 0
+    };
+
+    for (let charIndex = 0; charIndex < scrollTextMatrix.length; charIndex++) {
+        const charMatrix = scrollTextMatrix[charIndex];
+
+        for (let py = 0; py < 16; py++) {
+            for (let px = 0; px < 16; px++) {
+                if (!charMatrix[py][px]) continue;
+
+                // LEDのドット位置をピクセル単位で計算
+                const centerX =
+                    scrollPixelX + (charIndex * 16 + px) * pitch + radius;
+                const centerY =
+                    areaPixelTop + py * pitch + radius;
+
+                // 実際に表示されるLEDの座標で劣化を取得
+                const ledX = Math.floor(centerX / pitch);
+                const ledY = Math.floor(centerY / pitch);
+
+                const color = isLedAging === true
+                    ? applyLEDAging(ledX, ledY, baseColor)
+                    : baseColor;
+
+                ctx.fillStyle =
+                    `rgb(${color.r},${color.g},${color.b})`;
+
+                ctx.beginPath();
+                ctx.arc(
+                    centerX,
+                    centerY,
+                    radius,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+        }
+    }
 
     ctx.restore();
 }
+
  
 function startScroll() {
     const scrollCheck = document.getElementById("scrollCheck");
+    if (config.scroll_normal) {
+        if (destinationScrollTimer !== null) {
+            clearTimeout(destinationScrollTimer);
+            destinationScrollTimer = null;
+        }
+    }
 
     if (!scrollCheck.checked || clickStartScrollBtn === false) {
         stopScroll();
@@ -1491,7 +1853,9 @@ function startScroll() {
         }
     }
 
-    if (config.hasNextFullScreen) {
+    if (destinationCycleActive) {
+        areaLeft = 48;
+    } else if (config.hasNextFullScreen) {
         areaLeft = -1;
     }
 
@@ -1521,6 +1885,10 @@ function startScroll() {
 
     // スクロール中
     scrollId = true;
+    if (destinationCycleActive && destinationCyclePhase === "scroll") {
+        startDestinationCycleSmallSwitch();
+        informationMode = "destination";
+    }
 
     // スクロール表示をすぐ反映
     render();
@@ -1538,6 +1906,10 @@ function startScroll() {
         clickStartScrollBtn === false ||
         scrollId === null
     ) {
+        if (destinationCycleSmallTimer !== null) {
+            clearInterval(destinationCycleSmallTimer);
+            destinationCycleSmallTimer = null;
+        }
         stopScroll();
         return;
     }
@@ -1555,17 +1927,47 @@ function startScroll() {
     scrollPixelX -= scrollSpeed * deltaTime / 1000;
 
     // 文字が全部左へ消えた
-    if (
-        scrollPixelX + scrollTextWidth * pitch <
-        areaLeft * pitch
-    ) {
-        if (!scrollWaiting) {
+    if (scrollPixelX + scrollTextWidth * pitch < areaLeft * pitch) {
+        if (destinationCycleActive && destinationCyclePhase === "scroll") {
+            stopScroll();
 
+            // スクロール終了後、0.5秒待つ
+            renderTimer = setTimeout(() => {
+                renderTimer = null;
+                if (!destinationCycleActive) return;
+
+                // 通常サイズの行先表示に戻す
+                destinationCyclePhase = "normal";
+                showDestinationCycleScene(destinationCycleNormalScene);
+
+                // 通常表示を3秒間維持
+                renderTimer = setTimeout(() => {
+                    renderTimer = null;
+                    if (!destinationCycleActive) return;
+
+                    // 小さい行先表示に切り替える
+                    destinationCyclePhase = "scroll";
+                    destinationCycleSmallMode = "destination";
+                    informationMode = "destination";
+                    showNext = true;
+                    render();
+
+                    // 0.5秒後に次のスクロールを開始
+                    renderTimer = setTimeout(() => {
+                        renderTimer = null;
+                        if (!destinationCycleActive) return;
+
+                        clickStartScrollBtn = true;
+                        startScroll();
+                    }, 500);
+                }, 3000);
+            }, 500);
+        }
+
+        if (!scrollWaiting) {
             scrollWaiting = true;
 
             setTimeout(() => {
-
-                // 停止されていたら終了
                 if (
                     generation !== scrollGeneration ||
                     !scrollCheck.checked ||
@@ -1576,17 +1978,10 @@ function startScroll() {
                     return;
                 }
 
-                // 次の周回を右端から開始
                 scrollPixelX = areaRight * pitch;
-
                 lastScrollTime = null;
-
                 scrollWaiting = false;
-
-                // 再開
-                scrollAnimationId =
-                    requestAnimationFrame(animateScroll);
-
+                scrollAnimationId = requestAnimationFrame(animateScroll);
             }, 500);
         }
 
@@ -1607,11 +2002,6 @@ function startScroll() {
 
 function stopScroll() {
     scrollGeneration++;
-
-    if (scrollAnimationId !== null) {
-        cancelAnimationFrame(scrollAnimationId);
-        scrollAnimationId = null;
-    }
 
     if (scrollAnimationId !== null) {
         cancelAnimationFrame(scrollAnimationId);

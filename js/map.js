@@ -1,0 +1,1087 @@
+const vehicleSelectMethod = document.getElementById("vehicleSelectMethod");
+const vehicleSelect = document.getElementById("vehicleSelect");
+const mapElement = document.getElementById("map");
+const lineVehicleList = document.getElementById("lineVehicleList");
+const closeLinePanel = document.getElementById("closeLinePanel");
+closeLinePanel.addEventListener("click", () => {
+    linePanel.hidden = true;
+});
+
+let railwayMap = null;
+
+const selectedLineName = document.getElementById("selectedLineName");
+const linePanel = document.getElementById("linePanel");
+
+let railwayLines = [];
+
+async function loadRailwayLines() {
+    const response = await fetch("data/lines.json");
+    const data = await response.json();
+
+    railwayLines = data.lines;
+}
+
+const RAILWAY_OVERLAP_TOLERANCE = 2.5;
+const RAILWAY_OVERLAP_MIN_LENGTH = 0.5;
+const RAILWAY_OFFSET_SPACING_PX = 8;
+const RAILWAY_OVERLAP_ANGLE = 12;
+
+function getRailwaySegmentOverlap(a, b) {
+    const lat0 = (a.start[0] + a.end[0] + b.start[0] + b.end[0]) / 4;
+    const lng0 = (a.start[1] + a.end[1] + b.start[1] + b.end[1]) / 4;
+    const cosLat = Math.cos(lat0 * Math.PI / 180);
+    const M = 111320;
+
+    const xy = p => [
+        (p[1] - lng0) * M * cosLat,
+        (p[0] - lat0) * M
+    ];
+
+    const A = xy(a.start);
+    const A1 = xy(a.end);
+    const B = xy(b.start);
+    const B1 = xy(b.end);
+
+    const ax = A1[0] - A[0];
+    const ay = A1[1] - A[1];
+    const bx = B1[0] - B[0];
+    const by = B1[1] - B[1];
+
+    const lenA = Math.hypot(ax, ay);
+    const lenB = Math.hypot(bx, by);
+
+    if (lenA < 0.5 || lenB < 0.5) return null;
+
+    const ux = ax / lenA;
+    const uy = ay / lenA;
+    const vx = bx / lenB;
+    const vy = by / lenB;
+
+    const cosAngle = Math.abs(ux * vx + uy * vy);
+
+    if (cosAngle < Math.cos(RAILWAY_OVERLAP_ANGLE * Math.PI / 180)) {
+        return null;
+    }
+
+    const crossDistance = p =>
+        Math.abs(ux * (p[1] - A[1]) - uy * (p[0] - A[0]));
+
+    if (
+        crossDistance(B) > RAILWAY_OVERLAP_TOLERANCE ||
+        crossDistance(B1) > RAILWAY_OVERLAP_TOLERANCE
+    ) {
+        return null;
+    }
+
+    const projectA = p => (p[0] - A[0]) * ux + (p[1] - A[1]) * uy;
+    const b0 = projectA(B);
+    const b1 = projectA(B1);
+
+    const startA = Math.max(0, Math.min(b0, b1));
+    const endA = Math.min(lenA, Math.max(b0, b1));
+
+    if (endA - startA < RAILWAY_OVERLAP_MIN_LENGTH) {
+        return null;
+    }
+
+    const overlapStart = [
+        A[0] + ux * startA,
+        A[1] + uy * startA
+    ];
+
+    const overlapEnd = [
+        A[0] + ux * endA,
+        A[1] + uy * endA
+    ];
+
+    const projectB = p => (p[0] - B[0]) * vx + (p[1] - B[1]) * vy;
+    const t0 = projectB(overlapStart);
+    const t1 = projectB(overlapEnd);
+
+    const startB = Math.max(0, Math.min(t0, t1));
+    const endB = Math.min(lenB, Math.max(t0, t1));
+
+    if (endB - startB < RAILWAY_OVERLAP_MIN_LENGTH) {
+        return null;
+    }
+
+    return {
+        a: [startA / lenA, endA / lenA],
+        b: [startB / lenB, endB / lenB]
+    };
+}
+
+function buildRailwayOverlapData(lines) {
+    const overlapData = lines.map(line =>
+        Array.from(
+            { length: Math.max(0, (line.coordinates || []).length - 1) },
+            () => []
+        )
+    );
+
+    const segments = [];
+
+    lines.forEach((line, lineIndex) => {
+        const coords = line.coordinates || [];
+
+        for (let i = 0; i < coords.length - 1; i++) {
+            const start = coords[i];
+            const end = coords[i + 1];
+
+            if (
+                !Array.isArray(start) || !Array.isArray(end) ||
+                !Number.isFinite(start[0]) || !Number.isFinite(start[1]) ||
+                !Number.isFinite(end[0]) || !Number.isFinite(end[1])
+            ) {
+                continue;
+            }
+
+            segments.push({
+                id: segments.length,
+                lineIndex,
+                segmentIndex: i,
+                start,
+                end
+            });
+        }
+    });
+
+    // 地理座標のグリッドを使い、近くにある線分だけを比較する
+    const CELL_SIZE = 0.00025;
+    const buckets = new Map();
+    const candidatePairs = new Map();
+
+    for (const segment of segments) {
+        const dLat = segment.end[0] - segment.start[0];
+        const dLng = segment.end[1] - segment.start[1];
+        const steps = Math.max(
+            1,
+            Math.ceil(Math.max(Math.abs(dLat), Math.abs(dLng)) / (CELL_SIZE / 2))
+        );
+
+        const visitedCells = new Set();
+
+        for (let i = 0; i <= steps; i++) {
+            const t = i / steps;
+            const lat = segment.start[0] + dLat * t;
+            const lng = segment.start[1] + dLng * t;
+            const cx = Math.floor(lng / CELL_SIZE);
+            const cy = Math.floor(lat / CELL_SIZE);
+
+            for (let dy = -1; dy <= 1; dy++) {
+                for (let dx = -1; dx <= 1; dx++) {
+                    const key = `${cx + dx},${cy + dy}`;
+
+                    for (const other of buckets.get(key) || []) {
+                        if (other.lineIndex === segment.lineIndex) continue;
+
+                        const first = Math.min(other.id, segment.id);
+                        const second = Math.max(other.id, segment.id);
+                        const pairKey = `${first}:${second}`;
+
+                        if (!candidatePairs.has(pairKey)) {
+                            candidatePairs.set(pairKey, [other, segment]);
+                        }
+                    }
+                }
+            }
+
+            visitedCells.add(`${cx},${cy}`);
+        }
+
+        for (const key of visitedCells) {
+            if (!buckets.has(key)) buckets.set(key, []);
+            buckets.get(key).push(segment);
+        }
+    }
+
+    for (const [a, b] of candidatePairs.values()) {
+        const overlap = getRailwaySegmentOverlap(a, b);
+        if (!overlap) continue;
+
+        overlapData[a.lineIndex][a.segmentIndex].push({
+            start: overlap.a[0],
+            end: overlap.a[1],
+            otherLine: b.lineIndex,
+            otherSegmentIndex: b.segmentIndex
+        });
+
+        overlapData[b.lineIndex][b.segmentIndex].push({
+            start: overlap.b[0],
+            end: overlap.b[1],
+            otherLine: a.lineIndex,
+            otherSegmentIndex: a.segmentIndex
+        });
+    }
+
+    return overlapData;
+}
+
+function offsetRailwayPoint(start, end, t, offsetPixels, directionSign) {
+    const lat = start[0] + (end[0] - start[0]) * t;
+    const lng = start[1] + (end[1] - start[1]) * t;
+
+    if (offsetPixels === 0 || !railwayMap) return [lat, lng];
+
+    const zoom = railwayMap.getZoom();
+    const a = railwayMap.project(start, zoom);
+    const b = railwayMap.project(end, zoom);
+    let dx = b.x - a.x;
+    let dy = b.y - a.y;
+
+    if (directionSign < 0) {
+        dx = -dx;
+        dy = -dy;
+    }
+
+    const length = Math.hypot(dx, dy);
+    if (length < 0.001) return [lat, lng];
+
+    const point = railwayMap.project([lat, lng], zoom);
+    const result = railwayMap.unproject([
+        point.x + offsetPixels * dy / length,
+        point.y - offsetPixels * dx / length
+    ], zoom);
+
+    return [result.lat, result.lng];
+}
+
+function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, allLines)  {
+    if (!railwayMap || !Array.isArray(coordinates) || coordinates.length < 2) {
+        return coordinates;
+    }
+
+    if (!coordinates.every(p =>
+        Array.isArray(p) && Number.isFinite(p[0]) && Number.isFinite(p[1])
+    )) {
+        return coordinates;
+    }
+
+    const zoom = railwayMap.getZoom();
+    const spacing = RAILWAY_OFFSET_SPACING_PX;
+
+    // オフセットが変化する範囲（画面上のピクセル）
+    // 大きくすると、より長い距離を使って緩やかに変化する
+    const smoothingDistance = 100;
+
+    const sampleStep = 4;
+    const tangentWindow = 24;
+
+    // 短い判定漏れを補う最大距離（画面上のピクセル）
+    const maxMissingGapPx = 24;
+    const projected = coordinates.map(p => railwayMap.project(p, zoom));
+    const lengths = [];
+    const groundLengths = [];
+    const cumulative = [0];
+
+    for (let i = 0; i < projected.length - 1; i++) {
+        const length = Math.hypot(
+            projected[i + 1].x - projected[i].x,
+            projected[i + 1].y - projected[i].y
+        );
+
+        lengths.push(length);
+        groundLengths.push(
+            L.latLng(coordinates[i][0], coordinates[i][1])
+                .distanceTo(L.latLng(coordinates[i + 1][0], coordinates[i + 1][1]))
+        );
+        cumulative.push(cumulative[i] + length);
+    }
+
+    const totalDistance = cumulative[cumulative.length - 1];
+    if (totalDistance < 0.001) return coordinates;
+
+    // 路線の座標方向を判定する
+    function getLineDirectionSign(points) {
+        if (!points || points.length < 2) return 1;
+
+        const first = points[0];
+        const last = points[points.length - 1];
+
+        const dx = last.x - first.x;
+        const dy = last.y - first.y;
+
+        return dx < 0 || (Math.abs(dx) < 1e-6 && dy > 0)
+            ? -1
+            : 1;
+    }
+
+    const currentDirectionSign = getLineDirectionSign(projected);
+
+    // 相手路線の投影座標をキャッシュする
+    const peerProjectedCache = new Map();
+
+    function getPeerProjectedLine(peerLineIndex) {
+        if (peerProjectedCache.has(peerLineIndex)) {
+            return peerProjectedCache.get(peerLineIndex);
+        }
+
+        const peerLine = allLines[peerLineIndex];
+
+        if (!peerLine || !Array.isArray(peerLine.coordinates)) {
+            return null;
+        }
+
+        const points = peerLine.coordinates.map(p =>
+            railwayMap.project(p, zoom)
+        );
+
+        peerProjectedCache.set(peerLineIndex, points);
+
+        return points;
+    }
+
+    const peersBySegment = lengths.map((_, i) =>
+        new Set((segmentMatches[i] || [])
+            .filter(m =>
+                Number.isFinite(m.start) &&
+                Number.isFinite(m.end) &&
+                m.end - m.start > 1e-8
+            )
+            .map(m => m.otherLine))
+    );
+
+    function getPeerOverlapMeters(segmentIndex, peer) {
+        const ranges = (segmentMatches[segmentIndex] || [])
+            .filter(m => m.otherLine === peer)
+            .map(m => [
+                Math.max(0, Math.min(1, m.start)),
+                Math.max(0, Math.min(1, m.end))
+            ])
+            .filter(r => r[1] > r[0])
+            .sort((a, b) => a[0] - b[0]);
+
+        if (!ranges.length) return 0;
+
+        let fraction = 0;
+        let rangeStart = ranges[0][0];
+        let rangeEnd = ranges[0][1];
+
+        for (let i = 1; i < ranges.length; i++) {
+            if (ranges[i][0] <= rangeEnd) {
+                rangeEnd = Math.max(rangeEnd, ranges[i][1]);
+            } else {
+                fraction += rangeEnd - rangeStart;
+                rangeStart = ranges[i][0];
+                rangeEnd = ranges[i][1];
+            }
+        }
+
+        fraction += rangeEnd - rangeStart;
+        return groundLengths[segmentIndex] * fraction;
+    }
+
+    const persistentPeers = lengths.map(() => new Set());
+    const allPeers = new Set(peersBySegment.flatMap(set => [...set]));
+    const MIN_CONTINUOUS_OVERLAP_METERS = 30;
+
+    // 同じ路線との重複判定が、短い区間だけ途切れた場合に補完する
+    for (const peer of allPeers) {
+        let previousMatch = -1;
+
+        for (let i = 0; i < peersBySegment.length; i++) {
+            if (!peersBySegment[i].has(peer)) {
+                continue;
+            }
+
+            if (previousMatch >= 0 && i > previousMatch + 1) {
+                const gapStart = previousMatch + 1;
+                const gapPixels = cumulative[i] - cumulative[gapStart];
+
+                if (gapPixels <= maxMissingGapPx) {
+                    for (let j = gapStart; j < i; j++) {
+                        peersBySegment[j].add(peer);
+                    }
+                }
+            }
+
+            previousMatch = i;
+        }
+    }
+
+    for (const peer of allPeers) {
+        let i = 0;
+
+        while (i < peersBySegment.length) {
+            if (!peersBySegment[i].has(peer)) {
+                i++;
+                continue;
+            }
+
+            const start = i;
+            let overlapMeters = 0;
+
+            while (i < peersBySegment.length && peersBySegment[i].has(peer)) {
+                overlapMeters += getPeerOverlapMeters(i, peer);
+                i++;
+            }
+
+            if (overlapMeters >= MIN_CONTINUOUS_OVERLAP_METERS) {
+                for (let j = start; j < i; j++) {
+                    persistentPeers[j].add(peer);
+                }
+            }
+        }
+    }
+
+    if (!persistentPeers.some(set => set.size > 0)) return coordinates;
+
+    const spans = [];
+
+    for (let i = 0; i < lengths.length; i++) {
+        if (lengths[i] < 0.001) continue;
+
+        const matches = (segmentMatches[i] || []).filter(
+            m => persistentPeers[i].has(m.otherLine)
+        );
+        const cuts = [0, 1];
+
+        for (const match of matches) {
+            cuts.push(
+                Math.max(0, Math.min(1, match.start)),
+                Math.max(0, Math.min(1, match.end))
+            );
+        }
+
+        cuts.sort((a, b) => a - b);
+
+        const uniqueCuts = cuts.filter((t, index) =>
+            index === 0 || Math.abs(t - cuts[index - 1]) > 1e-8
+        );
+
+        for (let j = 0; j < uniqueCuts.length - 1; j++) {
+            const t0 = uniqueCuts[j];
+            const t1 = uniqueCuts[j + 1];
+            if (t1 - t0 < 1e-8) continue;
+
+            const mid = (t0 + t1) / 2;
+            let otherLines = [...new Set(matches
+                .filter(m => mid > m.start - 1e-8 && mid < m.end + 1e-8)
+                .map(m => m.otherLine))];
+
+            // 短い区間で重複判定が途切れても、前後の重複関係を維持する
+            if (!otherLines.length && lengths[i] <= maxMissingGapPx) {
+                otherLines = [...persistentPeers[i]];
+            }
+
+            let offset = 0;
+
+            if (otherLines.length) {
+                // 細かい区間ごとにグループ順位が変わらないようにする
+                const group = [
+                    ...new Set([lineIndex, ...persistentPeers[i]])
+                ].sort((a, b) => a - b);
+
+                const rank = group.indexOf(lineIndex);
+
+                offset = (
+                    rank - (group.length - 1) / 2
+                ) * spacing;
+
+                // グループ内で最も番号の小さい路線を基準にする
+                const referenceLineIndex = group[0];
+
+                if (referenceLineIndex !== lineIndex) {
+                    const activeMatches = matches.filter(m =>
+                        mid >= m.start - 1e-8 &&
+                        mid <= m.end + 1e-8
+                    );
+
+                    const referenceMatch =
+                        activeMatches.find(m =>
+                            m.otherLine === referenceLineIndex
+                        ) ||
+                        activeMatches
+                            .slice()
+                            .sort((a, b) => a.otherLine - b.otherLine)[0];
+
+                    if (
+                        referenceMatch &&
+                        Number.isInteger(referenceMatch.otherSegmentIndex)
+                    ) {
+                        const peerPoints = getPeerProjectedLine(
+                            referenceMatch.otherLine
+                        );
+
+                        const peerSegmentIndex =
+                            referenceMatch.otherSegmentIndex;
+
+                        if (
+                            peerPoints &&
+                            peerSegmentIndex >= 0 &&
+                            peerSegmentIndex + 1 < peerPoints.length
+                        ) {
+                            // 現在の路線の線分方向
+                            const currentDx =
+                                (projected[i + 1].x - projected[i].x) *
+                                currentDirectionSign;
+
+                            const currentDy =
+                                (projected[i + 1].y - projected[i].y) *
+                                currentDirectionSign;
+
+                            // 相手路線の線分方向
+                            const peerDirectionSign =
+                                getLineDirectionSign(peerPoints);
+
+                            const peerDx =
+                                (peerPoints[peerSegmentIndex + 1].x -
+                                peerPoints[peerSegmentIndex].x) *
+                                peerDirectionSign;
+
+                            const peerDy =
+                                (peerPoints[peerSegmentIndex + 1].y -
+                                peerPoints[peerSegmentIndex].y) *
+                                peerDirectionSign;
+
+                            // 両路線の進行方向が逆なら、オフセットの符号を反転する
+                            const dot =
+                                currentDx * peerDx +
+                                currentDy * peerDy;
+
+                            if (dot < 0) {
+                                offset *= -1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            spans.push({
+                start: cumulative[i] + lengths[i] * t0,
+                end: cumulative[i] + lengths[i] * t1,
+                offset
+            });
+        }
+    }
+
+    if (!spans.length || spans.every(span => Math.abs(span.offset) < 0.001)) {
+        return coordinates;
+    }
+
+    // 同じオフセットが続く区間をひとつにまとめる
+    const offsetRuns = [];
+
+    for (const span of spans) {
+        const previous = offsetRuns[offsetRuns.length - 1];
+
+        if (
+            previous &&
+            Math.abs(previous.end - span.start) < 0.01 &&
+            Math.abs(previous.offset - span.offset) < 0.001
+        ) {
+            previous.end = span.end;
+        } else {
+            offsetRuns.push({ ...span });
+        }
+    }
+
+    if (!offsetRuns.length) return coordinates;
+
+        // オフセットの変化を滑らかにする距離（画面上のpx）
+    // 既存の smoothingDistance = 40 を 100 に変更する
+    function smoothStep(t) {
+        t = Math.max(0, Math.min(1, t));
+        return t * t * (3 - 2 * t);
+    }
+
+    // 指定位置における、補間前のオフセットを取得
+    function getRawOffset(distance) {
+        let low = 0;
+        let high = offsetRuns.length - 1;
+
+        while (low < high) {
+            const mid = Math.floor((low + high) / 2);
+
+            if (offsetRuns[mid].end < distance) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+
+        const run = offsetRuns[low];
+
+        if (!run || distance < run.start || distance > run.end) {
+            return 0;
+        }
+
+        return run.offset;
+    }
+
+    // 周辺のオフセットを滑らかに平均する
+    function getSmoothOffset(distance) {
+        const radius = smoothingDistance;
+        const sampleCount = 40;
+
+        let weightedOffset = 0;
+        let totalWeight = 0;
+
+        for (let i = 0; i <= sampleCount; i++) {
+            const t = i / sampleCount;
+            const sampleDistance =
+                distance - radius + 2 * radius * t;
+
+            if (
+                sampleDistance < 0 ||
+                sampleDistance > totalDistance
+            ) {
+                continue;
+            }
+
+            // 中央ほど重く、端に近づくほど軽くする
+            const weight =
+                0.5 + 0.5 * Math.cos(2 * Math.PI * (t - 0.5));
+
+            weightedOffset +=
+                getRawOffset(sampleDistance) * weight;
+
+            totalWeight += weight;
+        }
+
+        return totalWeight > 0
+            ? weightedOffset / totalWeight
+            : getRawOffset(distance);
+    }
+
+    function getPointAtDistance(distance) {
+        distance = Math.max(0, Math.min(totalDistance, distance));
+
+        let low = 0;
+        let high = lengths.length - 1;
+
+        while (low < high) {
+            const mid = Math.floor((low + high) / 2);
+
+            if (cumulative[mid + 1] < distance) low = mid + 1;
+            else high = mid;
+        }
+
+        const i = low;
+        if (lengths[i] < 0.001) return projected[i];
+
+        const t = Math.max(0, Math.min(
+            1, (distance - cumulative[i]) / lengths[i]
+        ));
+
+        return {
+            x: projected[i].x + (projected[i + 1].x - projected[i].x) * t,
+            y: projected[i].y + (projected[i + 1].y - projected[i].y) * t
+        };
+    }
+
+    const distances = [0, totalDistance, ...cumulative];
+
+    for (let d = sampleStep; d < totalDistance; d += sampleStep) {
+        distances.push(d);
+    }
+
+    for (const span of spans) {
+        distances.push(span.start, span.end);
+    }
+
+    distances.sort((a, b) => a - b);
+
+    const uniqueDistances = distances.filter((d, index, array) =>
+        index === 0 || Math.abs(d - array[index - 1]) > 0.001
+    );
+
+    const first = projected[0];
+    const last = projected[projected.length - 1];
+    const dxAll = last.x - first.x;
+    const dyAll = last.y - first.y;
+
+    const directionSign =
+        dxAll < 0 || (Math.abs(dxAll) < 1e-6 && dyAll > 0) ? -1 : 1;
+
+    const result = [];
+
+    for (const distance of uniqueDistances) {
+        const point = getPointAtDistance(distance);
+        const offset = getSmoothOffset(distance);
+
+        if (Math.abs(offset) < 0.01) {
+            const p = railwayMap.unproject(point, zoom);
+            result.push([p.lat, p.lng]);
+            continue;
+        }
+
+        const before = getPointAtDistance(
+            Math.max(0, distance - tangentWindow)
+        );
+        const after = getPointAtDistance(
+            Math.min(totalDistance, distance + tangentWindow)
+        );
+
+        let dx = after.x - before.x;
+        let dy = after.y - before.y;
+
+        if (directionSign < 0) {
+            dx = -dx;
+            dy = -dy;
+        }
+
+        const length = Math.hypot(dx, dy);
+
+        if (length < 0.001) {
+            const p = railwayMap.unproject(point, zoom);
+            result.push([p.lat, p.lng]);
+            continue;
+        }
+
+        const p = railwayMap.unproject([
+            point.x + offset * dy / length,
+            point.y - offset * dx / length
+        ], zoom);
+
+        result.push([p.lat, p.lng]);
+    }
+
+    return result;
+}
+
+function getRailwayPolylineMidpoint(coordinates) {
+    if (!coordinates || coordinates.length === 0) return null;
+    if (coordinates.length === 1) return coordinates[0];
+
+    const lengths = [];
+    let totalLength = 0;
+
+    for (let i = 0; i < coordinates.length - 1; i++) {
+        const a = L.latLng(coordinates[i][0], coordinates[i][1]);
+        const b = L.latLng(coordinates[i + 1][0], coordinates[i + 1][1]);
+        const length = a.distanceTo(b);
+
+        lengths.push(length);
+        totalLength += length;
+    }
+
+    if (totalLength === 0) return coordinates[0];
+
+    let distance = totalLength / 2;
+
+    for (let i = 0; i < lengths.length; i++) {
+        if (distance <= lengths[i]) {
+            const t = distance / lengths[i];
+            const a = coordinates[i];
+            const b = coordinates[i + 1];
+
+            return [
+                a[0] + (b[0] - a[0]) * t,
+                a[1] + (b[1] - a[1]) * t
+            ];
+        }
+
+        distance -= lengths[i];
+    }
+
+    return coordinates[coordinates.length - 1];
+}
+
+function mergeConnectedRailwayParts(inputParts) {
+    const isPoint = p =>
+        Array.isArray(p) &&
+        p.length >= 2 &&
+        Number.isFinite(p[0]) &&
+        Number.isFinite(p[1]);
+
+    const parts = inputParts
+        .filter(part =>
+            Array.isArray(part) &&
+            part.length >= 2 &&
+            part.every(isPoint)
+        )
+        .map(part => part.map(p => [p[0], p[1]]));
+
+    const endpointMap = new Map();
+    const visited = new Set();
+
+    const pointKey = p => `${p[0]},${p[1]}`;
+
+    function addEndpoint(key, item) {
+        if (!endpointMap.has(key)) {
+            endpointMap.set(key, []);
+        }
+        endpointMap.get(key).push(item);
+    }
+
+    parts.forEach((part, index) => {
+        addEndpoint(pointKey(part[0]), {
+            partIndex: index,
+            side: 0
+        });
+
+        addEndpoint(pointKey(part[part.length - 1]), {
+            partIndex: index,
+            side: 1
+        });
+    });
+
+    function getDegree(point) {
+        return (endpointMap.get(pointKey(point)) || []).length;
+    }
+
+    function buildChain(startIndex, startSide) {
+        let currentIndex = startIndex;
+        let chain = startSide === 0
+            ? parts[startIndex].slice()
+            : parts[startIndex].slice().reverse();
+
+        visited.add(startIndex);
+
+        while (true) {
+            const endKey = pointKey(chain[chain.length - 1]);
+            const connected = endpointMap.get(endKey) || [];
+
+            // 分岐点では別の経路へ勝手につながない
+            if (connected.length !== 2) break;
+
+            const next = connected.find(item =>
+                item.partIndex !== currentIndex &&
+                !visited.has(item.partIndex)
+            );
+
+            if (!next) break;
+
+            const nextPart = next.side === 0
+                ? parts[next.partIndex]
+                : parts[next.partIndex].slice().reverse();
+
+            for (let i = 1; i < nextPart.length; i++) {
+                chain.push(nextPart[i]);
+            }
+
+            visited.add(next.partIndex);
+            currentIndex = next.partIndex;
+        }
+
+        return chain;
+    }
+
+    const result = [];
+
+    // 分岐点や路線の端点から、連続した経路を組み立てる
+    for (let i = 0; i < parts.length; i++) {
+        if (visited.has(i)) continue;
+
+        const startDegree = getDegree(parts[i][0]);
+        const endDegree = getDegree(parts[i][parts[i].length - 1]);
+
+        if (startDegree === 2 && endDegree === 2) {
+            continue;
+        }
+
+        const startSide = startDegree !== 2 ? 0 : 1;
+        result.push(buildChain(i, startSide));
+    }
+
+    // 閉じた経路など、まだ処理されていないパーツも回収する
+    for (let i = 0; i < parts.length; i++) {
+        if (!visited.has(i)) {
+            result.push(buildChain(i, 0));
+        }
+    }
+
+    return result;
+}
+
+// 地図を作成
+function createMap() {
+    if (railwayMap !== null) return;
+
+    railwayMap = L.map("map").setView([36.2, 138.25], 5);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(railwayMap);
+
+    const vehicleRouteLabels = [];
+    const renderLines = [];
+    const renderedRailwayLines = [];
+
+    railwayLines.forEach(line => {
+        const coordinates = line.coordinates || [];
+        if (!coordinates.length) return;
+
+        const isPoint = point =>
+            Array.isArray(point) &&
+            point.length >= 2 &&
+            Number.isFinite(point[0]) &&
+            Number.isFinite(point[1]);
+
+        const parts = isPoint(coordinates[0])
+            ? [coordinates]
+            : coordinates.filter(part =>
+                Array.isArray(part) &&
+                part.length >= 2 &&
+                isPoint(part[0])
+            );
+
+        const mergedParts = mergeConnectedRailwayParts(parts);
+
+        mergedParts.forEach((part, partIndex) => {
+            if (part.length < 2) return;
+
+            renderLines.push({
+                ...line,
+                coordinates: part,
+                _partIndex: partIndex
+            });
+        });
+    });
+
+    const overlapData = buildRailwayOverlapData(renderLines);
+
+    renderLines.forEach((line, index) => {
+        const coordinates = line.coordinates;
+        const segmentMatches = overlapData[index] || [];
+
+        const displayCoordinates = createOffsetRailwayCoordinates(
+            coordinates,
+            index,
+            segmentMatches,
+            renderLines
+        );
+
+        if (displayCoordinates.length < 2) return;
+
+        const railwayLine = L.polyline(displayCoordinates, {
+            color: line.color || "black",
+            weight: 3
+        }).addTo(railwayMap);
+
+        const hitLine = L.polyline(displayCoordinates, {
+            color: "#000",
+            weight: 16,
+            opacity: 0,
+            interactive: true
+        }).addTo(railwayMap);
+
+        renderedRailwayLines.push({
+            coordinates,
+            lineIndex: index,
+            segmentMatches,
+            railwayLine,
+            hitLine
+        });
+
+        hitLine.on("click", () => railwayLine.fire("click"));
+        railwayLine.bindTooltip(line.name);
+
+        railwayLine.on("click", () => {
+            selectedLineName.textContent = line.name;
+            lineVehicleList.innerHTML = "";
+
+            (line.vehicles || []).forEach(vehicleName => {
+                const vehicle = vehicles.find(
+                    vehicle => vehicle.name === vehicleName
+                );
+
+                if (!vehicle) return;
+
+                const button = document.createElement("button");
+                const iconContainer = document.createElement("div");
+                iconContainer.className = "vehicleIcons";
+
+                (vehicle.icons || []).forEach(icon => {
+                    const img = document.createElement("img");
+                    img.src = icon;
+                    img.className = "vehicleIcon";
+                    img.alt = "";
+                    iconContainer.appendChild(img);
+                });
+
+                const span = document.createElement("span");
+                span.textContent = vehicle.name;
+                button.append(iconContainer, span);
+
+                button.addEventListener("click", async () => {
+                    await selectVehicle(vehicle);
+                });
+
+                lineVehicleList.appendChild(button);
+            });
+
+            linePanel.hidden = false;
+        });
+    });
+
+    railwayLines.forEach(line => {
+        const coordinates = line.coordinates || [];
+        const vehicleNames = (line.vehicles || []).filter(Boolean);
+
+        if (!coordinates.length || vehicleNames.length === 0) return;
+
+        const isPoint = point =>
+            Array.isArray(point) &&
+            point.length >= 2 &&
+            Number.isFinite(point[0]) &&
+            Number.isFinite(point[1]);
+
+        const parts = isPoint(coordinates[0])
+            ? [coordinates]
+            : coordinates.filter(part =>
+                Array.isArray(part) &&
+                part.length >= 2 &&
+                isPoint(part[0])
+            );
+
+        const longestPart = parts.reduce(
+            (longest, part) =>
+                part.length > longest.length ? part : longest,
+            []
+        );
+
+        if (longestPart.length < 2) return;
+
+        const midpoint = getRailwayPolylineMidpoint(longestPart);
+        if (!midpoint) return;
+
+        const label = L.tooltip({
+            permanent: true,
+            direction: "right",
+            offset: [8, 0],
+            className: "vehicle-route-label",
+            opacity: 1,
+            interactive: false
+        })
+            .setLatLng(midpoint)
+            .setContent(line.name)
+            .addTo(railwayMap);
+
+        vehicleRouteLabels.push(label);
+    });
+
+    function updateRailwayLineOffsets() {
+        renderedRailwayLines.forEach(item => {
+            const displayCoordinates = createOffsetRailwayCoordinates(
+                item.coordinates,
+                item.lineIndex,
+                item.segmentMatches,
+                renderLines
+            );
+
+            item.railwayLine.setLatLngs(displayCoordinates);
+            item.hitLine.setLatLngs(displayCoordinates);
+        });
+    }
+
+    function updateVehicleRouteLabels() {
+        const showLabels = railwayMap.getZoom() >= 8;
+
+        vehicleRouteLabels.forEach(label => {
+            const element = label.getElement();
+
+            if (element) {
+                element.style.display = showLabels ? "" : "none";
+            }
+        });
+    }
+
+    railwayMap.on("zoomend", () => {
+        updateRailwayLineOffsets();
+        updateVehicleRouteLabels();
+    });
+
+    updateVehicleRouteLabels();
+}

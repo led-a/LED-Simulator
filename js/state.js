@@ -8,6 +8,8 @@ let information2Id = null;
 let lineId = null;
 let carNumberId = null;
 let scrollId = null;
+let typeScrollId = null;
+let destinationScrollId = null;
 
 let displayMode = "normal";
 let informationMode = "destination";
@@ -49,5 +51,25 @@ let areaBottom = 32;
 
 let typeScroll = false;
 let destinationScroll = false;
+
+let clickTypeBtn = false;
+
+let choppyScroll = false;
+let isLedAging = false;
+
+let isDisplayVerticalSlide = false;
+
+let isDisplayLog = false;
+
+let destinationCycleActive = false;
+let destinationCyclePhase = "normal";
+let destinationCycleNormalScene = -1;
+let destinationCycleInfoScene = -1;
+let destinationScrollTimer = null;
+let destinationCycleSmallTimer = null;
+let destinationCycleSmallMode = "destination";
+
+let isMessageBoard = false;
+let messageBoardScroll = false;
 
 const langs = ["ja", "en"];
