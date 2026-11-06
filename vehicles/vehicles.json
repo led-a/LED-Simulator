@@ -21,6 +21,16 @@
         "site": "vehicles/E131-800/site.json"
     },
     {
+        "id": "E231-3000",
+        "name": "E231系3000番台",
+        "config": "vehicles/E231-3000/config.json",
+        "led": "vehicles/E231-3000/led.json",
+        "icons": [
+            "vehicles/E231-3000/icons/icon1.png"
+        ],
+        "site": "vehicles/E231-3000/site.json"
+    },
+    {
         "id": "mari_E233",
         "name": "マリE233系",
         "config": "vehicles/mari_E233/config.json",
@@ -123,13 +133,23 @@
     },
     {
         "id": "E200",
-        "name": "キハE200系",
+        "name": "キハE200形",
         "config": "vehicles/E200/config.json",
         "led": "vehicles/E200/led.json",
         "icons": [
             "vehicles/E200/icons/icon1.png"
         ],
         "site": "vehicles/E200/site.json"
+    },
+    {
+        "id": "E259",
+        "name": "E259系",
+        "config": "vehicles/E259/config.json",
+        "led": "vehicles/E259/led.json",
+        "icons": [
+            "vehicles/E259/icons/icon1.png"
+        ],
+        "site": "vehicles/E259/site.json"
     },
     {
         "id": "E26",
@@ -205,6 +225,27 @@
         "site": "vehicles/50000/site.json"
     },
     {
+        "id": "50050",
+        "name": "東武50000型（本線）・50050型",
+        "config": "vehicles/50050/config.json",
+        "led": "vehicles/50050/led.json",
+        "icons": [
+            "vehicles/50050/icons/icon1.png"
+        ],
+        "site": "vehicles/50050/site.json"
+    },
+    {
+        "id": "90000",
+        "name": "東武50070型（ゴシック体）・90000型",
+        "config": "vehicles/90000/config.json",
+        "led": "vehicles/90000/led.json",
+        "icons": [
+            "vehicles/90000/icons/icon1.png",
+            "vehicles/90000/icons/icon2.png"
+        ],
+        "site": "vehicles/90000/site.json"
+    },
+    {
         "id": "2020",
         "name": "東急2020系",
         "config": "vehicles/2020/config.json",
@@ -237,8 +278,18 @@
         "site": "vehicles/3000/site.json"
     },
     {
+        "id": "odakyu4000",
+        "name": "小田急4000形",
+        "config": "vehicles/odakyu4000/config.json",
+        "led": "vehicles/odakyu4000/led.json",
+        "icons": [
+            "vehicles/odakyu4000/icons/icon1.png"
+        ],
+        "site": "vehicles/odakyu4000/site.json"
+    },
+    {
         "id": "AB900",
-        "name": "AB900系",
+        "name": "阿武隈急行AB900系",
         "config": "vehicles/AB900/config.json",
         "led": "vehicles/AB900/led.json",
         "icons": [
@@ -266,5 +317,26 @@
             "vehicles/703/icons/icon1.png"
         ],
         "site": "vehicles/703/site.json"
+    },
+    {
+        "id": "hanshin9000",
+        "name": "阪神9000系（リノベーション車）",
+        "config": "vehicles/hanshin9000/config.json",
+        "led": "vehicles/hanshin9000/led.json",
+        "icons": [
+            "vehicles/hanshin9000/icons/icon1.png"
+        ],
+        "site": "vehicles/hanshin9000/site.json",
+        "font": "fonts/font_E233.json"
+    },
+    {
+        "id": "MT-4000",
+        "name": "南阿蘇鉄道MT-4000形",
+        "config": "vehicles/MT-4000/config.json",
+        "led": "vehicles/MT-4000/led.json",
+        "icons": [
+            "vehicles/MT-4000/icons/icon1.png"
+        ],
+        "site": "vehicles/MT-4000/site.json"
     }
 ]
