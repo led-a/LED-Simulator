@@ -919,7 +919,13 @@ function getSceneInterval() {
             if (currentScene.lang === "ja") sceneInterval = jaTime * 1000;
             if (currentScene.lang === "en") sceneInterval = enTime * 1000;
             if (config.isE259 && hasTypeInformation() && hasTypeInformation2()) {
-                if (currentScene.lang === "ja") sceneInterval = 3000;
+                if (currentScene.lang === "ja") {
+                    if(typeMode === null) {
+                        sceneInterval = 6000;
+                    } else {
+                        sceneInterval = 3000;
+                    }
+                }
             }
         }
     } else {
