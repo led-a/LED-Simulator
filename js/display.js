@@ -40,9 +40,9 @@ function drawCarNumber(carNumber, matrix) {
     if (config.isE259) {
         if (!isTypeFullScreen(type)) {
             if (type) {
-                yOffset = type.view?.full_small?.ja?.height;
+                yOffset = 14;
             } else {
-                yOffset = getItem("type", "null_type").view?.full_small?.ja?.height;
+                yOffset = 14;
             }
         }
     }
@@ -56,6 +56,9 @@ function drawType(type, matrix) {
     let view = "normal";
     if (typeMode === "information") {
         typeLang = "information";
+    }
+    if (typeMode === "information2") {
+        typeLang = "information2";
     }
     const dest = getItem("destination", destinationId);
     const typeHasNormal = hasTypeNormal(type);
@@ -238,6 +241,10 @@ function drawTypeSmall(type, matrix) {
     if (typeMode === "information") {
         typeLang = "information";
     }
+    if (typeMode === "information2") {
+        typeLang = "information2";
+    }
+    console.log("typeMode:", typeMode);
 
     let view = isTypeFullScreen(type)
         ? "full"
@@ -248,7 +255,7 @@ function drawTypeSmall(type, matrix) {
     }
 
     let data =
-        type.view?.[view]?.[lang]
+        type.view?.[view]?.[typeLang]
         ?? type.view?.[view]?.ja;
         if (view === "normal") {
             usedNormal = true;
@@ -256,7 +263,7 @@ function drawTypeSmall(type, matrix) {
 
     if (!data) {
         data =
-            type.view?.normal?.[lang]
+            type.view?.normal?.[typeLang]
             ?? type.view?.normal?.ja;
         usedNormal = true;
     }
@@ -367,6 +374,15 @@ function drawDestination(dest, matrix) {
     }
     if (config.destinationPosition === "next") {
         yOffset = config.nextPosition;
+        if (config.isE259 && !isTypeFullScreen(type)) {
+            yOffset = type.view?.full_small?.[lang]?.height;
+            if (typeMode === "information") {
+                yOffset = type.view?.full_small?.information?.height;
+            }
+            if (typeMode === "information2") {
+                yOffset = type.view?.full_small?.information2?.height;
+            }
+        }
     } else {
         yOffset = 0;
     }
@@ -1151,7 +1167,16 @@ function hasTypeInformation() {
     const type = getItem("type", typeId);
     if (!type) return;
     return !!type.view?.normal?.information
-        || !!type.view?.full?.information;
+        || !!type.view?.full?.information
+        || !!type.view?.full_small?.information;
+}
+
+function hasTypeInformation2() {
+    const type = getItem("type", typeId);
+    if (!type) return;
+    return !!type.view?.normal?.information2
+        || !!type.view?.full?.information2
+        || !!type.view?.full_small?.information2;
 }
 
 function hasTypeNormal() {

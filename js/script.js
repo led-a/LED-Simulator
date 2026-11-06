@@ -918,6 +918,9 @@ function getSceneInterval() {
         if (currentScene.information === "destination" || currentScene.information === "destination_next") {
             if (currentScene.lang === "ja") sceneInterval = jaTime * 1000;
             if (currentScene.lang === "en") sceneInterval = enTime * 1000;
+            if (config.isE259 && hasTypeInformation() && hasTypeInformation2()) {
+                if (currentScene.lang === "ja") sceneInterval = 3000;
+            }
         }
     } else {
         sceneInterval = config.sceneInterval;
@@ -1043,6 +1046,13 @@ function buildSceneList() {
                             information: "destination_next",
                             next: false,
                         });
+                        if (config.isE259 && hasTypeInformation() && hasTypeInformation2()) {
+                            sceneList.push({
+                                lang: "ja",
+                                information: "destination_next",
+                                next: false,
+                            });
+                        }
                     }
                 } else {
                     sceneList.push({
@@ -1726,6 +1736,9 @@ function buildTypeSceneList() {
     typeSceneList.push({ typeInfo: null });
     if (hasTypeInformation()) {
         typeSceneList.push({ typeInfo: "information" });
+    }
+    if (hasTypeInformation2()) {
+        typeSceneList.push({ typeInfo: "information2" });
     }
 }
 
