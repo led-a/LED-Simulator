@@ -541,7 +541,9 @@ async function startVehicle() {
                 lineLabel.textContent = "路線名:なし";
             }
         }
-
+        if (config.setSwitchingTime) {
+            setTimeSetting();
+        }
         resizeLed();
         setupVehicleUI();
         startRenderLoop();
