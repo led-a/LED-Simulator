@@ -59,7 +59,7 @@
 
     "nextJaOnly": true,
 
-    "hasReferenceSite": true,
+    "hasReferenceSite": false,
 
     "ledShape": "circle"
 }
