@@ -923,9 +923,9 @@ function getSceneInterval() {
             if (config.isE259 && hasTypeInformation() && hasTypeInformation2()) {
                 if (currentScene.lang === "ja") {
                     if(typeMode === null) {
-                        sceneInterval = 6000;
+                        sceneInterval = jaTime * 1000;
                     } else {
-                        sceneInterval = 3000;
+                        sceneInterval = enTime * 1000;
                     }
                 }
             }
