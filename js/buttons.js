@@ -29,7 +29,6 @@ function createTypeButtons() {
     container.appendChild(normalBtn);
     if (config.typeDistinction) {
         typeCategory.groups.forEach(group => {
-            // ===== 無表示グループ =====
             if (group.name === "無表示" || group.id === "__ungrouped__") {
                 group.items.forEach(item => {
                     const btn = document.createElement("button");
@@ -82,8 +81,6 @@ function createTypeButtons() {
                                 stopTypeScroll("en");
                             }
                         }
-                        // すでに行先が選択されている場合、
-                        // 種別の幅が変わったので行先スクロールも再計算
                         if (config.hasDestinationScroll) {
                             if (destinationId != null) {
                                 const destinationData = getItem("destination", destinationId);
@@ -130,7 +127,6 @@ function createTypeButtons() {
                 });
                 return;
             }
-            // ===== 路線グループ =====
             const header = document.createElement("div");
             header.className = "groupHeader";
             header.textContent = "▸ " + group.name;
@@ -198,8 +194,6 @@ function createTypeButtons() {
                             stopTypeScroll("en");
                         }
                     }
-                    // すでに行先が選択されている場合、
-                    // 種別の幅が変わったので行先スクロールも再計算
                     if (config.hasDestinationScroll) {
                         if (destinationId != null) {
                             const destinationData = getItem("destination", destinationId);
@@ -302,8 +296,6 @@ function createTypeButtons() {
                         stopTypeScroll("en");
                     }
                 }
-                // すでに行先が選択されている場合、
-                // 種別の幅が変わったので行先スクロールも再計算
                 if (config.hasDestinationScroll) {
                     if (destinationId != null) {
                         const destinationData = getItem("destination", destinationId);
@@ -390,7 +382,6 @@ function createCarNumberButtons() {
     container.appendChild(normalBtn);
     if (config.carNumberDistinction) {
         carNumberCategory.groups.forEach(group => {
-            // ===== 無表示グループ =====
             if (group.name === "無表示" || group.id === "__ungrouped__") {
                 group.items.forEach(item => {
                     const btn = document.createElement("button");
@@ -426,7 +417,6 @@ function createCarNumberButtons() {
                 });
                 return;
             }
-            // ===== 路線グループ =====
             const header = document.createElement("div");
             header.className = "groupHeader";
             header.textContent = "▸ " + group.name;
@@ -542,7 +532,6 @@ function createDestinationButtons() {
     container.appendChild(normalBtn);
     if (config.destinationDistinction) {
         destinationCategory.groups.forEach(group => {
-            // ===== 無表示グループ =====
             if (group.name === "無表示" || group.id === "__ungrouped__") {
                 group.items.forEach(dest => {
                     const btn = document.createElement("button");
@@ -646,7 +635,6 @@ function createDestinationButtons() {
                 });
                 return;
             }
-            // ===== 路線グループ =====
             const header = document.createElement("div");
             header.className = "groupHeader";
             header.textContent = "▸  " + group.name;
@@ -905,7 +893,6 @@ function createNextModeButtons() {
     container.appendChild(normalBtn);
     if (config.nextModeDistinction) {
         nextModeCategory.groups.forEach(group => {
-            // ===== 無表示グループ =====
             if (group.name === "無表示" || group.id === "__ungrouped__") {
                 group.items.forEach(item => {
                     const btn = document.createElement("button");
@@ -935,7 +922,6 @@ function createNextModeButtons() {
                 });
                 return;
             }
-            // ===== 路線グループ =====
             const header = document.createElement("div");
             header.className = "groupHeader";
             header.textContent = "▸ " + group.name;
@@ -1050,7 +1036,6 @@ function createInformationButtons() {
     container.appendChild(normalBtn);
     if (config.informationDistinction) {
         informationCategory.groups.forEach(group => {
-            // ===== 無表示グループ =====
             if (group.name === "無表示" || group.id === "__ungrouped__") {
                 group.items.forEach(info => {
                     const btn = document.createElement("button");
@@ -1084,7 +1069,6 @@ function createInformationButtons() {
                 });
                 return;
             }
-            // ===== 路線グループ =====
             const header = document.createElement("div");
             header.className = "groupHeader";
             header.textContent = "▸ " + group.name;
@@ -1217,7 +1201,6 @@ function createInformation2Buttons() {
     container.appendChild(normalBtn);
     if (config.information2Distinction) {
         information2Category.groups.forEach(group => {
-            // ===== 無表示グループ =====
             if (group.name === "無表示" || group.id === "__ungrouped__") {
                 group.items.forEach(info => {
                     const btn = document.createElement("button");
@@ -1251,7 +1234,6 @@ function createInformation2Buttons() {
                 });
                 return;
             }
-            // ===== 路線グループ =====
             const header = document.createElement("div");
             header.className = "groupHeader";
             header.textContent = "▸ " + group.name;
@@ -1368,7 +1350,6 @@ function createLineButtons() {
     container.appendChild(normalBtn);
     if (config.lineDistinction) {
         informationCategory.groups.forEach(group => {
-            // ===== 無表示グループ =====
             if (group.name === "無表示" || group.id === "__ungrouped__") {
                 group.items.forEach(info => {
                     const btn = document.createElement("button");
@@ -1402,7 +1383,6 @@ function createLineButtons() {
                 });
                 return;
             }
-            // ===== 路線グループ =====
             const header = document.createElement("div");
             header.className = "groupHeader";
             header.textContent = "▸ " + group.name;

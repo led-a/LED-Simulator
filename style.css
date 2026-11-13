@@ -1620,6 +1620,10 @@ a,
     display:none;
 }
 
+#animation[hidden] {
+    display:none;
+}
+
 #scrollPreview {
     width: 100%;
     min-height: 30px;

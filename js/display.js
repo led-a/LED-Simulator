@@ -244,7 +244,6 @@ function drawTypeSmall(type, matrix) {
     if (typeMode === "information2") {
         typeLang = "information2";
     }
-    console.log("typeMode:", typeMode);
 
     let view = isTypeFullScreen(type)
         ? "full"
@@ -745,6 +744,11 @@ function drawNext(next, matrix) {
     drawImage(data, typewidth, nextPosition, matrix);
 }
 
+function drawAnimation(animationNumber, matrix) {
+    const data = getItem("animation", "animation").view?.normal?.[animationNumber];
+    drawImage(data, 0, 0, matrix);
+}
+
 function getTypeWidth(type, used, view) {
     if(!type) {
         if (config.hasType) {
@@ -970,7 +974,6 @@ function getInformationWidth(info, used) {
 function isTypeFullScreen(type) {
 
     if(!type) return false;
-    console.log (type);
 
     let hasNormal;
     let hasFull;
@@ -1215,7 +1218,6 @@ function hasDestinationNormal3() {
     return !!destination.view?.normal3;
 }
  
-// ===== 種別・行先スクロール用 =====
 function createScrollState() {
     return {
         canvas: document.createElement("canvas"),
@@ -1451,7 +1453,6 @@ function startDestinationScroll(lang) {
 
     const type = getItem("type", typeId);
 
-    // 行先ボタンを押した時点の種別幅を保存
     destinationScrollId = destinationId;
     const nullType = getItem("type", "null_type");
     if (typeScroll === true) {
@@ -1464,8 +1465,6 @@ function startDestinationScroll(lang) {
             state.areaLeft = getTypeWidth(nullType, true);
         }
     }
-
-    // 行先の右端
     
     const nullDestination = getItem("destination", "null_destination");
 
@@ -1485,8 +1484,6 @@ function startDestinationScroll(lang) {
             (destData.view?.normal?.en?.height ?? 0);
     }
 
-    // 種別IDは入れない
-    // 行先ボタンを押した時の領域を維持する
     const signature =
         `${destinationId}_${lang}_${state.areaLeft}_${state.areaRight}_${state.areaTop}_${state.areaBottom}`;
 
@@ -1580,7 +1577,6 @@ function animateTypeDestinationScroll(now) {
         ) {
             state.waiting = true;
 
-            // 完全に消えてから500ms待つ
             state.waitingUntil = now;
 
             continue;
@@ -1644,7 +1640,6 @@ function stopDestinationScroll(lang) {
 function textToMatrix16(char) {
     const data = fontData[char];
 
-    // 登録されていない文字 → 16×16の全消灯
     if (!data) {
         return Array.from({ length: 16 }, () =>
             Array(16).fill(false)
@@ -1677,24 +1672,15 @@ function createScrollMatrix() {
 
     const text = scrollText.value;
 
-    // 各文字を16×16に変換
     for (const char of text) {
         scrollTextMatrix.push(textToMatrix16(char));
     }
 
-    // 文字全体の幅
     scrollTextWidth = scrollTextMatrix.length * 16;
 
-    /*
-     * スクロール文字専用Canvas
-     *
-     * 横幅 = 文字全体
-     * 縦幅 = 16行分
-     */
     scrollTextCanvas.width = scrollTextWidth * pitch;
     scrollTextCanvas.height = 16 * pitch;
 
-    // 一旦透明にする
     scrollTextCtx.clearRect(
         0,
         0,
@@ -1702,9 +1688,6 @@ function createScrollMatrix() {
         scrollTextCanvas.height
     );
 
-    /*
-     * 文字をCanvasへ一度だけ描画
-     */
     for (let charIndex = 0; charIndex < scrollTextMatrix.length; charIndex++) {
         const charMatrix = scrollTextMatrix[charIndex];
 
@@ -1772,7 +1755,6 @@ function drawScroll() {
     const areaPixelWidth = (areaRight - areaLeft) * pitch;
     const areaPixelHeight = (areaBottom - areaTop) * pitch;
 
-    // スクロール領域を通常表示に戻す
     ctx.drawImage(
         cacheCanvas,
         areaPixelLeft,
@@ -1785,7 +1767,6 @@ function drawScroll() {
         areaPixelHeight
     );
 
-    // スクロール領域からはみ出さないようにする
     ctx.save();
     ctx.beginPath();
     ctx.rect(
@@ -1796,7 +1777,6 @@ function drawScroll() {
     );
     ctx.clip();
 
-    // スクロール文字を描画
     const baseColor = {
         r: 255,
         g: 242,
@@ -1810,13 +1790,11 @@ function drawScroll() {
             for (let px = 0; px < 16; px++) {
                 if (!charMatrix[py][px]) continue;
 
-                // LEDのドット位置をピクセル単位で計算
                 const centerX =
                     scrollPixelX + (charIndex * 16 + px) * pitch + radius;
                 const centerY =
                     areaPixelTop + py * pitch + radius;
 
-                // 実際に表示されるLEDの座標で劣化を取得
                 const ledX = Math.floor(centerX / pitch);
                 const ledY = Math.floor(centerY / pitch);
 
@@ -1888,44 +1866,35 @@ function startScroll() {
         return;
     }
 
-    // 古いスクロールを無効化
     scrollGeneration++;
 
     const generation = scrollGeneration;
 
-    // 古いアニメーションを停止
     if (scrollAnimationId !== null) {
         cancelAnimationFrame(scrollAnimationId);
         scrollAnimationId = null;
     }
 
-    // スクロール用文字画像を作成
     createScrollMatrix();
 
-    // 右端から開始
     scrollPixelX = areaRight * pitch;
 
-    // 時間計測をリセット
     lastScrollTime = null;
 
-    // スクロール中
     scrollId = true;
     if (destinationCycleActive && destinationCyclePhase === "scroll") {
         startDestinationCycleSmallSwitch();
         informationMode = "destination";
     }
 
-    // スクロール表示をすぐ反映
     render();
 
     function animateScroll(now) {
 
-    // 古い世代なら終了
     if (generation !== scrollGeneration) {
         return;
     }
 
-    // 停止条件
     if (
         !scrollCheck.checked ||
         clickStartScrollBtn === false ||
@@ -1939,45 +1908,36 @@ function startScroll() {
         return;
     }
 
-    // 初回
     if (lastScrollTime === null) {
         lastScrollTime = now;
     }
 
-    // 経過時間
     const deltaTime = now - lastScrollTime;
     lastScrollTime = now;
 
-    // 左へ移動
     scrollPixelX -= scrollSpeed * deltaTime / 1000;
 
-    // 文字が全部左へ消えた
     if (scrollPixelX + scrollTextWidth * pitch < areaLeft * pitch) {
         if (destinationCycleActive && destinationCyclePhase === "scroll") {
             stopScroll();
 
-            // スクロール終了後、0.5秒待つ
             renderTimer = setTimeout(() => {
                 renderTimer = null;
                 if (!destinationCycleActive) return;
 
-                // 通常サイズの行先表示に戻す
                 destinationCyclePhase = "normal";
                 showDestinationCycleScene(destinationCycleNormalScene);
 
-                // 通常表示を3秒間維持
                 renderTimer = setTimeout(() => {
                     renderTimer = null;
                     if (!destinationCycleActive) return;
 
-                    // 小さい行先表示に切り替える
                     destinationCyclePhase = "scroll";
                     destinationCycleSmallMode = "destination";
                     informationMode = "destination";
                     showNext = true;
                     render();
 
-                    // 0.5秒後に次のスクロールを開始
                     renderTimer = setTimeout(() => {
                         renderTimer = null;
                         if (!destinationCycleActive) return;
@@ -2013,15 +1973,12 @@ function startScroll() {
         return;
     }
 
-    // 描画
     drawScroll();
 
-    // 次のフレーム
     scrollAnimationId =
         requestAnimationFrame(animateScroll);
 }
 
-    // アニメーション開始
     scrollAnimationId = requestAnimationFrame(animateScroll);
 }
 

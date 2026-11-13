@@ -146,7 +146,6 @@ function buildRailwayOverlapData(lines) {
         }
     });
 
-    // 地理座標のグリッドを使い、近くにある線分だけを比較する
     const CELL_SIZE = 0.00025;
     const buckets = new Map();
     const candidatePairs = new Map();
@@ -260,14 +259,11 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
     const zoom = railwayMap.getZoom();
     const spacing = RAILWAY_OFFSET_SPACING_PX;
 
-    // オフセットが変化する範囲（画面上のピクセル）
-    // 大きくすると、より長い距離を使って緩やかに変化する
     const smoothingDistance = 100;
 
     const sampleStep = 4;
     const tangentWindow = 24;
 
-    // 短い判定漏れを補う最大距離（画面上のピクセル）
     const maxMissingGapPx = 24;
     const projected = coordinates.map(p => railwayMap.project(p, zoom));
     const lengths = [];
@@ -291,7 +287,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
     const totalDistance = cumulative[cumulative.length - 1];
     if (totalDistance < 0.001) return coordinates;
 
-    // 路線の座標方向を判定する
     function getLineDirectionSign(points) {
         if (!points || points.length < 2) return 1;
 
@@ -308,7 +303,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
 
     const currentDirectionSign = getLineDirectionSign(projected);
 
-    // 相手路線の投影座標をキャッシュする
     const peerProjectedCache = new Map();
 
     function getPeerProjectedLine(peerLineIndex) {
@@ -375,7 +369,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
     const allPeers = new Set(peersBySegment.flatMap(set => [...set]));
     const MIN_CONTINUOUS_OVERLAP_METERS = 30;
 
-    // 同じ路線との重複判定が、短い区間だけ途切れた場合に補完する
     for (const peer of allPeers) {
         let previousMatch = -1;
 
@@ -459,7 +452,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
                 .filter(m => mid > m.start - 1e-8 && mid < m.end + 1e-8)
                 .map(m => m.otherLine))];
 
-            // 短い区間で重複判定が途切れても、前後の重複関係を維持する
             if (!otherLines.length && lengths[i] <= maxMissingGapPx) {
                 otherLines = [...persistentPeers[i]];
             }
@@ -467,7 +459,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
             let offset = 0;
 
             if (otherLines.length) {
-                // 細かい区間ごとにグループ順位が変わらないようにする
                 const group = [
                     ...new Set([lineIndex, ...persistentPeers[i]])
                 ].sort((a, b) => a - b);
@@ -478,7 +469,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
                     rank - (group.length - 1) / 2
                 ) * spacing;
 
-                // グループ内で最も番号の小さい路線を基準にする
                 const referenceLineIndex = group[0];
 
                 if (referenceLineIndex !== lineIndex) {
@@ -511,7 +501,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
                             peerSegmentIndex >= 0 &&
                             peerSegmentIndex + 1 < peerPoints.length
                         ) {
-                            // 現在の路線の線分方向
                             const currentDx =
                                 (projected[i + 1].x - projected[i].x) *
                                 currentDirectionSign;
@@ -520,7 +509,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
                                 (projected[i + 1].y - projected[i].y) *
                                 currentDirectionSign;
 
-                            // 相手路線の線分方向
                             const peerDirectionSign =
                                 getLineDirectionSign(peerPoints);
 
@@ -534,7 +522,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
                                 peerPoints[peerSegmentIndex].y) *
                                 peerDirectionSign;
 
-                            // 両路線の進行方向が逆なら、オフセットの符号を反転する
                             const dot =
                                 currentDx * peerDx +
                                 currentDy * peerDy;
@@ -559,7 +546,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
         return coordinates;
     }
 
-    // 同じオフセットが続く区間をひとつにまとめる
     const offsetRuns = [];
 
     for (const span of spans) {
@@ -578,14 +564,11 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
 
     if (!offsetRuns.length) return coordinates;
 
-        // オフセットの変化を滑らかにする距離（画面上のpx）
-    // 既存の smoothingDistance = 40 を 100 に変更する
     function smoothStep(t) {
         t = Math.max(0, Math.min(1, t));
         return t * t * (3 - 2 * t);
     }
 
-    // 指定位置における、補間前のオフセットを取得
     function getRawOffset(distance) {
         let low = 0;
         let high = offsetRuns.length - 1;
@@ -609,7 +592,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
         return run.offset;
     }
 
-    // 周辺のオフセットを滑らかに平均する
     function getSmoothOffset(distance) {
         const radius = smoothingDistance;
         const sampleCount = 40;
@@ -629,7 +611,6 @@ function createOffsetRailwayCoordinates(coordinates, lineIndex, segmentMatches, 
                 continue;
             }
 
-            // 中央ほど重く、端に近づくほど軽くする
             const weight =
                 0.5 + 0.5 * Math.cos(2 * Math.PI * (t - 0.5));
 
@@ -833,7 +814,6 @@ function mergeConnectedRailwayParts(inputParts) {
             const endKey = pointKey(chain[chain.length - 1]);
             const connected = endpointMap.get(endKey) || [];
 
-            // 分岐点では別の経路へ勝手につながない
             if (connected.length !== 2) break;
 
             const next = connected.find(item =>
@@ -860,7 +840,6 @@ function mergeConnectedRailwayParts(inputParts) {
 
     const result = [];
 
-    // 分岐点や路線の端点から、連続した経路を組み立てる
     for (let i = 0; i < parts.length; i++) {
         if (visited.has(i)) continue;
 
@@ -875,7 +854,6 @@ function mergeConnectedRailwayParts(inputParts) {
         result.push(buildChain(i, startSide));
     }
 
-    // 閉じた経路など、まだ処理されていないパーツも回収する
     for (let i = 0; i < parts.length; i++) {
         if (!visited.has(i)) {
             result.push(buildChain(i, 0));
@@ -885,7 +863,6 @@ function mergeConnectedRailwayParts(inputParts) {
     return result;
 }
 
-// 地図を作成
 function createMap() {
     if (railwayMap !== null) return;
 

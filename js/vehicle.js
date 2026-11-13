@@ -54,15 +54,12 @@ function createVehicleButtons() {
     });
 }
 
-// 単一車両設定ファイルの読み込み関数
 async function loadConfig() {
     if (!selectedVehicle || !selectedVehicle.config) return;
     const response = await fetch(selectedVehicle.config);
     config = await response.json();
 }
 
-// 車両選択時のメイン処理
-// 車両選択時のメイン処理
 async function selectVehicle(vehicle) {
     try {
         const vehicleSelector = document.getElementById("vehicleSelector");
@@ -73,7 +70,6 @@ async function selectVehicle(vehicle) {
             return;
         }
 
-        // 二重実行を防ぐ
         if (simulator.dataset.loadingVehicle === "true") return;
         simulator.dataset.loadingVehicle = "true";
 
@@ -81,10 +77,8 @@ async function selectVehicle(vehicle) {
         selectedVehicle = vehicle;
 
         try {
-            // 車両選択画面からシミュレーターへ滑らかに切り替える
             await showScreenSmoothly(simulator, vehicleSelector);
 
-            // 車両データを読み込む
             await loadConfig();
 
             if (config && config.hasScroll) {
@@ -97,7 +91,6 @@ async function selectVehicle(vehicle) {
                 setExplanation();
             }
 
-            // 切り替え時間を設定
             if (config && config.setSwitchingTime) {
                 const jaInput = document.querySelector("#jaTime input");
                 const enInput = document.querySelector("#enTime input");
@@ -118,7 +111,6 @@ async function selectVehicle(vehicle) {
                 }
             }
 
-            // 参考サイトの設定
             if (config && config.hasReferenceSite) {
                 if (typeof setReferenceSite === "function") {
                     setReferenceSite();
@@ -128,7 +120,6 @@ async function selectVehicle(vehicle) {
                 if (refEl) refEl.hidden = true;
             }
 
-            // 車両読み込み完了後にBLE自動転送を実行
             if (typeof triggerAutoTransfer === "function") {
                 triggerAutoTransfer();
             }
@@ -165,8 +156,6 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// 指定した画面を滑らかに表示する
-
 function showScreenSmoothly(showElement, hideElement, onComplete) {
     return new Promise(resolve => {
         if (!showElement || !hideElement) {
@@ -192,7 +181,6 @@ function showScreenSmoothly(showElement, hideElement, onComplete) {
             "screen-transition-out"
         );
 
-        // 動きを減らす設定が有効ならアニメーションを省略
         if (reducedMotion) {
             hideElement.hidden = true;
             showElement.hidden = false;
@@ -209,7 +197,6 @@ function showScreenSmoothly(showElement, hideElement, onComplete) {
         let fallbackTimer = null;
         let cleanupTimer = null;
 
-        // フェードイン終了後にアニメーションクラスを解除
         const cleanupShowAnimation = event => {
             if (
                 event &&
@@ -234,7 +221,6 @@ function showScreenSmoothly(showElement, hideElement, onComplete) {
             showElement.classList.remove("screen-transition-in");
         };
 
-        // 表示元が消えたら、表示先をフェードインさせる
         const finish = () => {
             if (finished) return;
             finished = true;
@@ -261,8 +247,6 @@ function showScreenSmoothly(showElement, hideElement, onComplete) {
                 "screen-transition-out"
             );
 
-            // 表示先をアニメーション開始前に隠しておくのではなく、
-            // 表示してから同じ処理内でフェードインを設定する
             showElement.hidden = false;
 
             void showElement.offsetWidth;
@@ -274,7 +258,6 @@ function showScreenSmoothly(showElement, hideElement, onComplete) {
 
             showElement.classList.add("screen-transition-in");
 
-            // animationend が発生しない場合の保険
             cleanupTimer = setTimeout(() => {
                 cleanupShowAnimation();
             }, duration + 100);
@@ -286,7 +269,6 @@ function showScreenSmoothly(showElement, hideElement, onComplete) {
             resolve();
         };
 
-        // 表示元のフェードアウト完了を検知
         const onTransitionEnd = event => {
             if (event.target !== hideElement) return;
             if (event.propertyName !== "opacity") return;
@@ -299,12 +281,10 @@ function showScreenSmoothly(showElement, hideElement, onComplete) {
             onTransitionEnd
         );
 
-        // 表示元だけを先にフェードアウト
         void hideElement.offsetWidth;
 
         hideElement.classList.add("screen-transition-out");
 
-        // transitionend が発生しない場合の保険
         fallbackTimer = setTimeout(() => {
             finish();
         }, duration + 100);
@@ -358,7 +338,6 @@ function hideLoading() {
 }
 
 
-// 他ファイルからの参照用にグローバル展開
 window.loadConfig = loadConfig;
 window.selectVehicle = selectVehicle;
 window.initVehicles = initVehicles;
@@ -402,7 +381,6 @@ const vehicleSearchArea = document.getElementById("vehicleSearchArea");
 const vehicleCompanySearchArea = document.getElementById("vehicleCompanySearchArea");
 const vehiclePrefectureSearchArea = document.getElementById("vehiclePrefectureSearchArea");
 
-// 車両選択方法を変更
 vehicleSelectMethod.addEventListener("change", async () => {
     if (vehicleSelectMethod.value === "grid") {
         vehicleSelect.hidden = true;
@@ -587,15 +565,12 @@ if (vehiclePrefectureSearchInput && vehiclePrefectureSearchResults) {
         if (!query) return;
 
         try {
-            // 車両一覧の読み込み完了を待つ
             await window.vehiclesReady;
 
-            // 都道府県データを読み込む
             if (prefectureData.length === 0) {
                 await loadPrefectureData();
             }
 
-            // 車両名・車両IDで検索
             const matchedVehicles = vehicles.filter(vehicle =>
                 (vehicle.name || "").toLowerCase().includes(query) ||
                 (vehicle.id || "").toLowerCase().includes(query)
@@ -634,7 +609,6 @@ if (vehiclePrefectureSearchInput && vehiclePrefectureSearchResults) {
                 });
             }
 
-            // 都道府県名で検索
             const matchedPrefectures = prefectureData.filter(prefecture =>
                 (prefecture.name || "").toLowerCase().includes(query)
             );
@@ -696,7 +670,6 @@ if (vehiclePrefectureSearchInput && vehiclePrefectureSearchResults) {
     });
 }
 
-// 車両名・車両IDで検索
 const vehicleSearchInput =
     document.getElementById("vehicleSearchInput");
 
@@ -761,7 +734,6 @@ if (vehicleSearchInput && vehicleSearchResults) {
     });
 }
 
-// 会社名で検索
 const vehicleCompanySearchInput =
     document.getElementById("vehicleCompanySearchInput");
 
