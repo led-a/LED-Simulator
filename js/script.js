@@ -2131,6 +2131,75 @@ tittle.addEventListener("pointerup", () => {
 const scrollCheck = document.getElementById("scrollCheck");
 const scrollText = document.getElementById("scrollText");
 const startScrollBtn = document.getElementById("startScrollBtn");
+const scrollPreview = document.getElementById("scrollPreview");
+const scrollStatusLabel = document.getElementById("scrollStatusLabel");
+const scrollPreviewLabel = document.getElementById("scrollPreviewLabel");
+
+scrollText.addEventListener("input", setScrollTextColor);
+
+function setScrollTextColor() {
+    scrollPreview.innerHTML = "";
+
+    [...scrollText.value].forEach((char, index) => {
+        const data = fontData[char];
+        const span = document.createElement("span");
+
+        span.textContent = char;
+
+        if (!data) {
+            span.style.color = "red";
+            span.style.fontWeight = "bold";
+        } else {
+            span.style.color = "black";
+            span.style.fontWeight = "normal";
+        }
+
+        scrollPreview.appendChild(span);
+    });
+}
+
+scrollCheck.addEventListener("change", () => {
+    if (scrollCheck.checked) {
+        scrollText.hidden = false;
+        startScrollBtn.hidden = false;
+        scrollStatusLabel.hidden = false;
+        scrollPreview.hidden = false;
+        scrollPreviewLabel.hidden = false;
+        setScrollTextColor();
+    } else {
+        scrollText.hidden = true;
+        startScrollBtn.hidden = true;
+        scrollStatusLabel.hidden = true;
+        scrollPreview.hidden = true;
+        scrollPreviewLabel.hidden = true;
+
+        stopScroll();
+
+        if (destinationScrollTimer !== null) {
+            clearTimeout(destinationScrollTimer);
+            destinationScrollTimer = null;
+        }
+
+        if (destinationCycleSmallTimer !== null) {
+            clearInterval(destinationCycleSmallTimer);
+            destinationCycleSmallTimer = null;
+        }
+
+        if (renderTimer !== null) {
+            clearTimeout(renderTimer);
+            renderTimer = null;
+        }
+
+        destinationCycleActive = false;
+        destinationCyclePhase = "normal";
+        destinationCycleNormalScene = -1;
+        destinationCycleInfoScene = -1;
+        destinationCycleSmallMode = "destination";
+
+        startRenderLoop();
+        setScrollTextColor();
+    }
+});
 
 scrollCheck.addEventListener("change", () => {
     if (scrollCheck.checked) {
